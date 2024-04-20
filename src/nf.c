@@ -90,10 +90,12 @@ main(int argc, char *argv[])
 
     /* I/O */
     struct packet *prev_pkt = NULL;
+    uint32_t pkt_counter = 0;
     bool is_poll = true;
     while (is_poll) {
         uint16_t nb_rx = vio_recv_pkts(&vq_rx, mbptrs, opt.batch_size);
         if (nb_rx == 0) {continue;}
+        pkt_counter += nb_rx;
 
         for (uint16_t i = 0; i < nb_rx; i++) {
             /** DEBUG **/
@@ -101,12 +103,11 @@ main(int argc, char *argv[])
             check_pkt(pkt, prev_pkt);
             /***********/
 
-            if (pkt->id >= opt.pkt_num - 1) { // TODO: MUST make nf NOT access pkts
-                is_poll = false;
-                break;
-            }
-
             prev_pkt = pkt;
+        }
+
+        if (pkt_counter >= opt.pkt_num) {
+            is_poll = false;
         }
     }
 
