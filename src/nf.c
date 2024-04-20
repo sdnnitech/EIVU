@@ -99,7 +99,6 @@ main(int argc, char *argv[])
             /** DEBUG **/
             struct packet *pkt = (struct packet *)mbptrs[i].pkt;
             check_pkt(pkt, prev_pkt);
-            printf("\n");
             /***********/
 
             if (pkt->id >= opt.pkt_num - 1) { // TODO: MUST make nf NOT access pkts

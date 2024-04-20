@@ -34,15 +34,13 @@ verif_pkt(struct packet *pkt)
 {
     if ((pkt->id ^ pkt->verif) != VERIF_FLAG) {
         fprintf(stderr, "pkt %u: invalid packet\n", pkt->id);
-    } else {
-        printf("pkt %u: valid!\n", pkt->id);
     }
 }
 
 void
 check_pkt(struct packet *pkt, struct packet *prev_pkt)
 {
-    print_pkt(pkt);
+    // print_pkt(pkt);
     verif_pkt(pkt);
     if (prev_pkt == NULL) {
         return;

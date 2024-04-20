@@ -65,7 +65,6 @@ main(int argc, char *argv[])
             /** debug **/
             pkt = (struct packet *)mbp->pkt;
             init_pkt(pkt, pkt_id);
-            print_pkt(pkt);
             /***********/
 
             nb_rx++;
