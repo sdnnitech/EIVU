@@ -32,12 +32,23 @@ print_pkt(struct packet *pkt)
 void
 verif_pkt(struct packet *pkt)
 {
-    // print_pkt(pkt);
-
     if ((pkt->id ^ pkt->verif) != VERIF_FLAG) {
         fprintf(stderr, "pkt %u: invalid packet\n", pkt->id);
     } else {
         printf("pkt %u: valid!\n", pkt->id);
+    }
+}
+
+void
+check_pkt(struct packet *pkt, struct packet *prev_pkt)
+{
+    print_pkt(pkt);
+    verif_pkt(pkt);
+    if (prev_pkt == NULL) {
+        return;
+    }
+    if (pkt->id != prev_pkt->id + 1) {
+        fprintf(stderr, "pkt %u: out of order\n", pkt->id);
     }
 }
 

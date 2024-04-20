@@ -89,6 +89,7 @@ main(int argc, char *argv[])
     printf("sizeof(memobj)=%lu\n", sizeof(memobj));
 
     /* I/O */
+    struct packet *prev_pkt = NULL;
     bool is_poll = true;
     while (is_poll) {
         uint16_t nb_rx = vio_recv_pkts(&vq_rx, mbptrs, opt.batch_size);
@@ -97,7 +98,7 @@ main(int argc, char *argv[])
         for (uint16_t i = 0; i < nb_rx; i++) {
             /** DEBUG **/
             struct packet *pkt = (struct packet *)mbptrs[i].pkt;
-            verif_pkt(pkt);
+            check_pkt(pkt, prev_pkt);
             printf("\n");
             /***********/
 
@@ -105,6 +106,8 @@ main(int argc, char *argv[])
                 is_poll = false;
                 break;
             }
+
+            prev_pkt = pkt;
         }
     }
 
