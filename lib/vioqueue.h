@@ -5,8 +5,6 @@
 
 #include "mbuf.h"
 
-#include <assert.h>
-
 #define AVAIL_FLAG (0b1 << 7)
 #define USED_FLAG (0b1 << 15)
 
@@ -38,16 +36,6 @@ struct vioqueue {
     struct desc *descs;
     struct memobj_pool *mpool;
 };
-
-void
-initialized_vq_assert(struct vioqueue *vq, uint16_t vq_entry_num)
-{
-    assert(vq->nentries == vq_entry_num);
-    assert(vq->last_avail_idx == 0);
-    assert(vq->last_used_idx == 0);
-    assert(vq->descs != NULL);
-    assert(vq->mpool != NULL);
-}
 
 void
 init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const uint16_t port_id, struct memobj_pool *mpool)

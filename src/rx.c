@@ -42,7 +42,6 @@ main(int argc, char *argv[])
     init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool_guest);
 
     initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
-    // initialized_vq_assert(&vq_rx, VQ_ENTRY_NUM);
 
     /* I/O */
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];

@@ -83,10 +83,9 @@ main(int argc, char *argv[])
     init_descs(&vq_tx);
 
     initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
-    // initialized_mpool_assert(&mpool);
-    initialized_vq_assert(&vq_rx, VQ_ENTRY_NUM);
-    initialized_vq_assert(&vq_tx, VQ_ENTRY_NUM);
     printf("sizeof(memobj)=%lu\n", sizeof(memobj));
+    assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
+    assert(opt.batch_size <= VQ_ENTRY_NUM);
 
     /* I/O */
     struct packet *prev_pkt = NULL;
