@@ -51,13 +51,13 @@ main(int argc, char *argv[])
     uint16_t nb_tx = 0;
     uint16_t nb_rx = 0;
     uint32_t pkt_id;
-    for (uint32_t i = 0; i < opt.pkt_num; i += nb_tx) {
-        nb_rx = 0;
+    uint32_t pkt_counter = 0;
+    for (pkt_counter = 0; pkt_counter < opt.pkt_num; pkt_counter += nb_tx) {
+        for (nb_rx = 0; nb_rx < opt.batch_size; nb_rx++) {
+            pkt_id = pkt_counter + nb_rx;
+            if (pkt_id >= opt.pkt_num) {break;}
 
-        for (uint32_t j = 0; j < opt.batch_size && j < opt.pkt_num; j++) {
-            pkt_id = i + j;
-
-            mbp = &mbptrs[j];
+            mbp = &mbptrs[nb_rx];
             mbuf_alloc(mbp, &mpool_host);
             mbp->md->pkt_len = PKT_SIZE;
             mbp->md->port = port_rx;
@@ -66,8 +66,6 @@ main(int argc, char *argv[])
             pkt = (struct packet *)mbp->pkt;
             init_pkt(pkt, pkt_id);
             /***********/
-
-            nb_rx++;
         }
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);
 
