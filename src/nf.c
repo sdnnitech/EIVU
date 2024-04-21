@@ -96,14 +96,13 @@ main(int argc, char *argv[])
         if (nb_rx == 0) {continue;}
         pkt_counter += nb_rx;
 
+        /** DEBUG **/
         for (uint16_t i = 0; i < nb_rx; i++) {
-            /** DEBUG **/
             struct packet *pkt = (struct packet *)mbptrs[i].pkt;
             check_pkt(pkt, prev_pkt);
-            /***********/
-
             prev_pkt = pkt;
         }
+        /***********/
 
         if (pkt_counter >= opt.pkt_num) {
             is_poll = false;
