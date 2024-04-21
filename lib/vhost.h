@@ -26,8 +26,8 @@ vhost_rx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
     vq->last_avail_idx++;
     vq->last_avail_idx &= (vq->nentries - 1);
 
-    memcpy((uint8_t *)&vq->mpool->pool[avail_desc->buf_idx] + CACHE_LINE_SIZE,
-        (uint8_t *)&mbp->mpool->pool[mbp->mbuf_idx] + CACHE_LINE_SIZE,
+    memcpy((uint8_t *)&vq->mpool->pool[avail_desc->buf_idx] + MBUF_HEADROOM_SIZE,
+        (uint8_t *)&mbp->mpool->pool[mbp->mbuf_idx] + MBUF_HEADROOM_SIZE,
             mbp->md->pkt_len);
 
     used_desc->len = mbp->md->pkt_len;
@@ -79,8 +79,8 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     vq->last_avail_idx &= (vq->nentries - 1);
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        memcpy((uint8_t *)&vq->mpool->pool[buf_idxs[i]] + CACHE_LINE_SIZE,
-            (uint8_t *)&mps[i].mpool->pool[mps[i].mbuf_idx] + CACHE_LINE_SIZE, 
+        memcpy((uint8_t *)&vq->mpool->pool[buf_idxs[i]] + MBUF_HEADROOM_SIZE,
+            (uint8_t *)&mps[i].mpool->pool[mps[i].mbuf_idx] + MBUF_HEADROOM_SIZE, 
                 lens[i]);
     }
 

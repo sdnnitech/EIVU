@@ -30,8 +30,8 @@ static inline void
 reset_mbptr(struct mbuf_ptr *mbptr, uint32_t buf_idx, struct memobj_pool *mpool)
 {
     mbptr->mbuf_idx = buf_idx;
-    mbptr->md = (struct metadata *)((uint8_t *)&mpool->pool[mbptr->mbuf_idx] + CACHE_LINE_SIZE - sizeof(struct metadata));
-    mbptr->pkt = (uint8_t *)(mbptr->md + 1);
+    mbptr->md = (struct metadata *)&mpool->pool[buf_idx];
+    mbptr->pkt = (uint8_t *)&mpool->pool[buf_idx] + MBUF_HEADROOM_SIZE;
     mbptr->mpool = mpool;
 }
 
