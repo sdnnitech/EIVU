@@ -20,10 +20,10 @@ struct memobj_pool {
     int32_t memobj_num;
     int32_t last_pool_idx;
     memobj *pool;
-    uint16_t pad;
+    int32_t *cache;
     uint16_t cache_num;
     int16_t top;
-    int32_t *cache;
+    int32_t free_cnt;
     // ptr of func to get memobj
 };
 
@@ -46,6 +46,7 @@ init_mpool(struct memobj_pool *mpool, memobj *memobjs, const uint32_t memobj_num
     }
     mpool->cache_num = cache_num;
     mpool->top = -1;
+    mpool->free_cnt = memobj_num;
     return 0;
 }
 
@@ -66,9 +67,14 @@ memobj_pop_stack(struct memobj_pool *mpool)
     return mobj_idx;
 }
 
+// TODO: Manage available memobjs with a list
 static inline int32_t
 memobj_get_stack(struct memobj_pool *mpool)
 {
+    if (unlikely(mpool->free_cnt <= 0)) {
+        fprintf(stderr, "memobj_get_stack: no available memobjs\n");
+        exit(EXIT_FAILURE);
+    }
     int32_t cache_id = memobj_pop_stack(mpool);
     if (cache_id >= 0) {
         return cache_id;
@@ -78,6 +84,9 @@ memobj_get_stack(struct memobj_pool *mpool)
     if (mpool->last_pool_idx >= mpool->memobj_num) {
         mpool->last_pool_idx -= mpool->memobj_num; // mpool->last_pool_idx = 0;
     }
+
+    mpool->free_cnt--;
+
     return mobj_idx;
 }
 
@@ -97,7 +106,12 @@ memobj_put_stack(struct memobj_pool *mpool, int32_t mobj_idx)
 {
     if (memobj_push_stack(mpool, mobj_idx) == -1) {
         // free a mobj without caching it
+        fprintf(stderr, "memobj_put_stack: failed to free a memobj without caching it\n");
+        fprintf(stderr, "TODO: Manage available memobjs with a list");
+        exit(EXIT_FAILURE);
     }
+
+    mpool->free_cnt++;
 
     return;
 }
