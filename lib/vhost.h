@@ -8,6 +8,11 @@
 #include "vioqueue.h"
 #include "mbuf.h"
 
+struct vhost_queue {
+    struct memobj_pool *host_mpool;
+    struct vioqueue *vq;
+};
+
 static inline int
 desc_is_avail(struct desc *desc)
 {
@@ -123,12 +128,60 @@ vhost_enqueue_burst(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     return pkt_idx;
 }
 
-// uint16_t
-// vhost_dequeue_burst()
-// {
-//     uint32_t pkt_idx;
-//     return pkt_idx;
-// }
+static inline int
+vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
+{
+    struct desc *avail_desc = &vq->descs[vq->last_avail_idx];
+    // struct desc *used_desc = &vq->descs[vq->last_used_idx];
+
+    if (unlikely(!desc_is_avail(avail_desc))) {
+        return -1;
+    }
+    mbp->md->pkt_len = avail_desc->len;
+
+    memcpy((uint8_t *)&mbp->mpool->pool[mbp->mbuf_idx] + MBUF_HEADROOM_SIZE,
+        (uint8_t *)&vq->mpool->pool[avail_desc->buf_idx] + MBUF_HEADROOM_SIZE,
+            avail_desc->len);
+
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
+    // used_desc->flags = USED_FLAG;
+    // vq->last_used_idx++;
+    // vq->last_used_idx &= (vq->nentries - 1);
+
+    avail_desc->flags = USED_FLAG;
+    vq->last_avail_idx++;
+    vq->last_avail_idx &= (vq->nentries - 1);
+
+    return 0;
+}
+
+uint16_t
+vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t count)
+{
+    uint32_t pkt_idx = 0;
+
+    if (count == 0) {return 0;}
+
+    for (uint32_t i = 0; i < count; i++) {
+        mbuf_alloc(&mps[i], vhq->host_mpool);
+    }
+    do {
+        // prefetch if needed
+        /*if (count - pkt_idx >= PACKED_BATCH_SIZE) {
+            if (!vhost_tx_batch(vhq->vq, &mps[pkt_idx])) {
+                pkt_idx += PACKED_BATCH_SIZE;
+                continue;
+            }
+        }*/
+
+        if (vhost_tx_single(vhq->vq, &mps[pkt_idx])) {
+            break;
+        }
+        pkt_idx++;
+    } while (pkt_idx < count);
+
+    return pkt_idx;
+}
 
 
 #endif /* _VHOST_H_ */

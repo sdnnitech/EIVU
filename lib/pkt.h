@@ -47,6 +47,7 @@ check_pkt(struct packet *pkt, struct packet *prev_pkt)
     }
     if (pkt->id != prev_pkt->id + 1) {
         fprintf(stderr, "pkt %u: out of order\n", pkt->id);
+        fprintf(stderr, "prev_pkt->id = %u\n\n", prev_pkt->id);
     }
 }
 

@@ -19,3 +19,4 @@ subdir('test')
 
 executable('nf', 'src/nf.c')
 executable('rx', 'src/rx.c')
+executable('tx', 'src/tx.c')

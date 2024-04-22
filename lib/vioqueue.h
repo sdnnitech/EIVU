@@ -28,13 +28,14 @@ struct desc {
 };
 
 struct vioqueue {
-    uint16_t port_id;
-    uint16_t nentries;
     uint16_t last_avail_idx;
     uint16_t last_used_idx;
+    uint16_t nentries;
+    uint16_t vq_free_cnt;
     // uint16_t last_inflight_idx;
     struct desc *descs;
     struct memobj_pool *mpool;
+    uint16_t port_id;
 };
 
 void
@@ -46,6 +47,7 @@ init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const ui
     vq->last_used_idx = 0;
     vq->descs = descs;
     vq->mpool = mpool;
+    vq->vq_free_cnt = 0;
 }
 
 #endif /* _VIOQUEUE_H_ */

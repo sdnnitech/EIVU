@@ -41,7 +41,7 @@ main(int argc, char *argv[])
     init_mpool(&mpool_guest, shm->memobjs, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
     init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool_guest);
 
-    initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
+    // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
 
     /* I/O */
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];

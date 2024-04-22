@@ -71,7 +71,57 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     return num;
 }
 
+static inline void
+virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
+{
+    int nb = num;
+    uint16_t used_idx = vq->last_used_idx;
+    uint16_t free_cnt = 0;
+
+    while (nb > 0 && desc_is_used(&vq->descs[used_idx])) {
+        memobj_put_stack(vq->mpool, vq->descs[used_idx].buf_idx);
+        used_idx++;
+        used_idx &= (vq->nentries - 1);
+        free_cnt++;
+        nb--;
+    }
+    vq->last_used_idx = used_idx;
+    vq->vq_free_cnt += free_cnt;
+}
+
+static inline void
+vioqueue_enqueue_burst_tx(struct vioqueue *vq, int32_t bidx, uint32_t len)
+{
+    struct desc *d = &vq->descs[vq->last_avail_idx];
+    d->buf_idx = bidx;
+    d->len = len;
+    vq->last_avail_idx++;
+    vq->last_avail_idx &= (vq->nentries - 1);
+    vq->vq_free_cnt--;
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
+    d->flags = AVAIL_FLAG;
+}
+
 uint16_t
-vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr **mb_ptrs, uint16_t nb_pkts);
+vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
+{
+    struct mbuf_ptr *mbp;
+    uint16_t nb_tx = 0;
+
+    if (unlikely(nb_pkts < 1)) 
+        return 0;
+
+    if (nb_pkts > vq->vq_free_cnt)
+        virtio_xmit_cleanup(vq, nb_pkts - vq->vq_free_cnt);
+    if (nb_pkts > vq->vq_free_cnt)
+        return 0; // or `nb_pkts = vq->vq_free_cnt`
+
+    for (nb_tx = 0; nb_tx < nb_pkts; nb_tx++) {
+        mbp = &mb_ptrs[nb_tx];
+        vioqueue_enqueue_burst_tx(vq, mbp->mbuf_idx, mbp->md->pkt_len);
+    }
+
+    return nb_tx;
+}
 
 #endif /* _VIO_H_ */

@@ -19,6 +19,7 @@ struct shm {
     memobj memobjs[MEMOBJ_NUM];
     struct desc desc_rx[VQ_ENTRY_NUM];
     struct desc desc_tx[VQ_ENTRY_NUM];
+    volatile bool is_end;
 };
 
 void
