@@ -180,6 +180,10 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
         pkt_idx++;
     } while (pkt_idx < count);
 
+    for (uint32_t i = pkt_idx; i < count; i++) {
+        mbuf_free(vhq->host_mpool, &mps[i]);
+    }
+
     return pkt_idx;
 }
 
