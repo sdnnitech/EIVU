@@ -20,6 +20,7 @@ struct shm {
     struct desc desc_rx[VQ_ENTRY_NUM];
     struct desc desc_tx[VQ_ENTRY_NUM];
     volatile bool is_end;
+    volatile bool is_start;
 };
 
 void

@@ -44,6 +44,7 @@ main(int argc, char *argv[])
     // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
 
     /* I/O */
+    volatile bool *is_start = &shm->is_start;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
     struct mbuf_ptr *mbp;
     struct packet *pkt;
@@ -51,6 +52,8 @@ main(int argc, char *argv[])
     uint16_t nb_rx = 0;
     uint32_t pkt_id;
     uint32_t pkt_counter = 0;
+
+    while (!*is_start) {}
     for (pkt_counter = 0; pkt_counter < opt.pkt_num; pkt_counter += nb_tx) {
         for (nb_rx = 0; nb_rx < opt.batch_size; nb_rx++) {
             pkt_id = pkt_counter + nb_rx;

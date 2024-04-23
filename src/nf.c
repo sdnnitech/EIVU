@@ -106,7 +106,9 @@ main(int argc, char *argv[])
     uint32_t pkt_counter = 0;
     bool is_poll = true;
     volatile bool *is_end = &shm->is_end;
+    volatile bool *is_start = &shm->is_start;
     *is_end = false;
+    *is_start = false;
     while (is_poll) {
         uint16_t nb_rx = vio_recv_pkts(&vq_rx, mbptrs, opt.batch_size);
         if (nb_rx == 0) {continue;}

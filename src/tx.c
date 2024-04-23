@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "../lib/shm.h"
 #include "../lib/option.h"
@@ -52,6 +53,11 @@ main(int argc, char *argv[])
     uint32_t pkt_counter = 0;
     bool is_poll = true;
     volatile bool *is_end = &shm->is_end;
+    volatile bool *is_start = &shm->is_start;
+    struct timespec start, end;
+
+    *is_start = true;
+    timespec_get(&start, TIME_UTC);
     while (is_poll) {
         uint16_t nb_rx = vhost_dequeue_burst(&vhq_tx, mbptrs, opt.batch_size);
         if (nb_rx == 0) {continue;}
@@ -74,7 +80,17 @@ main(int argc, char *argv[])
             is_poll = false;
         }
     }
+    timespec_get(&end, TIME_UTC);
     *is_end = true;
+
+    double time_taken = end.tv_sec - start.tv_sec;
+    long nsec_diff = end.tv_nsec - start.tv_nsec;
+    if (nsec_diff < 0) {
+        time_taken -= 1.0;
+        nsec_diff += 1000000000;
+    }
+    time_taken += nsec_diff / 1000000000.0;
+    printf("Time taken by program is : %f seconds (%.3f Mpps)\n", time_taken, (double)opt.pkt_num / time_taken / 1000000);
 
     /* Fin */
     fin_mpool(&mpool_host);
