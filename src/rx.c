@@ -40,6 +40,7 @@ main(int argc, char *argv[])
     init_mpool(&mpool_host, memobjs_host, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
     init_mpool(&mpool_guest, shm->memobjs, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
     init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool_guest);
+    bind_core(0);
 
     // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
 

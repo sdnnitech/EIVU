@@ -100,6 +100,7 @@ main(int argc, char *argv[])
     assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
     assert(opt.batch_size <= VQ_ENTRY_NUM);
     assert((VQ_ENTRY_NUM & (VQ_ENTRY_NUM - 1)) == 0); // confirm if VQ_ENTRY_NUM is a power of two
+    bind_core(1);
 
     /* I/O */
     struct packet *prev_pkt = NULL;

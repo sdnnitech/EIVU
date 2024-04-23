@@ -45,6 +45,7 @@ main(int argc, char *argv[])
     init_vq(&vq_tx, VQ_ENTRY_NUM, shm->desc_tx, port_tx, &mpool_guest);
     vhq_tx.vq = &vq_tx;
     vhq_tx.host_mpool = &mpool_host;
+    bind_core(2);
 
     // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
 
