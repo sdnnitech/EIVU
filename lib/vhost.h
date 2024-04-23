@@ -155,6 +155,45 @@ vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
     return 0;
 }
 
+int
+vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
+{
+    uint64_t lens[MAX_BATCH_SIZE] = {0};
+    uint32_t buf_idxs[MAX_BATCH_SIZE] = {0};
+    struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
+    // struct desc *used_descs = &vq->descs[vq->last_used_idx];
+    uint16_t i = 0;
+
+    if (unlikely(vq->last_avail_idx + PACKED_BATCH_SIZE > vq->nentries))
+        return -1;
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++) {
+        if (unlikely(!desc_is_avail(&avail_descs[i])))
+            return -1;
+    }
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        buf_idxs[i] = avail_descs[i].buf_idx;
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        lens[i] = avail_descs[i].len;
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++) {
+        memcpy((uint8_t *)&mps[i].mpool->pool[mps[i].mbuf_idx] + MBUF_HEADROOM_SIZE,
+            (uint8_t *)&vq->mpool->pool[buf_idxs[i]] + MBUF_HEADROOM_SIZE,
+            lens[i]);
+    }
+
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        avail_descs[i].flags = USED_FLAG;
+
+    vq->last_avail_idx += PACKED_BATCH_SIZE;
+    vq->last_avail_idx &= (vq->nentries - 1);
+
+    return 0;
+}
+
 uint16_t
 vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t count)
 {
@@ -167,12 +206,12 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     }
     do {
         // prefetch if needed
-        /*if (count - pkt_idx >= PACKED_BATCH_SIZE) {
+        if (count - pkt_idx >= PACKED_BATCH_SIZE) {
             if (!vhost_tx_batch(vhq->vq, &mps[pkt_idx])) {
                 pkt_idx += PACKED_BATCH_SIZE;
                 continue;
             }
-        }*/
+        }
 
         if (vhost_tx_single(vhq->vq, &mps[pkt_idx])) {
             break;
