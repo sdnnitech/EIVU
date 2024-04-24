@@ -77,6 +77,10 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
 
     /* vhost_rx_batch_copy */
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
+        dpdk_prefetch0(&vq->mpool->pool[buf_idxs[i]]);
+    }
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++) {
         lens[i] = mps[i].md->pkt_len;
     }
 
@@ -111,7 +115,8 @@ vhost_enqueue_burst(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 
     if (count == 0) {return 0;}
     do {
-        // prefetch if needed
+        dpdk_prefetch0(&vq->descs[vq->last_avail_idx]);
+
         if (count - pkt_idx >= PACKED_BATCH_SIZE) {
             if (!vhost_rx_batch(vq, &mps[pkt_idx])) {
                 pkt_idx += PACKED_BATCH_SIZE;
@@ -178,6 +183,9 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
         lens[i] = avail_descs[i].len;
 
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        dpdk_prefetch0(&vq->mpool->pool[buf_idxs[i]]);
+
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
         memcpy((uint8_t *)&mps[i].mpool->pool[mps[i].mbuf_idx] + MBUF_HEADROOM_SIZE,
             (uint8_t *)&vq->mpool->pool[buf_idxs[i]] + MBUF_HEADROOM_SIZE,
@@ -205,7 +213,8 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
         mbuf_alloc(&mps[i], vhq->host_mpool);
     }
     do {
-        // prefetch if needed
+        dpdk_prefetch0(&vhq->vq->descs[vhq->vq->last_avail_idx]);
+
         if (count - pkt_idx >= PACKED_BATCH_SIZE) {
             if (!vhost_tx_batch(vhq->vq, &mps[pkt_idx])) {
                 pkt_idx += PACKED_BATCH_SIZE;

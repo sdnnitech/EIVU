@@ -16,6 +16,11 @@
 
 #define MAX_BATCH_SIZE 1024
 
+static inline void dpdk_prefetch0(const volatile void *p)
+{
+	__asm__ volatile ("prefetcht0 %[p]" : : [p] "m" (*(const volatile char *)p));
+}
+
 static inline __attribute__((always_inline)) void
 dpdk_atomic_thread_fence(int memorder)
 {
