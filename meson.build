@@ -1,7 +1,7 @@
 
 project('SIVU', 'c',
         default_options: [
-            'buildtype=debug',
+            'buildtype=release',
             'c_std=c11',
             'default_library=static',
             'warning_level=2',
