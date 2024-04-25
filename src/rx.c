@@ -65,10 +65,10 @@ main(int argc, char *argv[])
             mbp->md->pkt_len = PKT_SIZE;
             mbp->md->port = port_rx;
 
-            /** debug **/
+#ifdef DEBUG
             pkt = (struct packet *)mbp->pkt;
             init_pkt(pkt, pkt_id);
-            /***********/
+#endif
         }
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);
 

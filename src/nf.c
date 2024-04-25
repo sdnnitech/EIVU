@@ -115,14 +115,14 @@ main(int argc, char *argv[])
         if (nb_rx == 0) {continue;}
         pkt_counter += nb_rx;
 
-        /** DEBUG **/
+#ifdef DEBUG
         for (uint16_t i = 0; i < nb_rx; i++) {
             struct packet *pkt = (struct packet *)mbptrs[i].pkt;
             check_pkt(pkt, prev_pkt);
             prev_pkt = pkt;
         }
         prev_pkt = NULL;
-        /***********/
+#endif
 
         uint16_t nb_tx = vio_xmit_pkts(&vq_tx, mbptrs, nb_rx);
         while (nb_tx < nb_rx) {
