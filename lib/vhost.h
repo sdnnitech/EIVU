@@ -31,9 +31,7 @@ vhost_rx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
     vq->last_avail_idx++;
     vq->last_avail_idx &= (vq->nentries - 1);
 
-    memcpy((uint8_t *)&vq->mpool->pool[avail_desc->buf_idx] + MBUF_HEADROOM_SIZE,
-        (uint8_t *)&mbp->mpool->pool[mbp->mbuf_idx] + MBUF_HEADROOM_SIZE,
-            mbp->md->pkt_len);
+    memcpy(mbuf_mtod(vq->mpool, avail_desc->buf_idx), mbuf_mtod(mbp->mpool, mbp->mbuf_idx), mbp->md->pkt_len);
 
     used_desc->len = mbp->md->pkt_len;
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
@@ -77,7 +75,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
 
     /* vhost_rx_batch_copy */
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        dpdk_prefetch0(&vq->mpool->pool[buf_idxs[i]]);
+        dpdk_prefetch0(mbuf_mtod(vq->mpool, buf_idxs[i]));
     }
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
@@ -88,9 +86,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     vq->last_avail_idx &= (vq->nentries - 1);
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        memcpy((uint8_t *)&vq->mpool->pool[buf_idxs[i]] + MBUF_HEADROOM_SIZE,
-            (uint8_t *)&mps[i].mpool->pool[mps[i].mbuf_idx] + MBUF_HEADROOM_SIZE, 
-                lens[i]);
+        memcpy(mbuf_mtod(vq->mpool, buf_idxs[i]), mbuf_mtod(mps[i].mpool, mps[i].mbuf_idx), lens[i]);
     }
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
@@ -144,9 +140,7 @@ vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
     }
     mbp->md->pkt_len = avail_desc->len;
 
-    memcpy((uint8_t *)&mbp->mpool->pool[mbp->mbuf_idx] + MBUF_HEADROOM_SIZE,
-        (uint8_t *)&vq->mpool->pool[avail_desc->buf_idx] + MBUF_HEADROOM_SIZE,
-            avail_desc->len);
+    memcpy(mbuf_mtod(mbp->mpool, mbp->mbuf_idx), mbuf_mtod(vq->mpool, avail_desc->buf_idx), avail_desc->len);
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     // used_desc->flags = USED_FLAG;
@@ -184,12 +178,10 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
         lens[i] = avail_descs[i].len;
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
-        dpdk_prefetch0(&vq->mpool->pool[buf_idxs[i]]);
+        dpdk_prefetch0(mbuf_mtod(vq->mpool, buf_idxs[i]));
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        memcpy((uint8_t *)&mps[i].mpool->pool[mps[i].mbuf_idx] + MBUF_HEADROOM_SIZE,
-            (uint8_t *)&vq->mpool->pool[buf_idxs[i]] + MBUF_HEADROOM_SIZE,
-            lens[i]);
+        memcpy(mbuf_mtod(mps[i].mpool, mps[i].mbuf_idx), mbuf_mtod(vq->mpool, buf_idxs[i]), lens[i]);
     }
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);

@@ -7,19 +7,13 @@
 
 #include "perf.h"
 
-#define MBUF_HEADROOM_SIZE (CACHE_LINE_SIZE * 2)
-
-#define MEMOBJ_SIZE (2048 + MBUF_HEADROOM_SIZE)
-#define MEMOBJ_NUM 163456
-
 #define MEMOBJ_CACHE_NUM 512
 
-typedef uint8_t memobj[MEMOBJ_SIZE];
-
 struct memobj_pool {
+    void *pool;
     int32_t memobj_num;
     int32_t last_pool_idx;
-    memobj *pool;
+    size_t memobj_size;
     int32_t *cache;
     uint16_t cache_num;
     int16_t top;
@@ -28,12 +22,13 @@ struct memobj_pool {
 };
 
 int
-init_mpool(struct memobj_pool *mpool, memobj *memobjs, const uint32_t memobj_num, const uint16_t cache_num)
+init_mpool(struct memobj_pool *mpool, void *memobjs, size_t memobj_size, const uint32_t memobj_num, const uint16_t cache_num)
 {
     uint16_t i = 0;
 
     mpool->memobj_num = memobj_num;
     mpool->last_pool_idx = 0;
+    mpool->memobj_size = memobj_size;
     mpool->pool = memobjs;
 
     // init cache for memobj

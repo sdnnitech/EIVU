@@ -17,7 +17,8 @@ main(int argc, char *argv[])
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
     struct memobj_pool mpool_host, mpool_guest;
-    memobj *memobjs_host = NULL;
+    void *memobjs_host = NULL;
+    const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
 
     opt = parse_opt(argc, argv);
 
@@ -32,13 +33,13 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    memobjs_host = calloc(MEMOBJ_NUM, sizeof(memobj));
+    memobjs_host = calloc(BUF_NUM, MEMOBJ_SIZE);
     if (memobjs_host == NULL) {
         perror("calloc");
         exit(EXIT_FAILURE);
     }
-    init_mpool(&mpool_host, memobjs_host, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
-    init_mpool(&mpool_guest, shm->memobjs, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
+    init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
+    init_mpool(&mpool_guest, shm->memobjs, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
     init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool_guest);
     bind_core(0);
 

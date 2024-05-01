@@ -28,7 +28,7 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, int32_t *bidx, uint32_t *len, uin
         len[i] = used_desc->len;
         bidx[i] = used_desc->buf_idx;
 
-        dpdk_prefetch0(&vq->mpool->pool[used_desc->buf_idx]);
+        dpdk_prefetch0(mbuf_mtod_offset(vq->mpool, used_desc->buf_idx, 0));
 
         vq->last_used_idx++;
         vq->last_used_idx &= (vq->nentries - 1);

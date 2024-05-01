@@ -16,7 +16,7 @@
 #define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
 
 struct shm {
-    memobj memobjs[MEMOBJ_NUM];
+    uint8_t memobjs[BUF_NUM][METADATA_SIZE + DATAROOM_SIZE];
     struct desc desc_rx[VQ_ENTRY_NUM];
     struct desc desc_tx[VQ_ENTRY_NUM];
     volatile bool is_end;
@@ -27,13 +27,14 @@ void
 initialized_shm_assert(int shm_fd, struct shm *shm, int16_t flag_init)
 {
     int i = 0;
-    int j = 0;
+    size_t j = 0;
     struct stat sb;
+    const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
 
     assert(fstat(shm_fd, &sb) == 0);
     assert(sb.st_size == (off_t)SHM_SIZE);
-    assert(offsetof(struct shm, desc_rx) == (size_t)MEMOBJ_NUM * (size_t)MEMOBJ_SIZE);
-    for (i = 0; i < MEMOBJ_NUM; i++) {
+    assert(offsetof(struct shm, desc_rx) == (size_t)BUF_NUM * (size_t)MEMOBJ_SIZE);
+    for (i = 0; i < BUF_NUM; i++) {
         for (j = 0; j < MEMOBJ_SIZE; j++) {
             assert(shm->memobjs[i][j] == 0); // whether bufs are initialized at 0 or not
         }

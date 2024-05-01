@@ -5,8 +5,10 @@
 
 #include "memobj.h"
 
-// #define BUF_NUM 163456
-// #define BUF_SIZE 2048
+#define BUF_NUM 163456
+#define METADATA_SIZE 128
+#define MBUF_HEADROOM_SIZE 128
+#define DATAROOM_SIZE (MBUF_HEADROOM_SIZE + 2048)
 
 struct metadata {
     uint32_t pkt_len;
@@ -26,12 +28,24 @@ struct mbuf_ptr {
     uint8_t *pkt;
 };
 
+static inline uint8_t*
+mbuf_mtod_offset(struct memobj_pool *mpool, uint32_t buf_idx, int offset)
+{
+    return (uint8_t *)&((uint8_t *)mpool->pool)[buf_idx * mpool->memobj_size] + offset;
+}
+
+static inline uint8_t*
+mbuf_mtod(struct memobj_pool *mpool, uint32_t buf_idx)
+{
+    return mbuf_mtod_offset(mpool, buf_idx, METADATA_SIZE + MBUF_HEADROOM_SIZE);
+}
+
 static inline void
 reset_mbptr(struct mbuf_ptr *mbptr, uint32_t buf_idx, struct memobj_pool *mpool)
 {
     mbptr->mbuf_idx = buf_idx;
-    mbptr->md = (struct metadata *)&mpool->pool[buf_idx];
-    mbptr->pkt = (uint8_t *)&mpool->pool[buf_idx] + MBUF_HEADROOM_SIZE;
+    mbptr->md = (struct metadata *)mbuf_mtod_offset(mpool, buf_idx, 0);
+    mbptr->pkt = mbuf_mtod(mpool, buf_idx);
     mbptr->mpool = mpool;
 }
 

@@ -7,15 +7,17 @@
 int main(void)
 {
     struct memobj_pool mpool;
-    memobj *memobjs = NULL;
+    void *memobjs = NULL;
+    const size_t MEMOBJ_SIZE = 2176 + 128;
+    const int MEMOBJ_NUM = 163456;
 
     /* Init. */
-    memobjs = calloc(MEMOBJ_NUM, sizeof(memobj));
+    memobjs = calloc(MEMOBJ_NUM, MEMOBJ_SIZE);
     if (memobjs == NULL) {
         perror("calloc");
         exit(EXIT_FAILURE);
     }
-    init_mpool(&mpool, memobjs, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
+    init_mpool(&mpool, memobjs, MEMOBJ_SIZE, MEMOBJ_NUM, MEMOBJ_CACHE_NUM);
 
     /* Test */
 #define BATCH_SZ 4

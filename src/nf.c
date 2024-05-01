@@ -66,6 +66,7 @@ main(int argc, char *argv[])
     struct memobj_pool mpool;
     struct vioqueue vq_rx, vq_tx;
     uint16_t port_rx = 3, port_tx = 4;
+    const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
 
     opt = parse_opt(argc, argv);
@@ -86,7 +87,7 @@ main(int argc, char *argv[])
     }
 
     memset(shm, 0, sizeof(struct shm));
-    if (init_mpool(&mpool, shm->memobjs, MEMOBJ_NUM, MEMOBJ_CACHE_NUM) != 0) {
+    if (init_mpool(&mpool, shm->memobjs, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }
@@ -96,7 +97,6 @@ main(int argc, char *argv[])
     init_descs_tx(&vq_tx);
 
     // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
-    printf("sizeof(memobj)=%lu\n", sizeof(memobj));
     assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
     assert(opt.batch_size <= VQ_ENTRY_NUM);
     assert((VQ_ENTRY_NUM & (VQ_ENTRY_NUM - 1)) == 0); // confirm if VQ_ENTRY_NUM is a power of two
