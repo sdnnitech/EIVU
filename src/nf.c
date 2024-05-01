@@ -53,8 +53,9 @@ init_descs_tx(struct vioqueue* vq)
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
         d->flags = USED_FLAG;
+        d->buf_idx = -1;
     }
-    vq->vq_free_cnt = vq->nentries;
+    vq->vq_free_cnt = 0;
 }
 
 int
@@ -96,7 +97,7 @@ main(int argc, char *argv[])
     init_vq(&vq_tx, VQ_ENTRY_NUM, shm->desc_tx, port_tx, &mpool);
     init_descs_tx(&vq_tx);
 
-    // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
+    initialized_shm_assert(shm_fd, shm);
     assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
     assert(opt.batch_size <= VQ_ENTRY_NUM);
     assert((VQ_ENTRY_NUM & (VQ_ENTRY_NUM - 1)) == 0); // confirm if VQ_ENTRY_NUM is a power of two

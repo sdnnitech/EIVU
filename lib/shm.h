@@ -24,7 +24,7 @@ struct shm {
 };
 
 void
-initialized_shm_assert(int shm_fd, struct shm *shm, int16_t flag_init)
+initialized_shm_assert(int shm_fd, struct shm *shm)
 {
     int i = 0;
     size_t j = 0;
@@ -42,10 +42,12 @@ initialized_shm_assert(int shm_fd, struct shm *shm, int16_t flag_init)
 
     // whether descs are initialized at `flag_init` or not
     for (i = 0; i < VQ_ENTRY_NUM; i++) {
-        assert(shm->desc_rx[i].flags == flag_init);
+        assert((shm->desc_rx[i].flags & AVAIL_FLAG) == AVAIL_FLAG);
+        assert(shm->desc_rx[i].buf_idx >= 0);
     }
     for (i = 0; i < VQ_ENTRY_NUM; i++) {
-        assert(shm->desc_tx[i].flags == flag_init);
+        assert((shm->desc_tx[i].flags & USED_FLAG) == USED_FLAG);
+        assert(shm->desc_tx[i].buf_idx < 0);
     }
 }
 

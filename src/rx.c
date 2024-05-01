@@ -43,7 +43,7 @@ main(int argc, char *argv[])
     init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool_guest);
     bind_core(0);
 
-    // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
+    initialized_shm_assert(shm_fd, shm);
 
     /* I/O */
     volatile bool *is_start = &shm->is_start;

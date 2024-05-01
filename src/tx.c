@@ -48,7 +48,7 @@ main(int argc, char *argv[])
     vhq_tx.host_mpool = &mpool_host;
     bind_core(2);
 
-    // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
+    initialized_shm_assert(shm_fd, shm);
 
     /* I/O */
     uint32_t prev_pkt_id = 0;

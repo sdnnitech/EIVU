@@ -81,7 +81,8 @@ virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
     uint16_t free_cnt = 0;
 
     while (nb > 0 && desc_is_used(&vq->descs[used_idx])) {
-        memobj_put_stack(vq->mpool, vq->descs[used_idx].buf_idx);
+        if (vq->descs[used_idx].buf_idx >= 0)
+            memobj_put_stack(vq->mpool, vq->descs[used_idx].buf_idx);
         used_idx++;
         used_idx &= (vq->nentries - 1);
         free_cnt++;
