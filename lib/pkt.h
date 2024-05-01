@@ -38,17 +38,17 @@ verif_pkt(struct packet *pkt)
 }
 
 void
-check_pkt(struct packet *pkt, struct packet *prev_pkt)
+check_pkt(struct packet *pkt, uint32_t *prev_pkt_id)
 {
     // print_pkt(pkt);
     verif_pkt(pkt);
-    if (prev_pkt == NULL) {
-        return;
-    }
-    if (pkt->id != prev_pkt->id + 1) {
+
+    if (pkt->id != *prev_pkt_id + 1) {
         fprintf(stderr, "pkt %u: out of order\n", pkt->id);
-        fprintf(stderr, "prev_pkt->id = %u\n\n", prev_pkt->id);
+        fprintf(stderr, "*prev_pkt_id = %u\n\n", *prev_pkt_id);
     }
+
+    *prev_pkt_id = pkt->id;
 }
 
 #endif

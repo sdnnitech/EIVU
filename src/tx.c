@@ -50,7 +50,7 @@ main(int argc, char *argv[])
     // initialized_shm_assert(shm_fd, shm, AVAIL_FLAG);
 
     /* I/O */
-    struct packet *prev_pkt = NULL;
+    uint32_t prev_pkt_id = 0;
     uint32_t pkt_counter = 0;
     bool is_poll = true;
     volatile bool *is_end = &shm->is_end;
@@ -67,10 +67,8 @@ main(int argc, char *argv[])
 #ifdef DEBUG
         for (uint16_t i = 0; i < nb_rx; i++) {
             struct packet *pkt = (struct packet *)mbptrs[i].pkt;
-            check_pkt(pkt, prev_pkt);
-            prev_pkt = pkt;
+            check_pkt(pkt, &prev_pkt_id);
         }
-        prev_pkt = NULL;
 #endif
 
         for (uint16_t i = 0; i < nb_rx; i++) {

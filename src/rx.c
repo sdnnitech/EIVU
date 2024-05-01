@@ -57,8 +57,8 @@ main(int argc, char *argv[])
     while (!*is_start) {}
     for (pkt_counter = 0; pkt_counter < opt.pkt_num; pkt_counter += nb_tx) {
         for (nb_rx = 0; nb_rx < opt.batch_size; nb_rx++) {
-            pkt_id = pkt_counter + nb_rx;
-            if (pkt_id >= opt.pkt_num) {break;}
+            pkt_id = pkt_counter + nb_rx + 1;
+            if (pkt_id > opt.pkt_num) {break;}
 
             mbp = &mbptrs[nb_rx];
             mbuf_alloc(mbp, &mpool_host);
