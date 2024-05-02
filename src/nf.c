@@ -40,7 +40,7 @@ init_descs_rx(struct vioqueue* vq)
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
         d->flags = AVAIL_FLAG;
-        d->buf_idx = memobj_get_stack(vq->mpool);
+        d->buf_idx = mbuf_alloc(vq->mpool);
     }
     vq->vq_free_cnt = 0;
 }

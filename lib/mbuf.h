@@ -2,6 +2,7 @@
 #define _MBUF_H_
 
 #include <stdint.h>
+#include <string.h>
 
 #include "memobj.h"
 
@@ -13,7 +14,7 @@
 struct metadata {
     uint32_t pkt_len;
     uint16_t port;
-    uint16_t pad;
+    uint16_t nb_segs;
 };
 
 struct mbuf_ptr {
@@ -41,25 +42,37 @@ mbuf_mtod(struct memobj_pool *mpool, uint32_t buf_idx)
 }
 
 static inline void
-reset_mbptr(struct mbuf_ptr *mbptr, uint32_t buf_idx, struct memobj_pool *mpool)
+reset_metadata(struct metadata *md)
 {
-    mbptr->mbuf_idx = buf_idx;
-    mbptr->md = (struct metadata *)mbuf_mtod_offset(mpool, buf_idx, 0);
-    mbptr->pkt = mbuf_mtod(mpool, buf_idx);
-    mbptr->mpool = mpool;
+    memset(md, 0, CACHE_LINE_SIZE + 8 + 8);
+    md->nb_segs = 1;
 }
 
-static inline void
-mbuf_alloc(struct mbuf_ptr *mbptr, struct memobj_pool *mpool)
+static inline uint32_t
+mbuf_alloc(struct memobj_pool *mpool)
 {
-    mbptr->mbuf_idx = memobj_get_stack(mpool);
-    reset_mbptr(mbptr, mbptr->mbuf_idx, mpool);
+    struct metadata* md;
+    uint32_t buf_idx = memobj_get_stack(mpool);
+
+    md = (struct metadata *)mbuf_mtod_offset(mpool, buf_idx, 0);
+    reset_metadata(md);
+
+    return buf_idx;
 }
 
 static inline void
 mbuf_free(struct memobj_pool *mpool, struct mbuf_ptr *mbptr)
 {
     memobj_put_stack(mpool, mbptr->mbuf_idx); // TODO: test stack!
+}
+
+static inline void
+reset_mbptr(struct mbuf_ptr *mbptr, uint32_t buf_idx, struct memobj_pool *mpool)
+{
+    mbptr->mbuf_idx = buf_idx;
+    mbptr->md = (struct metadata *)mbuf_mtod_offset(mpool, buf_idx, 0);
+    mbptr->pkt = mbuf_mtod(mpool, buf_idx);
+    mbptr->mpool = mpool;
 }
 
 // int

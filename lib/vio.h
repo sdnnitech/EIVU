@@ -62,7 +62,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 
     for (i = 0; i < num; i++) {
         reavail_desc = &vq->descs[vq->last_avail_idx];
-        reavail_desc->buf_idx = memobj_get_stack(vq->mpool);
+        reavail_desc->buf_idx = mbuf_alloc(vq->mpool);
         dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
         reavail_desc->flags = AVAIL_FLAG;
 
