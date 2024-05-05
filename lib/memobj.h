@@ -9,27 +9,70 @@
 
 #define MEMOBJ_CACHE_NUM 512
 
+struct ring_buf {
+    int32_t *ptr;
+    int32_t max;
+    int32_t num;
+    int32_t front;
+    int32_t rear;
+};
+
 struct memobj_pool {
     void *pool;
     int32_t memobj_num;
-    int32_t last_pool_idx;
     size_t memobj_size;
     int32_t *cache;
-    uint16_t cache_num;
-    int16_t top;
-    int32_t free_cnt;
+    int32_t cache_num;
+    int32_t top;
+    struct ring_buf ring;
     // ptr of func to get memobj
 };
 
-int
-init_mpool(struct memobj_pool *mpool, void *memobjs, size_t memobj_size, const uint32_t memobj_num, const uint16_t cache_num)
+static inline int
+enqueue(struct ring_buf *ring, int32_t data)
 {
-    uint16_t i = 0;
+    if (ring->num == ring->max)
+        return -1;
+
+    ring->ptr[ring->rear++] = data;
+    ring->num++;
+
+    return 0;
+}
+
+static inline int32_t
+dequeue(struct ring_buf *ring)
+{
+    if (ring->num <= 0)
+        return -1;
+    
+    int32_t data = ring->ptr[ring->front++];
+    ring->num--;
+
+    return data;
+}
+
+int
+init_mpool(struct memobj_pool *mpool, void *memobjs, size_t memobj_size, const uint32_t memobj_num, const uint32_t cache_num)
+{
+    uint32_t i = 0;
 
     mpool->memobj_num = memobj_num;
-    mpool->last_pool_idx = 0;
     mpool->memobj_size = memobj_size;
     mpool->pool = memobjs;
+
+    mpool->ring.ptr = calloc(memobj_num, sizeof(int32_t));
+    if (mpool->ring.ptr == NULL) {
+        return -1;
+    }
+    mpool->ring.max = memobj_num;
+    mpool->ring.num = 0;
+    mpool->ring.front = 0;
+    mpool->ring.rear = 0; 
+    for (i = 0; i < memobj_num; i++) {
+        if (enqueue(&mpool->ring, i) < 0)
+            return -1;
+    }
 
     // init cache for memobj
     mpool->cache = calloc(cache_num, sizeof(int32_t));
@@ -41,13 +84,14 @@ init_mpool(struct memobj_pool *mpool, void *memobjs, size_t memobj_size, const u
     }
     mpool->cache_num = cache_num;
     mpool->top = -1;
-    mpool->free_cnt = memobj_num;
+
     return 0;
 }
 
 void
 fin_mpool(struct memobj_pool *mpool)
 {
+    free(mpool->ring.ptr);
     free(mpool->cache);
 }
 
@@ -62,25 +106,19 @@ memobj_pop_stack(struct memobj_pool *mpool)
     return mobj_idx;
 }
 
-// TODO: Manage available memobjs with a list
 static inline int32_t
 memobj_get_stack(struct memobj_pool *mpool)
 {
-    if (unlikely(mpool->free_cnt <= 0)) {
-        fprintf(stderr, "memobj_get_stack: no available memobjs\n");
-        exit(EXIT_FAILURE);
-    }
     int32_t cache_id = memobj_pop_stack(mpool);
     if (cache_id >= 0) {
         return cache_id;
     }
 
-    int32_t mobj_idx = mpool->last_pool_idx++;
-    if (mpool->last_pool_idx >= mpool->memobj_num) {
-        mpool->last_pool_idx -= mpool->memobj_num; // mpool->last_pool_idx = 0;
+    int32_t mobj_idx = dequeue(&mpool->ring);
+    if (unlikely(mobj_idx < 0)) {
+        fprintf(stderr, "memobj_get_stack: no available memobjs\n");
+        exit(EXIT_FAILURE);
     }
-
-    mpool->free_cnt--;
 
     return mobj_idx;
 }
@@ -101,14 +139,11 @@ memobj_put_stack(struct memobj_pool *mpool, int32_t mobj_idx)
 {
     if (memobj_push_stack(mpool, mobj_idx) == -1) {
         // free a mobj without caching it
-        fprintf(stderr, "memobj_put_stack: failed to free a memobj without caching it\n");
-        fprintf(stderr, "TODO: Manage available memobjs with a list");
-        exit(EXIT_FAILURE);
+        if (enqueue(&mpool->ring, mobj_idx) < 0) {
+            fprintf(stderr, "memobj_put_stack: enqueue: failed to free a memobj without caching it\n");
+            exit(EXIT_FAILURE);
+        }
     }
-
-    mpool->free_cnt++;
-
-    return;
 }
 
 // int
