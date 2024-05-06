@@ -15,6 +15,7 @@ struct metadata {
     uint32_t pkt_len;
     uint16_t port;
     uint16_t nb_segs;
+    uint64_t ol_flags;
 };
 
 struct mbuf_ptr {

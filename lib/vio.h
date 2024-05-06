@@ -1,7 +1,7 @@
 #ifndef _VIO_H_
 #define _VIO_H_
 
-
+#include "vio_hdr.h"
 #include "vioqueue.h"
 #include "mbuf.h"
 #include "perf.h"
@@ -56,8 +56,12 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
         reset_mbptr(rxmb, bidxs[i], vq->mpool);
+
         rxmb->md->pkt_len = len[i];
         rxmb->md->port = vq->port_id;
+
+        if (vq->is_offload)
+            vio_rx_offload((struct vio_hdr *)rxmb->pkt - 1);
     }
 
     for (i = 0; i < num; i++) {
@@ -95,12 +99,23 @@ virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
 static inline void
 vioqueue_enqueue_burst_tx(struct vioqueue *vq, int32_t bidx, uint32_t len)
 {
-    struct desc *d = &vq->descs[vq->last_avail_idx];
+    struct desc *d;
+
+    if (!vq->is_offload)
+        vio_tx_clear_net_hdr((struct vio_hdr *)mbuf_mtod(vq->mpool, bidx) - 1);
+    else {
+        fprintf(stderr, "vio_tx_offload: caused an unexpected behavior\n");
+        exit(EXIT_FAILURE);
+    }
+
+    d = &vq->descs[vq->last_avail_idx];
     d->buf_idx = bidx;
     d->len = len;
+
     vq->last_avail_idx++;
     vq->last_avail_idx &= (vq->nentries - 1);
     vq->vq_free_cnt--;
+
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     d->flags = AVAIL_FLAG;
 }

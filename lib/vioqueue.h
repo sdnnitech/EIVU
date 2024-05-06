@@ -35,12 +35,14 @@ struct vioqueue {
     // uint16_t last_inflight_idx;
     struct desc *descs;
     struct memobj_pool *mpool;
+    bool is_offload;
     uint16_t port_id;
 };
 
 void
 init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const uint16_t port_id, struct memobj_pool *mpool)
 {
+    vq->is_offload = false;
     vq->port_id = port_id;
     vq->nentries = vq_entry_num;
     vq->last_avail_idx = 0;

@@ -6,6 +6,7 @@
 
 #include "perf.h"
 #include "vioqueue.h"
+#include "vio_hdr.h"
 #include "mbuf.h"
 
 struct vhost_queue {
@@ -24,14 +25,18 @@ vhost_rx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
 {
     struct desc *avail_desc = &vq->descs[vq->last_avail_idx];
     struct desc *used_desc = &vq->descs[vq->last_used_idx];
+    uint8_t *desc_addr;
 
     if (unlikely(!desc_is_avail(avail_desc))) {
         return -1;
     }
+    desc_addr = mbuf_mtod(vq->mpool, avail_desc->buf_idx);
     vq->last_avail_idx++;
     vq->last_avail_idx &= (vq->nentries - 1);
 
-    memcpy(mbuf_mtod(vq->mpool, avail_desc->buf_idx), mbuf_mtod(mbp->mpool, mbp->mbuf_idx), mbp->md->pkt_len);
+    vhost_enqueue_offload((struct vio_hdr *)desc_addr - 1, mbp->md);
+
+    memcpy(desc_addr, mbp->pkt, mbp->md->pkt_len);
 
     used_desc->len = mbp->md->pkt_len;
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
@@ -47,6 +52,8 @@ vhost_rx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
 static inline int
 vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
 {
+    uint8_t *desc_addrs[MAX_BATCH_SIZE];
+    struct vio_hdr *hdrs[MAX_BATCH_SIZE];
     uint64_t lens[MAX_BATCH_SIZE] = {0};
     uint32_t buf_idxs[MAX_BATCH_SIZE] = {0};
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
@@ -73,21 +80,24 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     //     lens[i] = vq->descs[avail_idx + i].len;
     // }
 
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        desc_addrs[i] = mbuf_mtod(vq->mpool, buf_idxs[i]);
+
     /* vhost_rx_batch_copy */
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        dpdk_prefetch0(mbuf_mtod(vq->mpool, buf_idxs[i]));
-    }
-
-    for (i = 0; i < PACKED_BATCH_SIZE; i++) {
+        dpdk_prefetch0(desc_addrs[i]);
+        hdrs[i] = (struct vio_hdr *)desc_addrs[i] - 1;
         lens[i] = mps[i].md->pkt_len;
     }
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        vhost_enqueue_offload(hdrs[i], mps[i].md);
 
     vq->last_avail_idx += PACKED_BATCH_SIZE;
     vq->last_avail_idx &= (vq->nentries - 1);
 
-    for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        memcpy(mbuf_mtod(vq->mpool, buf_idxs[i]), mbuf_mtod(mps[i].mpool, mps[i].mbuf_idx), lens[i]);
-    }
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        memcpy(desc_addrs[i], mps[i].pkt, lens[i]);
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
         used_descs[i].len = lens[i];
@@ -134,13 +144,19 @@ vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
 {
     struct desc *avail_desc = &vq->descs[vq->last_avail_idx];
     // struct desc *used_desc = &vq->descs[vq->last_used_idx];
+    uint8_t *desc_addr;
 
     if (unlikely(!desc_is_avail(avail_desc))) {
         return -1;
     }
     mbp->md->pkt_len = avail_desc->len;
 
-    memcpy(mbuf_mtod(mbp->mpool, mbp->mbuf_idx), mbuf_mtod(vq->mpool, avail_desc->buf_idx), avail_desc->len);
+    desc_addr = mbuf_mtod(vq->mpool, avail_desc->buf_idx);
+
+    if (vq->is_offload)
+        vhost_dequeue_offload((struct vio_hdr *)desc_addr - 1);
+
+    memcpy(mbuf_mtod(mbp->mpool, mbp->mbuf_idx), desc_addr, avail_desc->len);
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     // used_desc->flags = USED_FLAG;
@@ -157,6 +173,8 @@ vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
 int
 vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
 {
+    uint8_t *desc_addrs[MAX_BATCH_SIZE];
+    struct vio_hdr *hdr;
     uint64_t lens[MAX_BATCH_SIZE] = {0};
     uint32_t buf_idxs[MAX_BATCH_SIZE] = {0};
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
@@ -178,10 +196,19 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
         lens[i] = avail_descs[i].len;
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
-        dpdk_prefetch0(mbuf_mtod(vq->mpool, buf_idxs[i]));
+        desc_addrs[i] = mbuf_mtod(vq->mpool, buf_idxs[i]);
 
-    for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        memcpy(mbuf_mtod(mps[i].mpool, mps[i].mbuf_idx), mbuf_mtod(vq->mpool, buf_idxs[i]), lens[i]);
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        dpdk_prefetch0(desc_addrs[i]);
+
+    for (i = 0; i < PACKED_BATCH_SIZE; i++)
+        memcpy(mbuf_mtod(mps[i].mpool, mps[i].mbuf_idx), desc_addrs[i], lens[i]);
+
+    if (vq->is_offload) {
+        for (i = 0; i < PACKED_BATCH_SIZE; i++) {
+            hdr = (struct vio_hdr *)desc_addrs[i] - 1;
+            vhost_dequeue_offload(hdr);
+        }
     }
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
