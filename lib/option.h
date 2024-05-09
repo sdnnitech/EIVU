@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #define MAX_BATCH_SIZE 1024
+#define BATCH_SIZE_DEFAULT 32
 #define VQ_SIZE_DEFAULT 256
 #define MOBJ_CACHE_NUM_DEFAULT 512
 
@@ -21,7 +22,7 @@ parse_opt(int argc, char *const argv[])
 {
     int parser;
     int longidx;
-    struct vnwio_opt vnwio_opt = {false, 100000000, 32, VQ_SIZE_DEFAULT, MOBJ_CACHE_NUM_DEFAULT};
+    struct vnwio_opt vnwio_opt = {false, 100000000, BATCH_SIZE_DEFAULT, VQ_SIZE_DEFAULT, MOBJ_CACHE_NUM_DEFAULT};
     const struct option longopts[] = {
         {"help", no_argument, NULL, 'h'},
         {"hugepage", no_argument, NULL, 'H'},
