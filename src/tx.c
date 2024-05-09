@@ -35,7 +35,7 @@ main(int argc, char *argv[])
         perror("mmap");
         exit(EXIT_FAILURE);
     }
-    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * VQ_ENTRY_NUM);
+    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
 
     memobjs_host = calloc(BUF_NUM, MEMOBJ_SIZE);
     if (memobjs_host == NULL) {
@@ -44,12 +44,12 @@ main(int argc, char *argv[])
     }
     init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
     init_mpool(&mpool_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
-    init_vq(&vq_tx, VQ_ENTRY_NUM, txd(&shm), port_tx, &mpool_guest);
+    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpool_guest);
     vhq_tx.vq = &vq_tx;
     vhq_tx.host_mpool = &mpool_host;
     bind_core(2);
 
-    initialized_shm_assert(shm_fd, &shm);
+    initialized_shm_assert(shm_fd, &shm, opt.vq_size);
 
     /* I/O */
     uint32_t prev_pkt_id = 0;

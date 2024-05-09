@@ -66,9 +66,9 @@ init_shm(struct shm *shm, uint8_t *head, int mpool_size, int rxtxd_size)
 }
 
 void
-initialized_shm_assert(int shm_fd, struct shm *shm)
+initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
 {
-    int i = 0;
+    uint32_t i = 0;
     struct stat sb;
     const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
 
@@ -77,11 +77,11 @@ initialized_shm_assert(int shm_fd, struct shm *shm)
     assert((uintptr_t)rxd(shm) - (uintptr_t)memobjs(shm) == (size_t)BUF_NUM * (size_t)MEMOBJ_SIZE);
 
     // whether descs are initialized at `flag_init` or not
-    for (i = 0; i < VQ_ENTRY_NUM; i++) {
+    for (i = 0; i < vq_size; i++) {
         assert((rxd(shm)[i].flags & AVAIL_FLAG) == AVAIL_FLAG);
         assert(rxd(shm)[i].buf_idx >= 0);
     }
-    for (i = 0; i < VQ_ENTRY_NUM; i++) {
+    for (i = 0; i < vq_size; i++) {
         assert((txd(shm)[i].flags & USED_FLAG) == USED_FLAG);
         assert(txd(shm)[i].buf_idx < 0);
     }

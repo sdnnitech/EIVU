@@ -8,8 +8,6 @@
 #define AVAIL_FLAG (0b1 << 7)
 #define USED_FLAG (0b1 << 15)
 
-#define VQ_ENTRY_NUM 256 // can be optionalized
-
 #ifdef MDQUE
 struct md_rest {
     uint16_t port;

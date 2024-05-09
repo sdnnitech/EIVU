@@ -87,24 +87,24 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * VQ_ENTRY_NUM);
+    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
 
     memset(shm.head, 0,
-        BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * VQ_ENTRY_NUM + 2 * sizeof(bool));
+        BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * opt.vq_size + 2 * sizeof(bool));
 
     if (init_mpool(&mpool, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }
-    init_vq(&vq_rx, VQ_ENTRY_NUM, rxd(&shm), port_rx, &mpool);
+    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpool);
     init_descs_rx(&vq_rx);
-    init_vq(&vq_tx, VQ_ENTRY_NUM, txd(&shm), port_tx, &mpool);
+    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpool);
     init_descs_tx(&vq_tx);
 
-    initialized_shm_assert(shm_fd, &shm);
+    initialized_shm_assert(shm_fd, &shm, opt.vq_size);
     assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
-    assert(opt.batch_size <= VQ_ENTRY_NUM);
-    assert((VQ_ENTRY_NUM & (VQ_ENTRY_NUM - 1)) == 0); // confirm if VQ_ENTRY_NUM is a power of two
+    assert(opt.batch_size <= opt.vq_size);
+    assert((opt.vq_size & (opt.vq_size - 1)) == 0); // confirm if opt.vq_size is a power of two
     bind_core(1);
 
     /* I/O */
