@@ -92,7 +92,7 @@ main(int argc, char *argv[])
     memset(shm.head, 0,
         BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * opt.vq_size + 2 * sizeof(bool));
 
-    if (init_mpool(&mpool, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM) != 0) {
+    if (init_mpool(&mpool, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }

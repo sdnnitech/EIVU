@@ -7,8 +7,6 @@
 
 #include "perf.h"
 
-#define MEMOBJ_CACHE_NUM 512
-
 struct ring_buf {
     int32_t *ptr;
     int32_t max;

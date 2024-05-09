@@ -39,8 +39,8 @@ main(int argc, char *argv[])
         perror("calloc");
         exit(EXIT_FAILURE);
     }
-    init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
-    init_mpool(&mpool_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
+    init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_mpool(&mpool_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpool_guest);
     bind_core(0);
 

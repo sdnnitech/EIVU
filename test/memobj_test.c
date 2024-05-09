@@ -10,6 +10,7 @@ int main(void)
     void *memobjs = NULL;
     const size_t MEMOBJ_SIZE = 2176 + 128;
     const int MEMOBJ_NUM = 163456;
+    const uint32_t MEMOBJ_CACHE_NUM = 512;
 
     /* Init. */
     memobjs = calloc(MEMOBJ_NUM, MEMOBJ_SIZE);
