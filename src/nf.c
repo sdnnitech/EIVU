@@ -63,7 +63,7 @@ main(int argc, char *argv[])
 {
     struct vnwio_opt opt;
     int shm_fd;
-    struct shm *shm;
+    struct shm shm;
     struct memobj_pool mpool;
     struct vioqueue vq_rx, vq_tx;
     uint16_t port_rx = 3, port_tx = 4;
@@ -79,25 +79,29 @@ main(int argc, char *argv[])
     if (opt.is_hugepage) {
         ;
     } else {
-        shm = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+        shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     }
 
-    if (shm == MAP_FAILED) {
+    if (shm.head == MAP_FAILED) {
         perror("mmap");
         exit(EXIT_FAILURE);
     }
 
-    memset(shm, 0, sizeof(struct shm));
-    if (init_mpool(&mpool, shm->memobjs, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM) != 0) {
+    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * VQ_ENTRY_NUM);
+
+    memset(shm.head, 0,
+        BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * VQ_ENTRY_NUM + 2 * sizeof(bool));
+
+    if (init_mpool(&mpool, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }
-    init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool);
+    init_vq(&vq_rx, VQ_ENTRY_NUM, rxd(&shm), port_rx, &mpool);
     init_descs_rx(&vq_rx);
-    init_vq(&vq_tx, VQ_ENTRY_NUM, shm->desc_tx, port_tx, &mpool);
+    init_vq(&vq_tx, VQ_ENTRY_NUM, txd(&shm), port_tx, &mpool);
     init_descs_tx(&vq_tx);
 
-    initialized_shm_assert(shm_fd, shm);
+    initialized_shm_assert(shm_fd, &shm);
     assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
     assert(opt.batch_size <= VQ_ENTRY_NUM);
     assert((VQ_ENTRY_NUM & (VQ_ENTRY_NUM - 1)) == 0); // confirm if VQ_ENTRY_NUM is a power of two
@@ -107,8 +111,8 @@ main(int argc, char *argv[])
     uint32_t prev_pkt_id = 0;
     uint32_t pkt_counter = 0;
     bool is_poll = true;
-    volatile bool *is_end = &shm->is_end;
-    volatile bool *is_start = &shm->is_start;
+    volatile bool *is_end = end_flag(&shm);
+    volatile bool *is_start = start_flag(&shm);
     *is_end = false;
     *is_start = false;
     while (is_poll) {

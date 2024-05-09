@@ -13,7 +13,7 @@ main(int argc, char *argv[])
 {
     struct vnwio_opt opt;
     int shm_fd;
-    struct shm *shm;
+    struct shm shm;
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
     struct memobj_pool mpool_host, mpool_guest;
@@ -27,11 +27,12 @@ main(int argc, char *argv[])
     /* Init */
     shm_fd = shm_open(SHM_NAME, O_RDWR, FILE_MODE);
 
-    shm = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shm == MAP_FAILED) {
+    shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    if (shm.head == MAP_FAILED) {
         perror("mmap");
         exit(EXIT_FAILURE);
     }
+    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * VQ_ENTRY_NUM);
 
     memobjs_host = calloc(BUF_NUM, MEMOBJ_SIZE);
     if (memobjs_host == NULL) {
@@ -39,14 +40,14 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
-    init_mpool(&mpool_guest, shm->memobjs, MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
-    init_vq(&vq_rx, VQ_ENTRY_NUM, shm->desc_rx, port_rx, &mpool_guest);
+    init_mpool(&mpool_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, MEMOBJ_CACHE_NUM);
+    init_vq(&vq_rx, VQ_ENTRY_NUM, rxd(&shm), port_rx, &mpool_guest);
     bind_core(0);
 
-    initialized_shm_assert(shm_fd, shm);
+    initialized_shm_assert(shm_fd, &shm);
 
     /* I/O */
-    volatile bool *is_start = &shm->is_start;
+    volatile bool *is_start = start_flag(&shm);
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
     struct mbuf_ptr *mbp;
     struct packet *pkt;
