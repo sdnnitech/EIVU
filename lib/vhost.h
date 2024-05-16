@@ -52,10 +52,10 @@ vhost_rx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
 static inline int
 vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
 {
-    uint8_t *desc_addrs[MAX_BATCH_SIZE];
-    struct vio_hdr *hdrs[MAX_BATCH_SIZE];
-    uint64_t lens[MAX_BATCH_SIZE] = {0};
-    uint32_t buf_idxs[MAX_BATCH_SIZE] = {0};
+    uint8_t *desc_addrs[PACKED_BATCH_SIZE];
+    struct vio_hdr *hdrs[PACKED_BATCH_SIZE];
+    uint64_t lens[PACKED_BATCH_SIZE] = {0};
+    uint32_t buf_idxs[PACKED_BATCH_SIZE] = {0};
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     struct desc *used_descs = &vq->descs[vq->last_used_idx];
     uint16_t i = 0;
@@ -173,10 +173,10 @@ vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
 int
 vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
 {
-    uint8_t *desc_addrs[MAX_BATCH_SIZE];
+    uint8_t *desc_addrs[PACKED_BATCH_SIZE];
     struct vio_hdr *hdr;
-    uint64_t lens[MAX_BATCH_SIZE] = {0};
-    uint32_t buf_idxs[MAX_BATCH_SIZE] = {0};
+    uint64_t lens[PACKED_BATCH_SIZE] = {0};
+    uint32_t buf_idxs[PACKED_BATCH_SIZE] = {0};
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     // struct desc *used_descs = &vq->descs[vq->last_used_idx];
     uint16_t i = 0;
