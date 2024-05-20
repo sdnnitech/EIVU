@@ -74,9 +74,9 @@ main(int argc, char *argv[])
         }
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);
 
-        // if (nb_tx < nb_rx) {
-        //     nb_tx += vhost_enqueue_burst(&vq_rx, &mbptrs[nb_tx], nb_rx - nb_tx);
-        // }
+        if (nb_tx < nb_rx) {
+            nb_tx += vhost_enqueue_burst(&vq_rx, &mbptrs[nb_tx], nb_rx - nb_tx);
+        }
 
         for (uint32_t k = 0; k < nb_rx; k++) {
             mbuf_free(&mpool_host, &mbptrs[k]);
