@@ -37,12 +37,18 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, int32_t *bidx, uint32_t *len, uin
     return i;
 }
 
+static inline void
+vioqueue_refill_desc_rx(struct vioqueue *vq)
+{
+    struct desc *reavail_desc = &vq->descs[vq->last_avail_idx];
+    reavail_desc->buf_idx = mbuf_alloc(vq->mpool);
+}
+
 #define DESC_PER_CACHELINE (CACHE_LINE_SIZE / sizeof(struct desc))
 uint16_t
 vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 {
     struct mbuf_ptr *rxmb;
-    struct desc *reavail_desc;
     uint32_t len[MAX_BATCH_SIZE];
     int32_t bidxs[MAX_BATCH_SIZE];
     uint16_t num = nb_pkts;
@@ -66,8 +72,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     }
 
     for (i = 0; i < num; i++) {
-        reavail_desc = &vq->descs[vq->last_avail_idx];
-        reavail_desc->buf_idx = mbuf_alloc(vq->mpool);
+        vioqueue_refill_desc_rx(vq);
 
         vq->last_avail_idx++;
         vq->last_avail_idx &= (vq->nentries - 1);
