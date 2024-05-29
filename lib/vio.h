@@ -38,6 +38,13 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, int32_t *bidx, uint32_t *len, uin
 }
 
 static inline void
+reset_md(struct metadata *md, struct vioqueue *vq, uint32_t len)
+{
+    md->pkt_len = len;
+    md->port = vq->port_id;
+}
+
+static inline void
 vioqueue_refill_desc_rx(struct vioqueue *vq)
 {
     struct desc *reavail_desc = &vq->descs[vq->last_avail_idx];
@@ -63,9 +70,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
         reset_mbptr(rxmb, bidxs[i], vq->mpool);
-
-        rxmb->md->pkt_len = len[i];
-        rxmb->md->port = vq->port_id;
+        reset_md(rxmb->md, vq, len[i]);
 
         if (vq->is_offload)
             vio_rx_offload((struct vio_hdr *)rxmb->pkt - 1);
