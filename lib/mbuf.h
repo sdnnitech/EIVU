@@ -19,8 +19,8 @@ struct metadata {
 };
 
 struct mbuf_ptr {
+    int32_t md_idx;
     int32_t mbuf_idx;
-    int32_t pad;
     struct memobj_pool *mpool;
 #ifdef MDQUE
     struct desc *md;
@@ -68,8 +68,9 @@ mbuf_free(struct memobj_pool *mpool, struct mbuf_ptr *mbptr)
 }
 
 static inline void
-reset_mbptr(struct mbuf_ptr *mbptr, uint32_t buf_idx, struct memobj_pool *mpool)
+reset_mbptr(struct mbuf_ptr *mbptr, uint32_t md_idx, uint32_t buf_idx, struct memobj_pool *mpool)
 {
+    // mbptr->md_idx = md_idx;
     mbptr->mbuf_idx = buf_idx;
     mbptr->md = (struct metadata *)mbuf_mtod_offset(mpool, buf_idx, 0);
     mbptr->pkt = mbuf_mtod(mpool, buf_idx);

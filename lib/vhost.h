@@ -229,7 +229,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     if (count == 0) {return 0;}
 
     for (uint32_t i = 0; i < count; i++) {
-        reset_mbptr(&mps[i], mbuf_alloc(vhq->host_mpool), vhq->host_mpool);
+        reset_mbptr(&mps[i], 0, mbuf_alloc(vhq->host_mpool), vhq->host_mpool);
     }
     do {
         dpdk_prefetch0(&vhq->vq->descs[vhq->vq->last_avail_idx]);

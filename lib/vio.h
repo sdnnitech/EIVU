@@ -69,7 +69,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
-        reset_mbptr(rxmb, bidxs[i], vq->mpool);
+        reset_mbptr(rxmb, 0, bidxs[i], vq->mpool);
         reset_md(rxmb->md, vq, len[i]);
 
         if (vq->is_offload)

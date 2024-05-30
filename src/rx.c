@@ -63,7 +63,7 @@ main(int argc, char *argv[])
             if (pkt_id > opt.pkt_num) {break;}
 
             mbp = &mbptrs[nb_rx];
-            reset_mbptr(mbp, mbuf_alloc(&mpool_host), &mpool_host);
+            reset_mbptr(mbp, 0, mbuf_alloc(&mpool_host), &mpool_host);
             mbp->md->pkt_len = PKT_SIZE;
             mbp->md->port = port_rx;
 
