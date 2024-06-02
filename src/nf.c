@@ -6,10 +6,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../lib/shm.h"
-#include "../lib/option.h"
-#include "../lib/vio.h"
-#include "../lib/pkt.h"
+#include <shm.h>
+#include <option.h>
+#include <vio.h>
+#include <pkt.h>
 
 static int
 create_shm(const char *shm_name, const uint64_t shm_size, const int file_mode, bool is_hugepage)

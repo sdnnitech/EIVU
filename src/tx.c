@@ -4,10 +4,10 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "../lib/shm.h"
-#include "../lib/option.h"
-#include "../lib/vhost.h"
-#include "../lib/pkt.h"
+#include <shm.h>
+#include <option.h>
+#include <vhost.h>
+#include <pkt.h>
 
 int
 main(int argc, char *argv[])

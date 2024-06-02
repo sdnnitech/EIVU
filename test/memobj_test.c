@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "../lib/memobj.h"
+#include <memobj.h>
 
 int main(void)
 {

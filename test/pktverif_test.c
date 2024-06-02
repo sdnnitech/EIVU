@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../lib/pkt.h"
+#include <pkt.h>
 
 int main(void)
 {
