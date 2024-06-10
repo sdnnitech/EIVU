@@ -11,11 +11,27 @@
 #define MBUF_HEADROOM_SIZE 128
 #define DATAROOM_SIZE (MBUF_HEADROOM_SIZE + 2048)
 
+struct mbuf_idx {
+    int32_t md_idx;
+    int32_t pktbuf_idx;
+};
+
 struct metadata {
     uint32_t pkt_len;
     uint16_t port;
     uint16_t nb_segs;
     uint64_t ol_flags;
+};
+
+struct mbuf_ptr {
+    struct mbuf_idx mbuf_idx;
+    struct mpools *mpools;
+#ifdef MDQUE
+    struct desc *md;
+#else
+    struct metadata *md;
+#endif
+    uint8_t *pkt;
 };
 
 static inline void

@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <mbuf_struct.h>
+#include <mbuf_core.h>
 
 #include "mpools.h"
 
