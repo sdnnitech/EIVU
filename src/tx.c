@@ -6,6 +6,7 @@
 
 #include <shm.h>
 #include <option.h>
+#include <mpools.h>
 #include <vhost.h>
 #include <pkt.h>
 
@@ -18,7 +19,7 @@ main(int argc, char *argv[])
     struct vhost_queue vhq_tx;
     struct vioqueue vq_tx;
     uint16_t port_tx = 4;
-    struct memobj_pool mpool_host, mpool_guest;
+    struct mpools mpools_host, mpools_guest;
     void *memobjs_host = NULL;
     const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
@@ -42,11 +43,11 @@ main(int argc, char *argv[])
         perror("calloc");
         exit(EXIT_FAILURE);
     }
-    init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
-    init_mpool(&mpool_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
-    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpool_guest);
+    init_mpools(&mpools_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_mpools(&mpools_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools_guest);
     vhq_tx.vq = &vq_tx;
-    vhq_tx.host_mpool = &mpool_host;
+    vhq_tx.host_mpools = &mpools_host;
     bind_core(2);
 
     initialized_shm_assert(shm_fd, &shm, opt.vq_size);
@@ -74,7 +75,7 @@ main(int argc, char *argv[])
 #endif
 
         for (uint16_t i = 0; i < nb_rx; i++) {
-            mbuf_free(&mpool_host, &mbptrs[i]);
+            mbuf_free(&mpools_host, &mbptrs[i].mbuf_idx);
         }
 
        if (pkt_counter >= opt.pkt_num) {
@@ -94,7 +95,7 @@ main(int argc, char *argv[])
     printf("Time taken by program is : %f seconds (%.3f Mpps)\n", time_taken, (double)opt.pkt_num / time_taken / 1000000);
 
     /* Fin */
-    fin_mpool(&mpool_host);
+    fin_mpools(&mpools_host);
     free(memobjs_host);
     if (close(shm_fd) == -1) {
         perror("close");

@@ -5,6 +5,7 @@
 
 #include <shm.h>
 #include <option.h>
+#include <mpools.h>
 #include <vhost.h>
 #include <pkt.h>
 
@@ -14,9 +15,10 @@ main(int argc, char *argv[])
     struct vnwio_opt opt;
     int shm_fd;
     struct shm shm;
+    struct mbuf_idx midx;
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
-    struct memobj_pool mpool_host, mpool_guest;
+    struct mpools mpools_host, mpools_guest;
     void *memobjs_host = NULL;
     const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
 
@@ -39,9 +41,9 @@ main(int argc, char *argv[])
         perror("calloc");
         exit(EXIT_FAILURE);
     }
-    init_mpool(&mpool_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
-    init_mpool(&mpool_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
-    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpool_guest);
+    init_mpools(&mpools_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_mpools(&mpools_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools_guest);
     bind_core(0);
 
     initialized_shm_assert(shm_fd, &shm, opt.vq_size);
@@ -63,7 +65,8 @@ main(int argc, char *argv[])
             if (pkt_id > opt.pkt_num) {break;}
 
             mbp = &mbptrs[nb_rx];
-            reset_mbptr(mbp, 0, mbuf_alloc(&mpool_host), &mpool_host);
+            mbuf_alloc(&mpools_host, &midx);
+            reset_mbptr(mbp, &midx, &mpools_host);
             mbp->md->pkt_len = PKT_SIZE;
             mbp->md->port = port_rx;
 
@@ -79,12 +82,12 @@ main(int argc, char *argv[])
         }
 
         for (uint32_t k = 0; k < nb_rx; k++) {
-            mbuf_free(&mpool_host, &mbptrs[k]);
+            mbuf_free(&mpools_host, &mbptrs[k].mbuf_idx);
         }
     }
 
     /* Fin */
-    fin_mpool(&mpool_host);
+    fin_mpools(&mpools_host);
     free(memobjs_host);
     if (close(shm_fd) == -1) {
         perror("close");

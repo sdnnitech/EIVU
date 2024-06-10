@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "mbuf.h"
+#include <mbuf.h>
 
 #define AVAIL_FLAG (0b1 << 7)
 #define USED_FLAG (0b1 << 15)
@@ -15,8 +15,8 @@ struct md_rest {
 #endif
 
 struct desc {
-    int32_t buf_idx;
     int32_t md_idx;
+    int32_t buf_idx;
     uint32_t len;
     int16_t id;
     int16_t flags;
@@ -32,13 +32,13 @@ struct vioqueue {
     uint16_t vq_free_cnt;
     // uint16_t last_inflight_idx;
     struct desc *descs;
-    struct memobj_pool *mpool;
+    struct mpools *mpools;
     bool is_offload;
     uint16_t port_id;
 };
 
 void
-init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const uint16_t port_id, struct memobj_pool *mpool)
+init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const uint16_t port_id, struct mpools *mpools)
 {
     vq->is_offload = false;
     vq->port_id = port_id;
@@ -46,7 +46,7 @@ init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const ui
     vq->last_avail_idx = 0;
     vq->last_used_idx = 0;
     vq->descs = descs;
-    vq->mpool = mpool;
+    vq->mpools = mpools;
     vq->vq_free_cnt = 0;
 }
 

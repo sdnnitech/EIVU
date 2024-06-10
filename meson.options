@@ -3,3 +3,5 @@ option('developer_mode', type : 'boolean', value : false, description :
        'verificate pkts to debug')
 
 # patterns of Mbuf
+option('separated_md', type : 'boolean', value : false, description :
+       'separate metadata area from Mbuf')

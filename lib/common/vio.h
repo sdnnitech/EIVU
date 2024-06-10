@@ -1,9 +1,10 @@
 #ifndef _VIO_H_
 #define _VIO_H_
 
+#include <mbuf.h>
+#include <vioqueue_ops.h>
+
 #include "vio_hdr.h"
-#include "vioqueue.h"
-#include "mbuf.h"
 #include "perf.h"
 
 static inline int
@@ -13,7 +14,7 @@ desc_is_used(struct desc *desc)
 }
 
 static inline uint16_t
-vioqueue_dequeue_burst_rx(struct vioqueue *vq, int32_t *bidx, uint32_t *len, uint16_t num)
+vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t *len, uint16_t num)
 {
     struct desc *used_desc;
     uint16_t i = 0;
@@ -26,9 +27,9 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, int32_t *bidx, uint32_t *len, uin
         }
 
         len[i] = used_desc->len;
-        bidx[i] = used_desc->buf_idx;
+        get_desc_mbuf_idx(used_desc, &idxs[i]);
 
-        dpdk_prefetch0(mbuf_mtod_offset(vq->mpool, used_desc->buf_idx, 0));
+        dpdk_prefetch0(get_metadata(vq->mpools, &idxs[i]));
 
         vq->last_used_idx++;
         vq->last_used_idx &= (vq->nentries - 1);
@@ -48,7 +49,9 @@ static inline void
 vioqueue_refill_desc_rx(struct vioqueue *vq)
 {
     struct desc *reavail_desc = &vq->descs[vq->last_avail_idx];
-    reavail_desc->buf_idx = mbuf_alloc(vq->mpool);
+    struct mbuf_idx idx;
+    mbuf_alloc(vq->mpools, &idx);
+    set_desc_mbuf_idx(reavail_desc, &idx);
 }
 
 #define DESC_PER_CACHELINE (CACHE_LINE_SIZE / sizeof(struct desc))
@@ -57,7 +60,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 {
     struct mbuf_ptr *rxmb;
     uint32_t len[MAX_BATCH_SIZE];
-    int32_t bidxs[MAX_BATCH_SIZE];
+    struct mbuf_idx idxs[MAX_BATCH_SIZE];
     uint16_t num = nb_pkts;
     uint16_t i = 0;
     uint16_t lai_shadow = vq->last_avail_idx;
@@ -65,11 +68,11 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     if (likely(num > DESC_PER_CACHELINE)) {
         num -= num % DESC_PER_CACHELINE;
     }
-    num = vioqueue_dequeue_burst_rx(vq, bidxs, len, num); // finish accessing entiries of descs
+    num = vioqueue_dequeue_burst_rx(vq, idxs, len, num); // finish accessing entiries of descs
 
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
-        reset_mbptr(rxmb, 0, bidxs[i], vq->mpool);
+        reset_mbptr(rxmb, &idxs[i], vq->mpools);  // different between patterns
         reset_md(rxmb->md, vq, len[i]);
 
         if (vq->is_offload)
@@ -98,8 +101,14 @@ virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
     uint16_t free_cnt = 0;
 
     while (nb > 0 && desc_is_used(&vq->descs[used_idx])) {
-        if (vq->descs[used_idx].buf_idx >= 0)
-            memobj_put_stack(vq->mpool, vq->descs[used_idx].buf_idx);
+        if (vq->descs[used_idx].buf_idx >= 0) {
+            // memobj_put_stack(vq->mpools.md_pool, vq->descs[used_idx].md_idx);
+            // memobj_put_stack(vq->mpools.pktbuf_pool, vq->descs[used_idx].buf_idx);
+            struct mbuf_idx idx;
+            get_desc_mbuf_idx(&vq->descs[used_idx], &idx);
+            mbuf_free(vq->mpools, &idx);
+            // mbuf_free(&vq->mpools, get_desc_mbuf_idx(&vq->descs[used_idx]));
+        }
         used_idx++;
         used_idx &= (vq->nentries - 1);
         free_cnt++;
@@ -110,19 +119,19 @@ virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
 }
 
 static inline void
-vioqueue_enqueue_burst_tx(struct vioqueue *vq, int32_t bidx, uint32_t len)
+vioqueue_enqueue_burst_tx(struct vioqueue *vq, struct mbuf_idx *idx, uint32_t len)
 {
     struct desc *d;
 
     if (!vq->is_offload)
-        vio_tx_clear_net_hdr((struct vio_hdr *)mbuf_mtod(vq->mpool, bidx) - 1);
+        vio_tx_clear_net_hdr((struct vio_hdr *)mbuf_mtod(vq->mpools, idx) - 1);
     else {
         fprintf(stderr, "vio_tx_offload: caused an unexpected behavior\n");
         exit(EXIT_FAILURE);
     }
 
     d = &vq->descs[vq->last_avail_idx];
-    d->buf_idx = bidx;
+    set_desc_mbuf_idx(d, idx);
     d->len = len;
 
     vq->last_avail_idx++;
@@ -148,7 +157,7 @@ vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 
     for (nb_tx = 0; nb_tx < nb_pkts; nb_tx++) {
         mbp = &mb_ptrs[nb_tx];
-        vioqueue_enqueue_burst_tx(vq, mbp->mbuf_idx, mbp->md->pkt_len);
+        vioqueue_enqueue_burst_tx(vq, &mbp->mbuf_idx, mbp->md->pkt_len);
     }
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);

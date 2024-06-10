@@ -17,7 +17,9 @@ if get_option('developer_mode')
     add_global_arguments('-DDEBUG', language : 'c')
 endif
 
-incdir = include_directories('lib/common')
+incdir = []
+
+subdir('lib')
 
 subdir('test')
 

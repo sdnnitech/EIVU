@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "mbuf.h"
+#include "mbuf_core.h"
 
 #define VIO_HEADER_SIZE 12
 

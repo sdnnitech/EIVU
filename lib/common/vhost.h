@@ -4,13 +4,14 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <vioqueue_ops.h>
+
 #include "perf.h"
 #include "vioqueue.h"
 #include "vio_hdr.h"
-#include "mbuf.h"
 
 struct vhost_queue {
-    struct memobj_pool *host_mpool;
+    struct mpools *host_mpools;
     struct vioqueue *vq;
 };
 
@@ -30,7 +31,7 @@ vhost_rx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
     if (unlikely(!desc_is_avail(avail_desc))) {
         return -1;
     }
-    desc_addr = mbuf_mtod(vq->mpool, avail_desc->buf_idx);
+    desc_addr = mbuf_mtod(vq->mpools, (struct mbuf_idx *)&avail_desc->md_idx);
     vq->last_avail_idx++;
     vq->last_avail_idx &= (vq->nentries - 1);
 
@@ -55,7 +56,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     uint8_t *desc_addrs[PACKED_BATCH_SIZE];
     struct vio_hdr *hdrs[PACKED_BATCH_SIZE];
     uint64_t lens[PACKED_BATCH_SIZE] = {0};
-    uint32_t buf_idxs[PACKED_BATCH_SIZE] = {0};
+    struct mbuf_idx buf_idxs[PACKED_BATCH_SIZE] = {0};
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     struct desc *used_descs = &vq->descs[vq->last_used_idx];
     uint16_t i = 0;
@@ -73,7 +74,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     }
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
-        buf_idxs[i] = avail_descs[i].buf_idx;
+        get_desc_mbuf_idx(&avail_descs[i], &buf_idxs[i]);
     }
 
     // for (i = 0; i < num; i++) {
@@ -81,7 +82,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     // }
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
-        desc_addrs[i] = mbuf_mtod(vq->mpool, buf_idxs[i]);
+        desc_addrs[i] = mbuf_mtod(vq->mpools, &buf_idxs[i]);
 
     /* vhost_rx_batch_copy */
     for (i = 0; i < PACKED_BATCH_SIZE; i++) {
@@ -151,12 +152,12 @@ vhost_tx_single(struct vioqueue *vq, struct mbuf_ptr *mbp)
     }
     mbp->md->pkt_len = avail_desc->len;
 
-    desc_addr = mbuf_mtod(vq->mpool, avail_desc->buf_idx);
+    desc_addr = mbuf_mtod(vq->mpools, (struct mbuf_idx *)&avail_desc->md_idx);
 
     if (vq->is_offload)
         vhost_dequeue_offload((struct vio_hdr *)desc_addr - 1);
 
-    memcpy(mbuf_mtod(mbp->mpool, mbp->mbuf_idx), desc_addr, avail_desc->len);
+    memcpy(mbuf_mtod(mbp->mpools, &mbp->mbuf_idx), desc_addr, avail_desc->len);
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     // used_desc->flags = USED_FLAG;
@@ -176,7 +177,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     uint8_t *desc_addrs[PACKED_BATCH_SIZE];
     struct vio_hdr *hdr;
     uint64_t lens[PACKED_BATCH_SIZE] = {0};
-    uint32_t buf_idxs[PACKED_BATCH_SIZE] = {0};
+    struct mbuf_idx buf_idxs[PACKED_BATCH_SIZE] = {0};
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     // struct desc *used_descs = &vq->descs[vq->last_used_idx];
     uint16_t i = 0;
@@ -190,19 +191,19 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[])
     }
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
-        buf_idxs[i] = avail_descs[i].buf_idx;
+        get_desc_mbuf_idx(&avail_descs[i], &buf_idxs[i]);
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
         lens[i] = avail_descs[i].len;
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
-        desc_addrs[i] = mbuf_mtod(vq->mpool, buf_idxs[i]);
+        desc_addrs[i] = mbuf_mtod(vq->mpools, &buf_idxs[i]);
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
         dpdk_prefetch0(desc_addrs[i]);
 
     for (i = 0; i < PACKED_BATCH_SIZE; i++)
-        memcpy(mbuf_mtod(mps[i].mpool, mps[i].mbuf_idx), desc_addrs[i], lens[i]);
+        memcpy(mbuf_mtod(mps[i].mpools, &mps[i].mbuf_idx), desc_addrs[i], lens[i]);
 
     if (vq->is_offload) {
         for (i = 0; i < PACKED_BATCH_SIZE; i++) {
@@ -229,7 +230,9 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     if (count == 0) {return 0;}
 
     for (uint32_t i = 0; i < count; i++) {
-        reset_mbptr(&mps[i], 0, mbuf_alloc(vhq->host_mpool), vhq->host_mpool);
+        struct mbuf_idx idx;
+        mbuf_alloc(vhq->host_mpools, &idx);
+        reset_mbptr(&mps[i], &idx, vhq->host_mpools);
     }
     do {
         dpdk_prefetch0(&vhq->vq->descs[vhq->vq->last_avail_idx]);
@@ -248,7 +251,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     } while (pkt_idx < count);
 
     for (uint32_t i = pkt_idx; i < count; i++) {
-        mbuf_free(vhq->host_mpool, &mps[i]);
+        mbuf_free(vhq->host_mpools, &mps[i].mbuf_idx);
     }
 
     return pkt_idx;

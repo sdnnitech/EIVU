@@ -8,6 +8,7 @@
 
 #include <shm.h>
 #include <option.h>
+#include <mpools.h>
 #include <vio.h>
 #include <pkt.h>
 
@@ -36,11 +37,13 @@ static void
 init_descs_rx(struct vioqueue* vq)
 {
     struct desc *d;
+    struct mbuf_idx midx;
     uint16_t i = 0;
     for (i = 0; i < vq->nentries; i++) {
+        mbuf_alloc(vq->mpools, &midx);
         d = &vq->descs[i];
         d->flags = AVAIL_FLAG;
-        d->buf_idx = mbuf_alloc(vq->mpool);
+        set_desc_mbuf_idx(d, &midx);
     }
     vq->vq_free_cnt = 0;
 }
@@ -49,11 +52,12 @@ static void
 init_descs_tx(struct vioqueue* vq)
 {
     struct desc *d;
+    struct mbuf_idx midx = {-1, -1};
     uint16_t i = 0;
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
         d->flags = USED_FLAG;
-        d->buf_idx = -1;
+        set_desc_mbuf_idx(d, &midx);
     }
     vq->vq_free_cnt = 0;
 }
@@ -64,7 +68,7 @@ main(int argc, char *argv[])
     struct vnwio_opt opt;
     int shm_fd;
     struct shm shm;
-    struct memobj_pool mpool;
+    struct mpools mpools;
     struct vioqueue vq_rx, vq_tx;
     uint16_t port_rx = 3, port_tx = 4;
     const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
@@ -92,13 +96,10 @@ main(int argc, char *argv[])
     memset(shm.head, 0,
         BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * opt.vq_size + 2 * sizeof(bool));
 
-    if (init_mpool(&mpool, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num) != 0) {
-        fprintf(stderr, "init_mpool");
-        exit(EXIT_FAILURE);
-    }
-    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpool);
+    init_mpools(&mpools, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
-    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpool);
+    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools);
     init_descs_tx(&vq_tx);
 
     initialized_shm_assert(shm_fd, &shm, opt.vq_size);
@@ -139,7 +140,7 @@ main(int argc, char *argv[])
     while (!*is_end){}
 
     /* Fin. */
-    fin_mpool(&mpool);
+    fin_mpools(&mpools);
     if (opt.is_hugepage) {
         ;
     } else {
