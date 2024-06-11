@@ -29,7 +29,7 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t 
         len[i] = used_desc->len;
         get_desc_mbuf_idx(used_desc, &idxs[i]);
 
-        dpdk_prefetch0(get_metadata(vq->mpools, &idxs[i]));
+        dpdk_prefetch0(refer_metadata(vq->mpools, &idxs[i]));
 
         vq->last_used_idx++;
         vq->last_used_idx &= (vq->nentries - 1);
@@ -39,7 +39,7 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t 
 }
 
 static inline void
-reset_md(struct metadata *md, struct vioqueue *vq, uint32_t len)
+vio_reset_md_rx(struct metadata *md, struct vioqueue *vq, uint32_t len)
 {
     md->pkt_len = len;
     md->port = vq->port_id;
@@ -73,7 +73,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
         reset_mbptr(rxmb, &idxs[i], vq->mpools);  // different between patterns
-        reset_md(rxmb->md, vq, len[i]);
+        vio_reset_md_rx(rxmb->md, vq, len[i]);
 
         if (vq->is_offload)
             vio_rx_offload((struct vio_hdr *)rxmb->pkt - 1);
@@ -102,12 +102,9 @@ virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
 
     while (nb > 0 && desc_is_used(&vq->descs[used_idx])) {
         if (vq->descs[used_idx].buf_idx >= 0) {
-            // memobj_put_stack(vq->mpools.md_pool, vq->descs[used_idx].md_idx);
-            // memobj_put_stack(vq->mpools.pktbuf_pool, vq->descs[used_idx].buf_idx);
             struct mbuf_idx idx;
             get_desc_mbuf_idx(&vq->descs[used_idx], &idx);
             mbuf_free(vq->mpools, &idx);
-            // mbuf_free(&vq->mpools, get_desc_mbuf_idx(&vq->descs[used_idx]));
         }
         used_idx++;
         used_idx &= (vq->nentries - 1);
