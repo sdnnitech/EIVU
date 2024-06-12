@@ -29,6 +29,8 @@ sed -i -e 's/.*md->.*//g' ./src/rx.c
 sed -i -e 's/.*md->.*//g' $VHOST_FILE
 sed -i -E 's/^(.*)vioqueue_enqueue_burst_tx\(vq, (.*), mbp->md->pkt_len\);$/\1vioqueue_enqueue_burst_tx\(vq, \2, 64\);/g' $VIO_FILE
 sed -i -e 's/.*md->.*//g' $VIO_FILE
+sed -i -e 's/.*dpdk_prefetch.*//g' $VIO_FILE
+sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
 
 # Skip packet copy
 sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
