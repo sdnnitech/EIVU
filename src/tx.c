@@ -75,7 +75,7 @@ main(int argc, char *argv[])
 #endif
 
         for (uint16_t i = 0; i < nb_rx; i++) {
-            mbuf_free(&mpools_host, &mbptrs[i].mbuf_idx);
+            mbuf_free(&mpools_host, mbptrs[i].mbuf_idx);
         }
 
        if (pkt_counter >= opt.pkt_num) {

@@ -15,7 +15,6 @@ main(int argc, char *argv[])
     struct vnwio_opt opt;
     int shm_fd;
     struct shm shm;
-    struct mbuf_idx midx;
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
     struct mpools mpools_host, mpools_guest;
@@ -65,8 +64,7 @@ main(int argc, char *argv[])
             if (pkt_id > opt.pkt_num) {break;}
 
             mbp = &mbptrs[nb_rx];
-            mbuf_alloc(&mpools_host, &midx);
-            reset_mbptr(mbp, &midx, &mpools_host);
+            reset_mbptr(mbp, mbuf_alloc(&mpools_host), &mpools_host);
             mbp->md->pkt_len = PKT_SIZE;
             mbp->md->port = port_rx;
 
@@ -82,7 +80,7 @@ main(int argc, char *argv[])
         }
 
         for (uint32_t k = 0; k < nb_rx; k++) {
-            mbuf_free(&mpools_host, &mbptrs[k].mbuf_idx);
+            mbuf_free(&mpools_host, mbptrs[k].mbuf_idx);
         }
     }
 

@@ -37,13 +37,11 @@ static void
 init_descs_rx(struct vioqueue* vq)
 {
     struct desc *d;
-    struct mbuf_idx midx;
     uint16_t i = 0;
     for (i = 0; i < vq->nentries; i++) {
-        mbuf_alloc(vq->mpools, &midx);
         d = &vq->descs[i];
         d->flags = AVAIL_FLAG;
-        set_desc_mbuf_idx(d, &midx);
+        set_desc_mbuf_idx(d, mbuf_alloc(vq->mpools));
     }
     vq->vq_free_cnt = 0;
 }
@@ -57,7 +55,7 @@ init_descs_tx(struct vioqueue* vq)
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
         d->flags = USED_FLAG;
-        set_desc_mbuf_idx(d, &midx);
+        set_desc_mbuf_idx(d, midx);
     }
     vq->vq_free_cnt = 0;
 }

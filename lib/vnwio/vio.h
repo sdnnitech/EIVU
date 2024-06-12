@@ -31,7 +31,7 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t 
         len[i] = used_desc->len;
         get_desc_mbuf_idx(used_desc, &idxs[i]);
 
-        dpdk_prefetch0(refer_metadata(vq->mpools, &idxs[i]));
+        dpdk_prefetch0(refer_metadata(vq->mpools, idxs[i]));
 
         vq->last_used_idx++;
         vq->last_used_idx &= (vq->nentries - 1);
@@ -51,9 +51,7 @@ static inline void
 vioqueue_refill_desc_rx(struct vioqueue *vq)
 {
     struct desc *reavail_desc = &vq->descs[vq->last_avail_idx];
-    struct mbuf_idx idx;
-    mbuf_alloc(vq->mpools, &idx);
-    set_desc_mbuf_idx(reavail_desc, &idx);
+    set_desc_mbuf_idx(reavail_desc, mbuf_alloc(vq->mpools));
 }
 
 #define DESC_PER_CACHELINE (CACHE_LINE_SIZE / sizeof(struct desc))
@@ -75,7 +73,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
-        reset_mbptr(rxmb, &idxs[i], vq->mpools);  // different between patterns
+        reset_mbptr(rxmb, idxs[i], vq->mpools);  // different between patterns
         vio_reset_md_rx(rxmb->md, vq, len[i]);
 
         if (vq->is_offload)
@@ -98,15 +96,15 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 static inline void
 virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
 {
+    struct mbuf_idx midx;
     int nb = num;
     uint16_t used_idx = vq->last_used_idx;
     uint16_t free_cnt = 0;
 
     while (nb > 0) {
         if (vq->descs[used_idx].buf_idx >= 0) {
-            struct mbuf_idx idx;
-            get_desc_mbuf_idx(&vq->descs[used_idx], &idx);
-            mbuf_free(vq->mpools, &idx);
+            get_desc_mbuf_idx(&vq->descs[used_idx], &midx);
+            mbuf_free(vq->mpools, midx);
         }
         used_idx++;
         used_idx &= (vq->nentries - 1);
@@ -118,7 +116,7 @@ virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
 }
 
 static inline void
-vioqueue_enqueue_burst_tx(struct vioqueue *vq, struct mbuf_idx *idx, uint32_t len)
+vioqueue_enqueue_burst_tx(struct vioqueue *vq, struct mbuf_idx idx, uint32_t len)
 {
     struct desc *d;
 
@@ -160,7 +158,7 @@ vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 
     for (nb_tx = 0; nb_tx < nb_pkts; nb_tx++) {
         mbp = &mb_ptrs[nb_tx];
-        vioqueue_enqueue_burst_tx(vq, &mbp->mbuf_idx, mbp->md->pkt_len);
+        vioqueue_enqueue_burst_tx(vq, mbp->mbuf_idx, mbp->md->pkt_len);
     }
 
     for (uint16_t i = 0; i < nb_tx; i++)
