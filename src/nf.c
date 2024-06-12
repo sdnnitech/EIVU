@@ -52,7 +52,7 @@ static void
 init_descs_tx(struct vioqueue* vq)
 {
     struct desc *d;
-    struct mbuf_idx midx = {-1, -1};
+    struct mbuf_idx midx = init_midx_tx();
     uint16_t i = 0;
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];

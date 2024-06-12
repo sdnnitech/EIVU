@@ -5,6 +5,14 @@
 
 #include "mbuf.h"
 
+struct mbuf_idx
+init_midx_tx(void)
+{
+    struct mbuf_idx midx;
+    midx.pktbuf_idx = -1;
+    return midx;
+}
+
 static inline void
 get_desc_mbuf_idx(struct desc *desc, struct mbuf_idx *idx)
 {

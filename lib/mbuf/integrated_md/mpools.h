@@ -13,9 +13,6 @@ init_mpools(struct mpools *mpools, void *memobjs, size_t memobj_size, const uint
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }
-
-    mpools->md_pool.pool = mpools->pktbuf_pool.pool;
-    mpools->md_pool.memobj_size = mpools->pktbuf_pool.memobj_size;
 }
 
 void
