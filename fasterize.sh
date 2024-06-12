@@ -23,7 +23,9 @@ sed -i -e 's/^#define DATAROOM_SIZE (MBUF_HEADROOM_SIZE + 2048)$/#define DATAROO
 # METADATA_SIZE = 0
 sed -i -e 's/^#define METADATA_SIZE 128$/#define METADATA_SIZE 0/' $MBUF_FILE
 
-sed -i -e 's/.*reset_metadata(md);$//g' $MBUF_FILE
+#sed -i -e 's/.*reset_metadata(md);$//g' $MBUF_FILE
+sed -i -e 's/^.*memset(md, 0, CACHE_LINE_SIZE + 8 + 8);$//g' $MBUF_FILE
+sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
 
 sed -i -e 's/.*md->.*//g' ./src/rx.c
 sed -i -e 's/.*md->.*//g' $VHOST_FILE
