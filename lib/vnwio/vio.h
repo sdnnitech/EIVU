@@ -64,7 +64,6 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     uint16_t num = nb_pkts;
     uint16_t i = 0;
     uint16_t lai_shadow = vq->last_avail_idx;
-    int16_t f = AVAIL_FLAG;
 
     if (likely(num > DESC_PER_CACHELINE)) {
         num -= num % DESC_PER_CACHELINE;
@@ -87,8 +86,9 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
         vq->last_avail_idx &= (vq->nentries - 1);
     }
 
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (i = 0; i < num; i++)
-        __atomic_store(&vq->descs[lai_shadow++ & (vq->nentries - 1)].flags, &f, __ATOMIC_RELEASE);
+        vq->descs[lai_shadow++ & (vq->nentries - 1)].flags = AVAIL_FLAG;
 
     return num;
 }
@@ -143,7 +143,6 @@ vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     struct mbuf_ptr *mbp;
     uint16_t nb_tx = 0;
     uint16_t lai_shadow = vq->last_avail_idx;
-    int16_t f = AVAIL_FLAG;
 
     if (unlikely(nb_pkts < 1)) 
         return 0;
@@ -161,8 +160,9 @@ vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
         vioqueue_enqueue_burst_tx(vq, mbp->mbuf_idx, mbp->md->pkt_len);
     }
 
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (uint16_t i = 0; i < nb_tx; i++)
-        __atomic_store(&vq->descs[lai_shadow++ & (vq->nentries - 1)].flags, &f, __ATOMIC_RELEASE);
+        vq->descs[lai_shadow++ & (vq->nentries - 1)].flags = AVAIL_FLAG;
 
     return nb_tx;
 }

@@ -70,9 +70,9 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     }
 
     // set_used
-    int16_t f = USED_FLAG;
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (i = 0; i < count; i++)
-        __atomic_store(&used_descs[i].flags, &f, __ATOMIC_RELEASE);
+        used_descs[i].flags = USED_FLAG;
 
     vq->last_used_idx += count;
     vq->last_used_idx &= (vq->nentries - 1);
@@ -136,9 +136,9 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
         }
     }
 
-    int16_t f = USED_FLAG;
+    dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (i = 0; i < count; i++)
-        __atomic_store(&avail_descs[i].flags, &f, __ATOMIC_RELEASE);
+        avail_descs[i].flags = USED_FLAG;
 
     vq->last_avail_idx += count;
     vq->last_avail_idx &= (vq->nentries - 1);
