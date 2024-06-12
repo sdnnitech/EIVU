@@ -1,6 +1,8 @@
 # general
 option('developer_mode', type : 'boolean', value : false, description :
        'verificate pkts to debug')
+option('fastest_mode', type : 'boolean' , value : false, description :
+       'change parameters for the fastest combination')
 
 # patterns of Mbuf
 option('separated_md', type : 'boolean', value : false, description :

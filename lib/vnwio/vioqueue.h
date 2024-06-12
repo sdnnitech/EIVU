@@ -3,27 +3,11 @@
 
 #include <stdint.h>
 
+#include <desc.h>
 #include <mbuf.h>
 
 #define AVAIL_FLAG (0b1 << 7)
 #define USED_FLAG (0b1 << 15)
-
-#ifdef MDQUE
-struct md_rest {
-    uint16_t port;
-};
-#endif
-
-struct desc {
-    int32_t md_idx;
-    int32_t buf_idx;
-    uint32_t len;
-    int16_t id;
-    int16_t flags;
-#ifdef MDQUE
-    struct md_rest md;
-#endif
-};
 
 struct vioqueue {
     uint16_t last_avail_idx;

@@ -2,8 +2,8 @@
 
 OPTION_FILE=./lib/common/option.h
 MBUF_FILE=./lib/mbuf/common/mbuf_core.h
-VHOST_FILE=./lib/common/vhost.h
-VIO_FILE=./lib/common/vio.h
+VHOST_FILE=./lib/vnwio/vhost.h
+VIO_FILE=./lib/vnwio/vio.h
 
 # BATCH_SIZE = 1024
 sed -i -e 's/^#define BATCH_SIZE_DEFAULT 32$/#define BATCH_SIZE_DEFAULT 1024/' $OPTION_FILE
