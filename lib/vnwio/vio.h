@@ -22,7 +22,7 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t 
     do {
         if (desc_is_used(&vq->descs[(vq->last_used_idx + num - 1) & (vq->nentries - 1)]))
             break;
-        num /= 2;
+        num >>= 1;
     } while (num > 0);
 
     for (i = 0; i < num; i++) {
