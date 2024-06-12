@@ -37,12 +37,6 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     if (unlikely((vq->last_avail_idx + count) > vq->nentries)) {
         return -1;
     }
-    
-    for (i = 0; i < count; i++) {
-        if (unlikely(!desc_is_avail(&avail_descs[i]))) {
-            return -1;
-        }
-    }
 
     for (i = 0; i < count; i++) {
         get_desc_mbuf_idx(&avail_descs[i], &buf_idxs[i]);
@@ -100,6 +94,7 @@ vhost_enqueue_burst(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
                 break;
             }
         }
+        count >>= 1;
     } while (count > 0);
 
     return pkt_idx;
@@ -118,11 +113,6 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 
     if (unlikely(vq->last_avail_idx + count > vq->nentries))
         return -1;
-
-    for (i = 0; i < count; i++) {
-        if (unlikely(!desc_is_avail(&avail_descs[i])))
-            return -1;
-    }
 
     for (i = 0; i < count; i++)
         get_desc_mbuf_idx(&avail_descs[i], &buf_idxs[i]);
@@ -177,7 +167,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
                 break;
             }
         }
-        batchsz /= 2;
+        batchsz >>= 1;
     } while (batchsz > 0);
 
     for (uint32_t i = pkt_idx; i < count; i++) {
