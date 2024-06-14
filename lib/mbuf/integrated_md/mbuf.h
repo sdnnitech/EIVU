@@ -9,16 +9,27 @@
 #include "mpools.h"
 
 struct mbuf_idx {
+#if BUF_NUM < 32768
+    int16_t pktbuf_idx;
+#else
     int32_t pktbuf_idx;
+#endif
 };
 
 struct mbuf_ptr {
     struct mbuf_idx mbuf_idx;
-    int32_t pad;
     struct mpools *mpools;
     struct metadata *md;
     uint8_t *pkt;
 };
+
+struct mbuf_idx
+init_midx_tx(void)
+{
+    struct mbuf_idx midx;
+    midx.pktbuf_idx = -1;
+    return midx;
+}
 
 static inline struct metadata*
 refer_metadata(struct mpools *mpools, struct mbuf_idx idx)

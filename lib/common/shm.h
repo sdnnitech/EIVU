@@ -79,11 +79,11 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
     // whether descs are initialized at `flag_init` or not
     for (i = 0; i < vq_size; i++) {
         assert((rxd(shm)[i].flags & AVAIL_FLAG) == AVAIL_FLAG);
-        assert(rxd(shm)[i].buf_idx >= 0);
+        assert(rxd(shm)[i].midx.pktbuf_idx >= 0);
     }
     for (i = 0; i < vq_size; i++) {
         assert((txd(shm)[i].flags & USED_FLAG) == USED_FLAG);
-        assert(txd(shm)[i].buf_idx < 0);
+        assert(txd(shm)[i].midx.pktbuf_idx < 0);
     }
 }
 

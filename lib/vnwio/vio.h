@@ -2,7 +2,6 @@
 #define _VIO_H_
 
 #include <mbuf.h>
-#include <vioqueue_ops.h>
 
 #include "vio_hdr.h"
 #include "perf.h"
@@ -29,7 +28,7 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t 
         used_desc = &vq->descs[vq->last_used_idx];
 
         len[i] = used_desc->len;
-        get_desc_mbuf_idx(used_desc, &idxs[i]);
+        idxs[i] = get_desc_mbuf_idx(used_desc);
 
         dpdk_prefetch0(refer_metadata(vq->mpools, idxs[i]));
 
@@ -96,15 +95,13 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 static inline void
 virtio_xmit_cleanup(struct vioqueue *vq, uint16_t num)
 {
-    struct mbuf_idx midx;
     int nb = num;
     uint16_t used_idx = vq->last_used_idx;
     uint16_t free_cnt = 0;
 
     while (nb > 0) {
-        if (vq->descs[used_idx].buf_idx >= 0) {
-            get_desc_mbuf_idx(&vq->descs[used_idx], &midx);
-            mbuf_free(vq->mpools, midx);
+        if (vq->descs[used_idx].midx.pktbuf_idx >= 0) {
+            mbuf_free(vq->mpools, get_desc_mbuf_idx(&vq->descs[used_idx]));
         }
         used_idx++;
         used_idx &= (vq->nentries - 1);

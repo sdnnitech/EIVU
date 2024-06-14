@@ -34,4 +34,16 @@ init_vq(struct vioqueue *vq, uint16_t vq_entry_num, struct desc *descs, const ui
     vq->vq_free_cnt = 0;
 }
 
+static inline struct mbuf_idx
+get_desc_mbuf_idx(struct desc *desc)
+{
+    return desc->midx;
+}
+
+static inline void
+set_desc_mbuf_idx(struct desc *desc, struct mbuf_idx idx)
+{
+    desc->midx = idx;
+}
+
 #endif /* _VIOQUEUE_H_ */

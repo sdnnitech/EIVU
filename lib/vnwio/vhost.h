@@ -4,8 +4,6 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <vioqueue_ops.h>
-
 #include "perf.h"
 #include "vioqueue.h"
 #include "vio_hdr.h"
@@ -39,7 +37,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     }
 
     for (i = 0; i < count; i++) {
-        get_desc_mbuf_idx(&avail_descs[i], &buf_idxs[i]);
+        buf_idxs[i] = get_desc_mbuf_idx(&avail_descs[i]);
     }
 
     // for (i = 0; i < num; i++) {
@@ -115,7 +113,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
         return -1;
 
     for (i = 0; i < count; i++)
-        get_desc_mbuf_idx(&avail_descs[i], &buf_idxs[i]);
+        buf_idxs[i] = get_desc_mbuf_idx(&avail_descs[i]);
 
     for (i = 0; i < count; i++)
         lens[i] = avail_descs[i].len;
