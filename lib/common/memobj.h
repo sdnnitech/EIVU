@@ -18,13 +18,8 @@ struct memobj_pool {
     struct ring_buf *ring; // not local cache
 };
 
-struct mpools {
-    struct memobj_pool md_pool;
-    struct memobj_pool pktbuf_pool;
-};
-
 int
-init_mpool(struct memobj_pool *mpool, void *memobjs, uint32_t memobj_size, const uint32_t memobj_num, const uint32_t cache_num)
+init_mpool(struct memobj_pool *mpool, void *memobjs, uint32_t memobj_size, const uint32_t memobj_num, const uint32_t cache_num, bool is_stack)
 {
     uint32_t i = 0;
 
@@ -42,7 +37,7 @@ init_mpool(struct memobj_pool *mpool, void *memobjs, uint32_t memobj_size, const
     }
 
     // init cache for memobj
-    if (true) {
+    if (is_stack) {
         mpool->cache = init_stack(cache_num, -1);
     } else {
         mpool->cache = init_ring(cache_num, -1);
@@ -55,8 +50,10 @@ init_mpool(struct memobj_pool *mpool, void *memobjs, uint32_t memobj_size, const
 }
 
 void
-fin_mpool(struct memobj_pool *mpool)
+fin_mpool(struct memobj_pool *mpool, bool is_free_pool)
 {
+    if (is_free_pool)
+        free(mpool->pool);
     free(mpool->ring);
     free(mpool->cache);
 }

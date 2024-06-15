@@ -18,7 +18,6 @@ main(int argc, char *argv[])
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
     struct mpools mpools_host, mpools_guest;
-    void *memobjs_host = NULL;
     const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
 
     opt = parse_opt(argc, argv);
@@ -34,14 +33,8 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
-
-    memobjs_host = calloc(BUF_NUM, MEMOBJ_SIZE);
-    if (memobjs_host == NULL) {
-        perror("calloc");
-        exit(EXIT_FAILURE);
-    }
-    init_mpools(&mpools_host, memobjs_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
-    init_mpools(&mpools_guest, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL);
+    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm));
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools_guest);
     bind_core(0);
 
@@ -56,6 +49,10 @@ main(int argc, char *argv[])
     uint16_t nb_rx = 0;
     uint32_t pkt_id;
     uint32_t pkt_counter = 0;
+
+    for (int i = 0; i < MAX_BATCH_SIZE; i++) {
+        mbptrs[i].mbuf_idx = init_midx();
+    }
 
     while (!*is_start) {}
     for (pkt_counter = 0; pkt_counter < opt.pkt_num; pkt_counter += nb_tx) {
@@ -85,8 +82,8 @@ main(int argc, char *argv[])
     }
 
     /* Fin */
-    fin_mpools(&mpools_host);
-    free(memobjs_host);
+    fin_mpools(&mpools_host, false);
+    fin_mpools(&mpools_guest, true);
     if (close(shm_fd) == -1) {
         perror("close");
         exit(EXIT_FAILURE);

@@ -5,39 +5,10 @@
 #include <string.h>
 
 #include <mbuf_core.h>
+#include <mbuf_idx.h>
 
 #include "md_get_put.h"
 #include "mpools.h"
-
-struct mbuf_idx {
-#if BUF_NUM < 32768
-    int16_t md_idx;
-    int16_t buf_idx;
-#else
-    int32_t md_idx;
-    int32_t pktbuf_idx;
-#endif
-};
-
-struct mbuf_ptr {
-    struct mbuf_idx mbuf_idx;
-    struct mpools *mpools;
-#ifdef MDQUE
-    struct desc *md;
-#else
-    struct metadata *md;
-#endif
-    uint8_t *pkt;
-};
-
-struct mbuf_idx
-init_midx_tx(void)
-{
-    struct mbuf_idx midx;
-    midx.pktbuf_idx = -1;
-    midx.md_idx = -1;
-    return midx;
-}
 
 static inline struct metadata*
 refer_metadata(struct mpools *mpools, struct mbuf_idx idx)
@@ -48,14 +19,9 @@ refer_metadata(struct mpools *mpools, struct mbuf_idx idx)
 static inline struct mbuf_idx
 mbuf_alloc(struct mpools *mpools)
 {
-    struct metadata* md;
     struct mbuf_idx idx;
 
     idx.pktbuf_idx = alloc_pktbuf(&mpools->pktbuf_pool);
-    idx.md_idx = alloc_md(&mpools->md_pool);
-
-    md = refer_metadata(mpools, idx);
-    reset_metadata(md);
 
     return idx;
 }
@@ -63,7 +29,6 @@ mbuf_alloc(struct mpools *mpools)
 static inline void
 mbuf_free(struct mpools *mpools, struct mbuf_idx idx)
 {
-    free_md(&mpools->md_pool, idx.md_idx);
     free_pktbuf(&mpools->pktbuf_pool, idx.pktbuf_idx);
 }
 
@@ -82,11 +47,15 @@ mbuf_mtod(struct mpools *mpools, struct mbuf_idx idx)
 static inline void
 reset_mbptr(struct mbuf_ptr *mbptr, struct mbuf_idx idx, struct mpools *mpools)
 {
-    mbptr->mbuf_idx.md_idx = idx.md_idx;
+    if (unlikely(mbptr->mbuf_idx.md_idx < 0)) {
+        mbptr->mbuf_idx.md_idx = alloc_md(&mpools->md_pool);
+    }
     mbptr->mbuf_idx.pktbuf_idx = idx.pktbuf_idx;
-    mbptr->md = refer_metadata(mpools, idx);
-    mbptr->pkt = mbuf_mtod(mpools, idx);
+    mbptr->md = refer_metadata(mpools, mbptr->mbuf_idx);
+    mbptr->pkt = mbuf_mtod(mpools, mbptr->mbuf_idx);
     mbptr->mpools = mpools;
+
+    reset_metadata(refer_metadata(mpools, mbptr->mbuf_idx));
 }
 
 #endif /* _MBUF_H_ */

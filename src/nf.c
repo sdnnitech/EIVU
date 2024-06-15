@@ -50,7 +50,7 @@ static void
 init_descs_tx(struct vioqueue* vq)
 {
     struct desc *d;
-    struct mbuf_idx midx = init_midx_tx();
+    struct mbuf_idx midx = init_midx();
     uint16_t i = 0;
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
@@ -94,7 +94,7 @@ main(int argc, char *argv[])
     memset(shm.head, 0,
         BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * opt.vq_size + 2 * sizeof(bool));
 
-    init_mpools(&mpools, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num);
+    init_mpools(&mpools, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm));
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools);
@@ -105,6 +105,10 @@ main(int argc, char *argv[])
     assert(opt.batch_size <= opt.vq_size);
     assert((opt.vq_size & (opt.vq_size - 1)) == 0); // confirm if opt.vq_size is a power of two
     bind_core(1);
+
+    for (int i = 0; i < MAX_BATCH_SIZE; i++) {
+        mbptrs[i].mbuf_idx = init_midx();
+    }
 
     /* I/O */
     uint32_t prev_pkt_id = 0;
@@ -138,7 +142,7 @@ main(int argc, char *argv[])
     while (!*is_end){}
 
     /* Fin. */
-    fin_mpools(&mpools);
+    fin_mpools(&mpools, true);
     if (opt.is_hugepage) {
         ;
     } else {

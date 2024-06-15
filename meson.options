@@ -7,3 +7,5 @@ option('fastest_mode', type : 'boolean' , value : false, description :
 # patterns of Mbuf
 option('separated_md', type : 'boolean', value : false, description :
        'separate metadata area from Mbuf')
+option('reuse', type : 'boolean', value : false, description :
+       'reuse metadata area reserved for the number of batch')
