@@ -2,6 +2,7 @@
 #define _VIO_H_
 
 #include <mbuf.h>
+#include <aggregated_md.h>
 
 #include "vio_hdr.h"
 #include "perf.h"
@@ -29,8 +30,6 @@ vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t 
 
         len[i] = used_desc->len;
         idxs[i] = get_desc_mbuf_idx(used_desc);
-
-        dpdk_prefetch0(refer_metadata(vq->mpools, idxs[i]));
 
         vq->last_used_idx++;
         vq->last_used_idx &= (vq->nentries - 1);
@@ -67,11 +66,21 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     if (likely(num > DESC_PER_CACHELINE)) {
         num -= num % DESC_PER_CACHELINE;
     }
-    num = vioqueue_dequeue_burst_rx(vq, idxs, len, num); // finish accessing entiries of descs
+    num = vioqueue_dequeue_burst_rx(vq, idxs, len, num);
+
+    for (i = 0; i < num; i++) {
+        reset_mbptr(&mb_ptrs[i], idxs[i], vq->mpools);
+    }
+
+    // num = recognize_mds_guest(vq, mb_ptrs, num);
+    alloc_aggregated_md_local(vq->mpools, mb_ptrs, num);
+
+    for (i = 0; i < num; i++) {
+        dpdk_prefetch0(mb_ptrs[i].md);
+    }
 
     for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
-        reset_mbptr(rxmb, idxs[i], vq->mpools);  // different between patterns
         vio_reset_md_rx(rxmb->md, vq, len[i]);
 
         if (vq->is_offload)
@@ -160,6 +169,8 @@ vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (uint16_t i = 0; i < nb_tx; i++)
         vq->descs[lai_shadow++ & (vq->nentries - 1)].flags = AVAIL_FLAG;
+
+    free_aggregated_md_local(vq->mpools, mb_ptrs, nb_tx, 0);
 
     return nb_tx;
 }

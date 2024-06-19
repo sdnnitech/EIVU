@@ -62,14 +62,20 @@ main(int argc, char *argv[])
 
             mbp = &mbptrs[nb_rx];
             reset_mbptr(mbp, mbuf_alloc(&mpools_host), &mpools_host);
-            mbp->md->pkt_len = PKT_SIZE;
-            mbp->md->port = port_rx;
 
 #ifdef DEBUG
             pkt = (struct packet *)mbp->pkt;
             init_pkt(pkt, pkt_id);
 #endif
         }
+
+        alloc_aggregated_md_local(&mpools_host, mbptrs, nb_rx);
+        for (uint16_t i = 0; i < nb_rx; i++) {
+            mbp = &mbptrs[i];
+            mbp->md->pkt_len = PKT_SIZE;
+            mbp->md->port = port_rx;
+        }
+
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);
 
         if (nb_tx < nb_rx) {
@@ -79,6 +85,7 @@ main(int argc, char *argv[])
         for (uint32_t k = 0; k < nb_rx; k++) {
             mbuf_free(&mpools_host, mbptrs[k].mbuf_idx);
         }
+        free_aggregated_md_local(&mpools_host, mbptrs, nb_rx, 0);
     }
 
     /* Fin */

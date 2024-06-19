@@ -9,3 +9,5 @@ option('separated_md', type : 'boolean', value : false, description :
        'separate metadata area from Mbuf')
 option('reuse', type : 'boolean', value : false, description :
        'reuse metadata area reserved for the number of batch')
+option('aggregated_md', type : 'boolean', value : false, description :
+       'aggregate metadata for each packet')

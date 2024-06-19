@@ -75,6 +75,7 @@ main(int argc, char *argv[])
         for (uint16_t i = 0; i < nb_rx; i++) {
             mbuf_free(&mpools_host, mbptrs[i].mbuf_idx);
         }
+        free_aggregated_md_local(&mpools_host, mbptrs, nb_rx, 0);
 
        if (pkt_counter >= opt.pkt_num) {
             is_poll = false;

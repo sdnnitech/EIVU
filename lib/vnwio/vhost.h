@@ -8,6 +8,8 @@
 #include "vioqueue.h"
 #include "vio_hdr.h"
 
+#include <aggregated_md.h>
+
 struct vhost_queue {
     struct mpools *host_mpools;
     struct vioqueue *vq;
@@ -127,6 +129,9 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     for (i = 0; i < count; i++)
         memcpy(mbuf_mtod(mps[i].mpools, mps[i].mbuf_idx), desc_addrs[i], lens[i]);
 
+    // count = recognize_mds_host_tx(vq, mps, count);
+    // free_aggregated_md_shm(vq->mpools, buf_idxs, count);
+
     if (vq->is_offload) {
         for (i = 0; i < count; i++) {
             hdr = (struct vio_hdr *)desc_addrs[i] - 1;
@@ -155,6 +160,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     for (uint32_t i = 0; i < count; i++) {
         reset_mbptr(&mps[i], mbuf_alloc(vhq->host_mpools), vhq->host_mpools);
     }
+    alloc_aggregated_md_local(vhq->host_mpools, mps, count);
 
     do {
         if (desc_is_avail(&vhq->vq->descs[(vhq->vq->last_avail_idx + batchsz - 1) & (vhq->vq->nentries - 1)])) {
@@ -169,6 +175,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     for (uint32_t i = pkt_idx; i < count; i++) {
         mbuf_free(vhq->host_mpools, mps[i].mbuf_idx);
     }
+    free_aggregated_md_local(vhq->host_mpools, mps, count, pkt_idx);
 
     return pkt_idx;
 }
