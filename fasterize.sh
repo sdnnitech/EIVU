@@ -15,13 +15,13 @@ sed -i -e 's/^#define VQ_SIZE_DEFAULT 256$/#define VQ_SIZE_DEFAULT 2048/' $OPTIO
 sed -i -e 's/^#define MOBJ_CACHE_NUM_DEFAULT 512$/#define MOBJ_CACHE_NUM_DEFAULT 2048/' $OPTION_FILE
 
 # MBUF_HEADROOM_SIZE = 0
-sed -i -e 's/^#define MBUF_HEADROOM_SIZE 128$/#define MBUF_HEADROOM_SIZE 0/' $MBUF_FILE
+sed -i -e 's/^#define MBUF_HEADROOM_SIZE.*$/#define MBUF_HEADROOM_SIZE 0/' $MBUF_FILE
 
-# DATAROOM_SIZE = 64
-sed -i -e 's/^#define DATAROOM_SIZE (MBUF_HEADROOM_SIZE + 2048)$/#define DATAROOM_SIZE (MBUF_HEADROOM_SIZE + 64)/' $MBUF_FILE
+# MBUF_DATAROOM_SIZE = 64
+sed -i -e 's/^#define MBUF_DATAROOM_SIZE.*$/#define MBUF_DATAROOM_SIZE 64/' $MBUF_FILE
 
 # METADATA_SIZE = 0
-sed -i -e 's/^#define METADATA_SIZE 128$/#define METADATA_SIZE 0/' $MBUF_FILE
+sed -i -e 's/^#define METADATA_SIZE.*$/#define METADATA_SIZE 0/' $MBUF_FILE
 
 #sed -i -e 's/.*reset_metadata(md);$//g' $MBUF_FILE
 sed -i -e 's/^.*memset(md, 0, CACHE_LINE_SIZE + 8 + 8);$//g' $MBUF_FILE
