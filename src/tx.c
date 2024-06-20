@@ -20,7 +20,7 @@ main(int argc, char *argv[])
     struct vioqueue vq_tx;
     uint16_t port_tx = 4;
     struct mpools mpools_host, mpools_guest;
-    const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
+    const size_t MEMOBJ_SIZE = METADATA_SIZE + MBUF_PKTBUF_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
 
     opt = parse_opt(argc, argv);
