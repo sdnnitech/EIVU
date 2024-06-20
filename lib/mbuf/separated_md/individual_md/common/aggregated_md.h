@@ -48,7 +48,7 @@ recognize_mds_host_tx(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t num)
 */
 
 static inline void
-alloc_aggregated_md(struct mpools *local_mpools, struct mbuf_ptr mps[], uint32_t num) 
+alloc_aggregated_md_local(struct mpools *local_mpools, struct mbuf_ptr mps[], uint32_t num) 
 {
     return;
 }
