@@ -24,7 +24,7 @@ sed -i -e 's/^#define MBUF_DATAROOM_SIZE.*$/#define MBUF_DATAROOM_SIZE 64/' $MBU
 sed -i -e 's/^#define METADATA_SIZE.*$/#define METADATA_SIZE 0/' $MBUF_FILE
 
 #sed -i -e 's/.*reset_metadata(md);$//g' $MBUF_FILE
-sed -i -e 's/^.*memset(md, 0, CACHE_LINE_SIZE + 8 + 8);$//g' $MBUF_FILE
+sed -i -e 's/^.*memset(md, 0, .*);$//g' $MBUF_FILE
 sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
 
 sed -i -e 's/.*md->.*//g' ./src/rx.c
