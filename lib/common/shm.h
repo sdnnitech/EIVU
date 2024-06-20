@@ -70,7 +70,7 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
 {
     uint32_t i = 0;
     struct stat sb;
-    const size_t MEMOBJ_SIZE = METADATA_SIZE + MBUF_PKTBUF_SIZE;
+    const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
 
     assert(fstat(shm_fd, &sb) == 0);
     assert(sb.st_size == (off_t)SHM_SIZE);

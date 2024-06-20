@@ -18,7 +18,7 @@ main(int argc, char *argv[])
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
     struct mpools mpools_host, mpools_guest;
-    const size_t MEMOBJ_SIZE = METADATA_SIZE + MBUF_PKTBUF_SIZE;
+    const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
 
     opt = parse_opt(argc, argv);
 

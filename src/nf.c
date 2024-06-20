@@ -69,7 +69,7 @@ main(int argc, char *argv[])
     struct mpools mpools;
     struct vioqueue vq_rx, vq_tx;
     uint16_t port_rx = 3, port_tx = 4;
-    const size_t MEMOBJ_SIZE = METADATA_SIZE + MBUF_PKTBUF_SIZE;
+    const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
 
     opt = parse_opt(argc, argv);

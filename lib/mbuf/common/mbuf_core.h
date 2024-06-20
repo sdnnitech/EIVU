@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include <memobj.h>
+#include <perf.h>
 #include <pktbuf_get_put.h>
 
 #define BUF_NUM 163456
@@ -15,6 +16,12 @@
 
 #ifndef METADATA_SIZE
 #define METADATA_SIZE METADATA_TOTAL_SIZE
+#endif
+
+#if METADATA_SIZE < CACHE_LINE_SIZE
+#define MDBUF_SIZE CACHE_LINE_SIZE
+#else
+#define MDBUF_SIZE METADATA_SIZE
 #endif
 
 #ifndef MBUF_HEADROOM_SIZE
