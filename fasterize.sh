@@ -20,19 +20,33 @@ sed -i -e 's/^#define MBUF_HEADROOM_SIZE.*$/#define MBUF_HEADROOM_SIZE 0/' $MBUF
 # MBUF_DATAROOM_SIZE = 64
 sed -i -e 's/^#define MBUF_DATAROOM_SIZE.*$/#define MBUF_DATAROOM_SIZE 64/' $MBUF_FILE
 
-# METADATA_SIZE = 0
-sed -i -e 's/^#define METADATA_SIZE.*$/#define METADATA_SIZE 0/' $MBUF_FILE
+# METADATA_SIZE
+MD_SZ=0
+if [ "$#" -eq 1 ]; then
+    MD_SZ=$1
+fi
 
-#sed -i -e 's/.*reset_metadata(md);$//g' $MBUF_FILE
-sed -i -e 's/^.*memset(md, 0, .*);$//g' $MBUF_FILE
-sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
-
-sed -i -e 's/.*md->.*//g' ./src/rx.c
-sed -i -e 's/.*md->.*//g' $VHOST_FILE
 sed -i -E 's/^(.*)vioqueue_enqueue_burst_tx\(vq, (.*), mbp->md->pkt_len\);$/\1vioqueue_enqueue_burst_tx\(vq, \2, 64\);/g' $VIO_FILE
-sed -i -e 's/.*md->.*//g' $VIO_FILE
 sed -i -e 's/.*dpdk_prefetch.*//g' $VIO_FILE
 sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
+
+if [ $MD_SZ -eq 0 ]; then # METADATA_SIZE = 0
+    sed -i -e 's/^#define METADATA_SIZE.*$/#define METADATA_SIZE 0/' $MBUF_FILE
+
+    #sed -i -e 's/.*reset_metadata(md);$//g' $MBUF_FILE
+    sed -i -e 's/^.*memset(md, 0, .*);$//g' $MBUF_FILE
+    sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
+
+    sed -i -e 's/.*md->.*//g' ./src/rx.c
+    sed -i -e 's/.*md->.*//g' $VHOST_FILE
+    
+    sed -i -e 's/.*md->.*//g' $VIO_FILE
+
+elif [ $MD_SZ -ge 4 ] && [ $MD_SZ -lt 8 ]; then
+    sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
+    sed -i -e 's/.*md->port.*//g' $VIO_FILE
+    sed -i -e 's/.*md->port.*//g' ./src/rx.c
+fi
 
 # Skip packet copy
 sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
