@@ -7,7 +7,6 @@
 #include <mbuf_core.h>
 #include <desc.h>
 
-#include "md_get_put.h"
 #include "mpools.h"
 
 struct mbuf_idx {
