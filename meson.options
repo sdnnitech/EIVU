@@ -13,3 +13,5 @@ option('aggregated_md', type : 'boolean', value : false, description :
        'aggregate metadata for each packet')
 option('md_queue', type : 'boolean', value : false, description :
        'Vioqueue plays a role as metadata area')
+option('memcpy_md', type : 'boolean', value : false, description :
+       'Host memcpy metadata')

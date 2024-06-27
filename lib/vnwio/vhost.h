@@ -9,6 +9,7 @@
 #include "vio_hdr.h"
 
 #include <aggregated_md.h>
+#include <memcpy_md.h>
 
 struct vhost_queue {
     struct mpools *host_mpools;
@@ -62,6 +63,8 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     vq->last_avail_idx += count;
     vq->last_avail_idx &= (vq->nentries - 1);
 
+    vhost_memcpy_md_rx(vq->mpools, buf_idxs, mps, count);
+
     for (i = 0; i < count; i++)
         memcpy(desc_addrs[i], mps[i].pkt, lens[i]);
 
@@ -105,7 +108,6 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 {
     uint8_t *desc_addrs[count];
     struct vio_hdr *hdr;
-    uint64_t lens[count];
     struct desc_mbuf_idx buf_idxs[count];
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     // struct desc *used_descs = &vq->descs[vq->last_used_idx];
@@ -117,8 +119,9 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     for (i = 0; i < count; i++)
         buf_idxs[i] = get_desc_mbuf_idx(&avail_descs[i]);
 
-    for (i = 0; i < count; i++)
-        lens[i] = avail_descs[i].len;
+    for (i = 0; i < count; i++) {
+        mps[i].md->pkt_len = avail_descs[i].len;
+    }
 
     for (i = 0; i < count; i++)
         desc_addrs[i] = mbuf_mtod(vq->mpools, buf_idxs[i]);
@@ -126,8 +129,11 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     for (i = 0; i < count; i++)
         dpdk_prefetch0(desc_addrs[i]);
 
-    for (i = 0; i < count; i++)
-        memcpy(mbuf_mtod(mps[i].mpools, mps[i].mbuf_idx.dmidx), desc_addrs[i], lens[i]);
+    for (i = 0; i < count; i++) {
+        memcpy(mbuf_mtod(mps[i].mpools, mps[i].mbuf_idx.dmidx), desc_addrs[i], mps[i].md->pkt_len);
+    }
+    
+    vhost_memcpy_md_tx(vq->mpools, buf_idxs, mps, count);
 
     // count = recognize_mds_host_tx(vq, mps, count);
     // free_aggregated_md_shm(vq->mpools, buf_idxs, count);
