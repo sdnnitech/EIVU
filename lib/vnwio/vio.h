@@ -16,7 +16,7 @@ desc_is_used(struct desc *desc)
 }
 
 static inline uint16_t
-vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct mbuf_idx idxs[], uint32_t *len, uint16_t num)
+vioqueue_dequeue_burst_rx(struct vioqueue *vq, struct desc_mbuf_idx idxs[], uint32_t *len, uint16_t num)
 {
     struct desc *used_desc;
     uint16_t i = 0;
@@ -45,7 +45,7 @@ uint16_t
 vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
 {
     uint32_t len[nb_pkts];
-    struct mbuf_idx idxs[nb_pkts];
+    struct desc_mbuf_idx idxs[nb_pkts];
     uint16_t num = nb_pkts;
     uint16_t i = 0;
 
@@ -101,7 +101,7 @@ vioqueue_enqueue_burst_tx(struct vioqueue *vq, struct mbuf_ptr *mbp)
     }
 
     d = &vq->descs[vq->last_avail_idx];
-    set_desc_mbuf_idx(d, mbp->mbuf_idx);
+    set_desc_mbuf_idx(d, mbp->mbuf_idx.dmidx);
     vioqueue_set_len_tx(d, mbp);
 
     vq->last_avail_idx++;
@@ -136,6 +136,8 @@ vio_xmit_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
         vq->descs[lai_shadow++ & (vq->nentries - 1)].flags = AVAIL_FLAG;
 
     free_aggregated_md_local(vq->mpools, mb_ptrs, nb_tx, 0);
+
+    free_md_bulk(mb_ptrs, nb_tx);
 
     return nb_tx;
 }

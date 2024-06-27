@@ -12,7 +12,7 @@ struct mpools {
 };
 
 void
-init_mpools(struct mpools *mpools, size_t memobj_size, const uint32_t memobj_num, const uint32_t cache_num, bool is_shm, void *memobjs_shm)
+init_mpools(struct mpools *mpools, size_t memobj_size, const uint32_t memobj_num, const uint32_t cache_num, bool is_shm, void *memobjs_shm, void *que_rx)
 {
     void *memobjs_md, *memobjs_pktbuf;
     bool md_cache_is_stack, pktbuf_cache_is_stack;

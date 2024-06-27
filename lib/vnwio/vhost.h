@@ -27,7 +27,7 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     uint8_t *desc_addrs[count];
     struct vio_hdr *hdrs[count];
     uint64_t lens[count];
-    struct mbuf_idx buf_idxs[count];
+    struct desc_mbuf_idx buf_idxs[count];
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     struct desc *used_descs = &vq->descs[vq->last_used_idx];
     uint16_t i = 0;
@@ -106,7 +106,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     uint8_t *desc_addrs[count];
     struct vio_hdr *hdr;
     uint64_t lens[count];
-    struct mbuf_idx buf_idxs[count];
+    struct desc_mbuf_idx buf_idxs[count];
     struct desc *avail_descs = &vq->descs[vq->last_avail_idx];
     // struct desc *used_descs = &vq->descs[vq->last_used_idx];
     uint16_t i = 0;
@@ -127,7 +127,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
         dpdk_prefetch0(desc_addrs[i]);
 
     for (i = 0; i < count; i++)
-        memcpy(mbuf_mtod(mps[i].mpools, mps[i].mbuf_idx), desc_addrs[i], lens[i]);
+        memcpy(mbuf_mtod(mps[i].mpools, mps[i].mbuf_idx.dmidx), desc_addrs[i], lens[i]);
 
     // count = recognize_mds_host_tx(vq, mps, count);
     // free_aggregated_md_shm(vq->mpools, buf_idxs, count);
@@ -173,7 +173,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
     } while (batchsz > 0);
 
     for (uint32_t i = pkt_idx; i < count; i++) {
-        mbuf_free(vhq->host_mpools, mps[i].mbuf_idx);
+        mbuf_free(vhq->host_mpools, mps[i].mbuf_idx.dmidx);
     }
     free_aggregated_md_local(vhq->host_mpools, mps, count, pkt_idx);
 

@@ -1,6 +1,6 @@
 
-add_global_arguments('-DMD_MEMOBJ_CACHE_STACK', language : 'c')
+args_guest += '-DMD_MEMOBJ_CACHE_STACK'
 
-incdir += include_directories('common')
+incdir_guest += include_directories('common')
 
-incdir += include_directories('each_mpool')
+incdir_guest += include_directories('each_mpool')

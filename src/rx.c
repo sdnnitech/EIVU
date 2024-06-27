@@ -51,7 +51,7 @@ main(int argc, char *argv[])
     uint32_t pkt_counter = 0;
 
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
-        mbptrs[i].mbuf_idx = init_midx();
+        mbptrs[i].mbuf_idx.dmidx = init_midx();
     }
 
     while (!*is_start) {}
@@ -83,7 +83,7 @@ main(int argc, char *argv[])
         }
 
         for (uint32_t k = 0; k < nb_rx; k++) {
-            mbuf_free(&mpools_host, mbptrs[k].mbuf_idx);
+            mbuf_free(&mpools_host, mbptrs[k].mbuf_idx.dmidx);
         }
         free_aggregated_md_local(&mpools_host, mbptrs, nb_rx, 0);
     }

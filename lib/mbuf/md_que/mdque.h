@@ -39,18 +39,17 @@ mdque_init_descs_rx(struct vioqueue *vq_rx)
 static inline void
 vioqueue_set_len_tx(struct desc *d, struct mbuf_ptr *mbp)
 {
-    d->len = mbp->mbuf_idx.md_idx;
+    d->len = mbp->mbuf_idx.dmidx.md_idx;
 }
 
 static inline void
-reset_mbptr(struct mbuf_ptr *mbptr, struct mbuf_idx idx, struct mpools *mpools)
+reset_mbptr(struct mbuf_ptr *mbptr, struct desc_mbuf_idx idx, struct mpools *mpools)
 {
-    mbptr->mbuf_idx = idx;
+    mbptr->mbuf_idx.dmidx = idx;
     mbptr->desc_rx = &((struct vioqueue *)mpools->que_rx)->descs[idx.md_idx];
-    mbptr->mbuf_idx.md_idx = mbptr->desc_rx->len;
-    mbptr->pkt = mbuf_mtod(mpools, mbptr->mbuf_idx);
+    mbptr->mbuf_idx.dmidx.md_idx = mbptr->desc_rx->len;
+    mbptr->pkt = mbuf_mtod(mpools, mbptr->mbuf_idx.dmidx);
     mbptr->mpools = mpools;
 }
-
 
 #endif

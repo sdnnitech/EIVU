@@ -45,7 +45,7 @@ main(int argc, char *argv[])
     bind_core(2);
 
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
-        mbptrs[i].mbuf_idx = init_midx();
+        mbptrs[i].mbuf_idx.dmidx = init_midx();
     }
 
     initialized_shm_assert(shm_fd, &shm, opt.vq_size);
@@ -73,7 +73,7 @@ main(int argc, char *argv[])
 #endif
 
         for (uint16_t i = 0; i < nb_rx; i++) {
-            mbuf_free(&mpools_host, mbptrs[i].mbuf_idx);
+            mbuf_free(&mpools_host, mbptrs[i].mbuf_idx.dmidx);
         }
         free_aggregated_md_local(&mpools_host, mbptrs, nb_rx, 0);
 
