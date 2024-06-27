@@ -17,12 +17,15 @@ if get_option('developer_mode')
     add_global_arguments('-DDEBUG', language : 'c')
 endif
 
-incdir = []
+incdir_host = []
+incdir_guest = []
+args_host = []
+args_guest = []
 
 subdir('lib')
 
 subdir('test')
 
-executable('nf', 'src/nf.c', include_directories : incdir)
-executable('rx', 'src/rx.c', include_directories : incdir)
-executable('tx', 'src/tx.c', include_directories : incdir)
+executable('nf', 'src/nf.c', include_directories : incdir_guest, c_args : args_guest)
+executable('rx', 'src/rx.c', include_directories : incdir_host, c_args : args_host)
+executable('tx', 'src/tx.c', include_directories : incdir_host, c_args : args_host)

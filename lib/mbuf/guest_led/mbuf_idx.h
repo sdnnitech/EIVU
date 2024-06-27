@@ -6,27 +6,12 @@
 
 #include <mbuf_core.h>
 
-#include "mpools.h"
-
 struct mbuf_idx {
 #if BUF_NUM < 32768
-    int16_t md_idx;
-    int16_t buf_idx;
+    int16_t pktbuf_idx;
 #else
-    int32_t md_idx;
     int32_t pktbuf_idx;
 #endif
-};
-
-struct mbuf_ptr {
-    struct mbuf_idx mbuf_idx;
-    struct mpools *mpools;
-#ifdef MDQUE
-    struct desc *md;
-#else
-    struct metadata *md;
-#endif
-    uint8_t *pkt;
 };
 
 struct mbuf_idx
@@ -34,7 +19,6 @@ init_midx(void)
 {
     struct mbuf_idx midx;
     midx.pktbuf_idx = -1;
-    midx.md_idx = -1;
     return midx;
 }
 

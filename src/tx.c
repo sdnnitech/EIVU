@@ -37,8 +37,8 @@ main(int argc, char *argv[])
     }
     init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
 
-    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL);
-    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm));
+    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL, NULL);
+    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm), &vq_tx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools_guest);
     vhq_tx.vq = &vq_tx;
     vhq_tx.host_mpools = &mpools_host;

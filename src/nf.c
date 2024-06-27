@@ -44,6 +44,8 @@ init_descs_rx(struct vioqueue* vq)
         set_desc_mbuf_idx(d, mbuf_alloc(vq->mpools));
     }
     vq->vq_free_cnt = 0;
+
+    mdque_init_descs_rx(vq);
 }
 
 static void
@@ -94,7 +96,7 @@ main(int argc, char *argv[])
     memset(shm.head, 0,
         BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * opt.vq_size + 2 * sizeof(bool));
 
-    init_mpools(&mpools, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm));
+    init_mpools(&mpools, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm), &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools);
@@ -129,6 +131,8 @@ main(int argc, char *argv[])
             check_pkt(pkt, &prev_pkt_id);
         }
 #endif
+
+        mdque_free_md(&vq_rx, nb_rx);
 
         uint16_t nb_tx = vio_xmit_pkts(&vq_tx, mbptrs, nb_rx);
         while (nb_tx < nb_rx) {

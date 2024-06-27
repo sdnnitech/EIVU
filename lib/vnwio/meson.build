@@ -24,4 +24,5 @@ if get_option('fastest_mode')
     add_global_arguments('-DDESC_SIZE=8', language : 'c')
 endif
 
-incdir += include_directories('.')
+incdir_guest += include_directories('.')
+incdir_host += include_directories('.')

@@ -33,8 +33,8 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
-    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL);
-    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm));
+    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL, NULL);
+    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm), &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools_guest);
     bind_core(0);
 
