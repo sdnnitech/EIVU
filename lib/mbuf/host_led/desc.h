@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include <mbuf_core.h>
+#include <mpools.h>
 
 struct desc_mbuf_idx {
 #if BUF_NUM < 32768
@@ -44,5 +45,20 @@ struct desc {
     struct md_rest md;
 #endif
 };
+
+struct mbuf_idx {
+    struct desc_mbuf_idx dmidx;
+};
+
+/* Both host and guest use this func to refer to buffs in shm. */
+static inline struct metadata*
+refer_metadata(struct mpools *mpools, struct desc_mbuf_idx idx)
+{
+#ifdef GUEST_INTEGRATED_MD
+    return (struct metadata *)&((uint8_t *)mpools->pktbuf_pool.pool)[idx.pktbuf_idx * mpools->pktbuf_pool.memobj_size];
+#else
+    return (struct metadata *)&((uint8_t *)mpools->md_pool.pool)[idx.md_idx * mpools->md_pool.memobj_size];
+#endif
+}
 
 #endif

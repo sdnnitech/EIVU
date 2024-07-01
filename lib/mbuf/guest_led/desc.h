@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include <mbuf_core.h>
+#include <mpools.h>
 
 struct desc_mbuf_idx {
 #if BUF_NUM < 32768
@@ -37,5 +38,22 @@ struct desc {
     int16_t flags;
 #endif
 };
+
+struct mbuf_idx {
+#if BUF_NUM < 32768
+    int16_t md_idx;
+#else
+    int32_t md_idx;
+#endif
+    struct desc_mbuf_idx dmidx;
+};
+
+#ifndef GUEST_INTEGRATED_MD
+static inline struct metadata*
+refer_metadata(struct mpools *mpools, struct mbuf_idx idx)
+{
+    return (struct metadata *)&((uint8_t *)mpools->md_pool.pool)[idx.md_idx * mpools->md_pool.memobj_size];
+}
+#endif
 
 #endif

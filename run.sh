@@ -8,7 +8,7 @@ fi
 pn=100000000
 
 $1/nf --pktnum=$pn &
-sleep 1
+sleep 3
 $1/rx --pktnum=$pn &
-sleep 1
+sleep 3
 $1/tx --pktnum=$pn

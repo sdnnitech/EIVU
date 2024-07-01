@@ -130,7 +130,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
         dpdk_prefetch0(desc_addrs[i]);
 
     for (i = 0; i < count; i++) {
-        memcpy(mbuf_mtod(mps[i].mpools, mps[i].mbuf_idx.dmidx), desc_addrs[i], mps[i].md->pkt_len);
+        memcpy(mps[i].pkt, desc_addrs[i], mps[i].md->pkt_len);
     }
     
     vhost_memcpy_md_tx(vq->mpools, buf_idxs, mps, count);

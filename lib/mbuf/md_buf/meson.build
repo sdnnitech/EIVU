@@ -11,5 +11,6 @@ if not get_option('md_queue')
     else
         args_guest += '-DMD_MEMOBJ_CACHE_STACK'
         incdir_guest += include_directories('integrated_md')
+        args_host += '-DGUEST_INTEGRATED_MD'
     endif
 endif

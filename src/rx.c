@@ -33,8 +33,10 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
-    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL, NULL);
-    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm), &vq_rx);
+    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num,
+        shm.head + shm.end_offset + CACHE_LINE_SIZE, NULL);
+    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num,
+        shm.head, &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools_guest);
     bind_core(0);
 
@@ -89,7 +91,7 @@ main(int argc, char *argv[])
     }
 
     /* Fin */
-    fin_mpools(&mpools_host, false);
+    fin_mpools(&mpools_host, true);
     fin_mpools(&mpools_guest, true);
     if (close(shm_fd) == -1) {
         perror("close");

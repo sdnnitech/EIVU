@@ -9,22 +9,17 @@
 #include <md_get_put.h>
 #include <mpools.h>
 
-static inline struct metadata*
-refer_metadata(struct mpools *mpools, struct mbuf_idx idx)
-{
-#ifdef GUEST_LED
-    return (struct metadata *)&((uint8_t *)mpools->md_pool.pool)[idx.md_idx * mpools->md_pool.memobj_size];
-#elif defined HOST_LED
-    return (struct metadata *)&((uint8_t *)mpools->md_pool.pool)[idx.dmidx.md_idx * mpools->md_pool.memobj_size];
-#endif
-}
-
 static inline struct desc_mbuf_idx
 mbuf_alloc(struct mpools *mpools)
 {
     struct desc_mbuf_idx idx;
 
     idx.pktbuf_idx = alloc_pktbuf(&mpools->pktbuf_pool);
+
+#ifdef HOST_LED
+    idx.md_idx = alloc_md(&mpools->md_pool);
+    reset_metadata(refer_metadata(mpools, idx));
+#endif
 
     return idx;
 }
@@ -67,14 +62,13 @@ reset_mbptr(struct mbuf_ptr *mbptr, struct desc_mbuf_idx idx, struct mpools *mpo
 #if defined GUEST_LED
     mbptr->mbuf_idx.md_idx = alloc_md(&mpools->md_pool);
     mbptr->md = refer_metadata(mpools, mbptr->mbuf_idx);
+    reset_metadata(mbptr->md);
 #elif defined HOST_LED
-    mbptr->md = refer_metadata(mpools, idx.md_idx);
+    mbptr->md = refer_metadata(mpools, idx);
 #endif
 
     mbptr->pkt = mbuf_mtod(mpools, idx);
     mbptr->mpools = mpools;
-
-    reset_metadata(mbptr->md);
 }
 
 #endif /* _MBUF_H_ */

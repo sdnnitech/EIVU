@@ -5,7 +5,7 @@ incdir_host += include_directories('common')
 incdir_guest += include_directories('common')
 
 if get_option('memcpy_md')
-    if get_option('separated_md')
+    if get_option('aggregated_md')
         error('Not support the combination of options')
     endif
 

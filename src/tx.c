@@ -37,8 +37,10 @@ main(int argc, char *argv[])
     }
     init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
 
-    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, false, NULL, NULL);
-    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, true, memobjs(&shm), &vq_tx);
+    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num,
+        shm.head + shm.end_offset + CACHE_LINE_SIZE + 2 * BUF_NUM * MEMOBJ_SIZE, NULL);
+    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num,
+        shm.head, &vq_tx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools_guest);
     vhq_tx.vq = &vq_tx;
     vhq_tx.host_mpools = &mpools_host;
@@ -94,7 +96,7 @@ main(int argc, char *argv[])
     printf("Time taken by program is : %f seconds (%.3f Mpps)\n", time_taken, (double)opt.pkt_num / time_taken / 1000000);
 
     /* Fin */
-    fin_mpools(&mpools_host, false);
+    fin_mpools(&mpools_host, true);
     fin_mpools(&mpools_guest, true);
     if (close(shm_fd) == -1) {
         perror("close");

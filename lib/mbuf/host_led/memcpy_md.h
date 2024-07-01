@@ -9,7 +9,7 @@ vhost_memcpy_md_rx(struct mpools *mpools_guest, struct desc_mbuf_idx dmidxs[], s
 {
 #ifndef MDQUE
     for (uint32_t i = 0; i < count; i++) {
-        memcpy(refer_metadata(mpools_guest, dmidxs[i]), mb_ptrs[i].md, mb_ptrs[i].md->pkt_len);
+        memcpy(refer_metadata(mpools_guest, dmidxs[i]), mb_ptrs[i].md, METADATA_SIZE);
     }
 #endif
 }
@@ -19,7 +19,7 @@ vhost_memcpy_md_tx(struct mpools *mpools_guest, struct desc_mbuf_idx dmidxs[], s
 {
 #ifndef MDQUE
     for (uint32_t i = 0; i < count; i++) {
-        memcpy(mb_ptrs[i].md, refer_metadata(mpools_guest, dmidxs[i]), mb_ptrs[i].md->pkt_len);
+        memcpy(mb_ptrs[i].md, refer_metadata(mpools_guest, dmidxs[i]), METADATA_SIZE);
     }
 #endif
 }
