@@ -25,12 +25,16 @@ main(int argc, char *argv[])
 
     opt = parse_opt(argc, argv);
 
-    assert(opt.is_hugepage == false); // No impl for hugepage
-
     /* Init */
     shm_fd = shm_open(SHM_NAME, O_RDWR, FILE_MODE);
 
-    shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    if (opt.is_hugepage) {
+        shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
+            MAP_SHARED | MAP_POPULATE | MAP_HUGETLB, shm_fd, 0);
+    } else {
+        shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
+            MAP_SHARED, shm_fd, 0);
+    }
     if (shm.head == MAP_FAILED) {
         perror("mmap");
         exit(EXIT_FAILURE);

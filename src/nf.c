@@ -17,17 +17,25 @@ create_shm(const char *shm_name, const uint64_t shm_size, const int file_mode, b
 {
     int shm_fd;
     
-    shm_fd = shm_open(shm_name, O_CREAT | O_RDWR, file_mode);
-    if (shm_fd == -1) {
-        perror("shm_open");
-        exit(EXIT_FAILURE);
-    }
-
-    if (!is_hugepage) {
-        if (ftruncate(shm_fd, shm_size) == -1) {
-            perror("ftruncate");
+    if (is_hugepage) {
+        char *huge_shm_name = "/dev/hugepages/";
+        huge_shm_name = strcat(huge_shm_name, shm_name);
+        shm_fd = open(huge_shm_name, O_RDWR | O_CREAT, file_mode);
+        if (shm_fd == -1) {
+            perror("open");
             exit(EXIT_FAILURE);
         }
+    } else {
+        shm_fd = shm_open(shm_name, O_CREAT | O_RDWR, file_mode);
+        if (shm_fd == -1) {
+            perror("shm_open");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (ftruncate(shm_fd, shm_size) == -1) {
+        perror("ftruncate");
+        exit(EXIT_FAILURE);
     }
 
     return shm_fd;
@@ -76,12 +84,11 @@ main(int argc, char *argv[])
 
     opt = parse_opt(argc, argv);
 
-    assert(opt.is_hugepage == false); // No impl for hugepage
-
     /* Init */
     shm_fd = create_shm(SHM_NAME, SHM_SIZE, FILE_MODE, opt.is_hugepage);
     if (opt.is_hugepage) {
-        ;
+        shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
+            MAP_SHARED | MAP_POPULATE | MAP_HUGETLB, shm_fd, 0);
     } else {
         shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     }
