@@ -9,10 +9,6 @@
 
 #include "mpools.h"
 
-struct mbuf_idx {
-    struct desc_mbuf_idx dmidx;
-};
-
 struct mbuf_ptr {
     struct mbuf_idx mbuf_idx; // mbuf_idx.md_idx: len
     struct desc *desc_rx;

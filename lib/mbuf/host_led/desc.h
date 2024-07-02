@@ -41,7 +41,7 @@ struct desc {
     int16_t id;
     int16_t flags;
 #endif
-#ifdef MDQUE
+#if 0
     struct md_rest md;
 #endif
 };
