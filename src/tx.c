@@ -26,12 +26,15 @@ main(int argc, char *argv[])
     opt = parse_opt(argc, argv);
 
     /* Init */
-    shm_fd = shm_open(SHM_NAME, O_RDWR, FILE_MODE);
 
     if (opt.is_hugepage) {
+        char hugepage_path[CACHE_LINE_SIZE] = HUGEPAGE_PATH;
+        char *hugepage_shm_name = strcat(hugepage_path, SHM_NAME);
+        shm_fd = open(hugepage_shm_name, O_RDWR, FILE_MODE);
         shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
             MAP_SHARED | MAP_POPULATE | MAP_HUGETLB, shm_fd, 0);
     } else {
+        shm_fd = shm_open(SHM_NAME, O_RDWR, FILE_MODE);
         shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
             MAP_SHARED, shm_fd, 0);
     }

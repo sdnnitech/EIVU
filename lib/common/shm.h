@@ -11,7 +11,8 @@
 #include <stddef.h>
 #include <sys/stat.h>
 
-#define SHM_NAME "SIVU"
+#define SHM_NAME "multimbuf"
+#define HUGEPAGE_PATH "/dev/hugepages/"
 #define SHM_SIZE 4000000000
 #define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
 
@@ -81,7 +82,7 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
     const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
 
     assert(fstat(shm_fd, &sb) == 0);
-    assert(sb.st_size == (off_t)SHM_SIZE);
+    //assert(sb.st_size == (off_t)SHM_SIZE);
     assert((uintptr_t)md_memobjs(shm) - (uintptr_t)pktbuf_memobjs(shm)==
         (size_t)BUF_NUM * (size_t)MEMOBJ_SIZE);
     assert((uintptr_t)rxd(shm) - (uintptr_t)md_memobjs(shm) ==

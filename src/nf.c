@@ -18,9 +18,9 @@ create_shm(const char *shm_name, const uint64_t shm_size, const int file_mode, b
     int shm_fd;
     
     if (is_hugepage) {
-        char *huge_shm_name = "/dev/hugepages/";
-        huge_shm_name = strcat(huge_shm_name, shm_name);
-        shm_fd = open(huge_shm_name, O_RDWR | O_CREAT, file_mode);
+        char hugepage_path[CACHE_LINE_SIZE] = HUGEPAGE_PATH;
+        char *hugepage_shm_name = strcat(hugepage_path, shm_name);
+        shm_fd = open(hugepage_shm_name, O_RDWR | O_CREAT, file_mode);
         if (shm_fd == -1) {
             perror("open");
             exit(EXIT_FAILURE);
@@ -31,11 +31,10 @@ create_shm(const char *shm_name, const uint64_t shm_size, const int file_mode, b
             perror("shm_open");
             exit(EXIT_FAILURE);
         }
-    }
-
-    if (ftruncate(shm_fd, shm_size) == -1) {
-        perror("ftruncate");
-        exit(EXIT_FAILURE);
+        if (ftruncate(shm_fd, shm_size) == -1) {
+            perror("ftruncate");
+            exit(EXIT_FAILURE);
+        }
     }
 
     return shm_fd;
@@ -154,7 +153,11 @@ main(int argc, char *argv[])
     /* Fin. */
     fin_mpools(&mpools, true);
     if (opt.is_hugepage) {
-        ;
+        char hugepage_path[CACHE_LINE_SIZE] = HUGEPAGE_PATH;
+        char *hugepage_shm_name = strcat(hugepage_path, SHM_NAME);
+
+        close(shm_fd);
+        unlink(hugepage_shm_name);
     } else {
         shm_unlink(SHM_NAME);
     }
