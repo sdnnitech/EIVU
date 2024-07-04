@@ -4,6 +4,19 @@ OPTION_FILE=./lib/common/option.h
 MBUF_FILE=./lib/mbuf/common/mbuf_core.h
 VHOST_FILE=./lib/vnwio/vhost.h
 VIO_FILE=./lib/vnwio/vio.h
+VIO_RESET_MD_FILE=./lib/mbuf/guest_led/vio_reset_md.h
+AGGREGATED_INTEGRATED_MD_FILE=./lib/mbuf/md_buf/integrated_md/aggregated_md.h
+AGGREGATED_SEPARATED_MD_FILE=./lib/mbuf/md_buf/separated_md/individual_md/common/aggregated_md.h
+
+git restore \
+$OPTION_FILE \
+$MBUF_FILE \
+$VHOST_FILE \
+$VIO_FILE \
+$VIO_RESET_MD_FILE \
+$AGGREGATED_INTEGRATED_MD_FILE \
+$AGGREGATED_SEPARATED_MD_FILE \
+./src/rx.c
 
 # BATCH_SIZE = 1024
 sed -i -e 's/^#define BATCH_SIZE_DEFAULT 32$/#define BATCH_SIZE_DEFAULT 1024/' $OPTION_FILE
@@ -22,13 +35,14 @@ sed -i -e 's/^#define MBUF_DATAROOM_SIZE.*$/#define MBUF_DATAROOM_SIZE 64/' $MBU
 
 # METADATA_SIZE
 MD_SZ=0
-if [ "$#" -eq 1 ]; then
+if [ "$#" -ge 1 ]; then
     MD_SZ=$1
 fi
 
-sed -i -E 's/^(.*)vioqueue_enqueue_burst_tx\(vq, (.*), mbp->md->pkt_len\);$/\1vioqueue_enqueue_burst_tx\(vq, \2, 64\);/g' $VIO_FILE
-sed -i -e 's/.*dpdk_prefetch.*//g' $VIO_FILE
-sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
+if [ $MD_SZ -lt 64 ]; then
+    sed -i -e 's/.*dpdk_prefetch.*//g' $AGGREGATED_INTEGRATED_MD_FILE
+    sed -i -e 's/.*dpdk_prefetch.*//g' $AGGREGATED_SEPARATED_MD_FILE
+fi
 
 if [ $MD_SZ -eq 0 ]; then # METADATA_SIZE = 0
     sed -i -e 's/^#define METADATA_SIZE.*$/#define METADATA_SIZE 0/' $MBUF_FILE
@@ -41,14 +55,17 @@ if [ $MD_SZ -eq 0 ]; then # METADATA_SIZE = 0
     sed -i -e 's/.*md->.*//g' $VHOST_FILE
     
     sed -i -e 's/.*md->.*//g' $VIO_FILE
+    sed -i -e 's/.*vio_reset_md_rx.*//g' $VIO_FILE
+    sed -i -E 's/^(.*)vioqueue_set_len_tx.*$/\1d->len = 64;/g' $VIO_FILE
 
 elif [ $MD_SZ -ge 4 ] && [ $MD_SZ -lt 8 ]; then
     sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
-    sed -i -e 's/.*md->port.*//g' $VIO_FILE
+    sed -i -e 's/.*md->port.*//g' $VIO_RESET_MD_FILE
     sed -i -e 's/.*md->port.*//g' ./src/rx.c
 fi
 
 # Skip packet copy
+sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
 sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
 
 # desc size = 8
@@ -64,6 +81,6 @@ sed -i -e 's/^        vhost_dequeue_offload((struct vio_hdr *)desc_addr - 1);$/ 
 sed -i -e 's/^            hdr = (struct vio_hdr *)desc_addrs[i] - 1;$/            hdr = (struct vio_hdr *)desc_addrs[i];/' $VHOST_FILE
 sed -i -E 's/^(.*)vhost_dequeue_offload\((.*)\);.*$/\1memset\(\2, 0, 0\);/g' $VHOST_FILE
 
-sed -i -E 's/^(.*)vio_rx_offload\((.*) - 1\);$/\1memset\(\2, 0, 0\);/g' $VIO_FILE
+sed -i -E 's/^(.*)vio_rx_offload\((.*) - 1\);$/\1memset\(\2, 0, 0\);/g' $VIO_RESET_MD_FILE
 sed -i -E 's/^(.*)vio_tx_clear_net_hdr\((.*) - 1\);$/\1memset\(\2, 0, 0\);/g' $VIO_FILE
 
