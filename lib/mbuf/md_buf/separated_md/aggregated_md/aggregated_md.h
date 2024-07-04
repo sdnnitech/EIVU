@@ -7,7 +7,9 @@
 #include <md_get_put.h>
 #include <vioqueue.h>
 
+#ifndef AGGREGATED_MD_NUM
 #define AGGREGATED_MD_NUM 4
+#endif
 
 /*
 static inline void
