@@ -5,10 +5,11 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-pn=100000000
+pn=102400000
 
-$1/nf --pktnum=$pn &
+sudo $1/nf --pktnum=$pn -H &
 sleep 3
-$1/rx --pktnum=$pn &
+sudo $1/rx --pktnum=$pn -H &
 sleep 3
-$1/tx --pktnum=$pn
+sudo $1/tx --pktnum=$pn -H
+
