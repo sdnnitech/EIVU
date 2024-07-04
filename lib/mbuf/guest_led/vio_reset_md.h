@@ -12,10 +12,6 @@ vio_reset_md_rx(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint32_t len[], 
     uint16_t i;
 
     for (i = 0; i < num; i++) {
-        dpdk_prefetch0(mb_ptrs[i].md);
-    }
-
-    for (i = 0; i < num; i++) {
         rxmb = &mb_ptrs[i];
 
         rxmb->md->pkt_len = len[i];

@@ -50,7 +50,11 @@ recognize_mds_host_tx(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t num)
 static inline void
 alloc_aggregated_md_local(struct mpools *local_mpools, struct mbuf_ptr mps[], uint32_t num) 
 {
-    return;
+#ifdef GUEST_LED
+    for (uint16_t i = 0; i < num; i++) {
+        dpdk_prefetch0(mps[i].md);
+    }
+#endif
 }
 
 #endif
