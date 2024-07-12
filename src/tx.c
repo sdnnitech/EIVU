@@ -20,7 +20,6 @@ main(int argc, char *argv[])
     struct vioqueue vq_tx;
     uint16_t port_tx = 4;
     struct mpools mpools_host, mpools_guest;
-    const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
 
     opt = parse_opt(argc, argv);
@@ -42,11 +41,11 @@ main(int argc, char *argv[])
         perror("mmap");
         exit(EXIT_FAILURE);
     }
-    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
+    init_shm(&shm, shm.head, BUF_NUM * MDBUF_SIZE, BUF_NUM * MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
 
-    init_mpools(&mpools_host, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num,
-        shm.head + shm.end_offset + CACHE_LINE_SIZE + 2 * BUF_NUM * MEMOBJ_SIZE, NULL);
-    init_mpools(&mpools_guest, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num,
+    init_mpools(&mpools_host, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, opt.mobj_cache_num,
+        shm.head + shm.end_offset + CACHE_LINE_SIZE + BUF_NUM * (MDBUF_SIZE + MBUF_PKTBUF_SIZE), NULL);
+    init_mpools(&mpools_guest, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, opt.mobj_cache_num,
         shm.head, &vq_tx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools_guest);
     vhq_tx.vq = &vq_tx;

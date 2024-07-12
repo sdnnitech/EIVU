@@ -63,15 +63,15 @@ start_flag(struct shm *shm)
 }
 
 void
-init_shm(struct shm *shm, uint8_t *head, int mpool_size, int rxtxd_size)
+init_shm(struct shm *shm, uint8_t *head, size_t mdmpool_size, size_t pktmpool_size, int rxtxd_size)
 {
     shm->head = head;
     shm->pktbuf_memobjs_offset = 0;
-    shm->md_memobjs_offset = mpool_size;
-    shm->rxd_offset = 2 * mpool_size;
-    shm->txd_offset = 2 * mpool_size + rxtxd_size;
-    shm->end_offset = 2 * mpool_size + 2 * rxtxd_size;
-    shm->start_offset = 2 * mpool_size + 2 * rxtxd_size + sizeof(bool);
+    shm->md_memobjs_offset = pktmpool_size;
+    shm->rxd_offset = pktmpool_size + mdmpool_size;
+    shm->txd_offset = pktmpool_size + mdmpool_size + rxtxd_size;
+    shm->end_offset = pktmpool_size + mdmpool_size + 2 * rxtxd_size;
+    shm->start_offset = pktmpool_size + mdmpool_size + 2 * rxtxd_size + sizeof(bool);
 }
 
 void
@@ -84,9 +84,9 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
     assert(fstat(shm_fd, &sb) == 0);
     //assert(sb.st_size == (off_t)SHM_SIZE);
     assert((uintptr_t)md_memobjs(shm) - (uintptr_t)pktbuf_memobjs(shm)==
-        (size_t)BUF_NUM * (size_t)MEMOBJ_SIZE);
+        (size_t)BUF_NUM * (size_t)MBUF_PKTBUF_SIZE);
     assert((uintptr_t)rxd(shm) - (uintptr_t)md_memobjs(shm) ==
-        (size_t)BUF_NUM * (size_t)MEMOBJ_SIZE);
+        (size_t)BUF_NUM * (size_t)MDBUF_SIZE);
 
     // whether descs are initialized at `flag_init` or not
     for (i = 0; i < vq_size; i++) {

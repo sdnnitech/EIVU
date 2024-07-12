@@ -78,7 +78,6 @@ main(int argc, char *argv[])
     struct mpools mpools;
     struct vioqueue vq_rx, vq_tx;
     uint16_t port_rx = 3, port_tx = 4;
-    const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
 
     opt = parse_opt(argc, argv);
@@ -97,18 +96,18 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
+    init_shm(&shm, shm.head, BUF_NUM * MDBUF_SIZE, BUF_NUM * MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
 
     memset(shm.head, 0, SHM_SIZE);
 
-    init_mpools(&mpools, MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num, shm.head, &vq_rx);
+    init_mpools(&mpools, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, opt.mobj_cache_num, shm.head, &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools);
     init_descs_tx(&vq_tx);
 
     initialized_shm_assert(shm_fd, &shm, opt.vq_size);
-    assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
+    assert(MBUF_PKTBUF_SIZE >= PKT_SIZE); // necessary
     assert(opt.batch_size <= opt.vq_size);
     assert((opt.vq_size & (opt.vq_size - 1)) == 0); // confirm if opt.vq_size is a power of two
     bind_core(1);
