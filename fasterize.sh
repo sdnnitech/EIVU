@@ -19,13 +19,13 @@ $AGGREGATED_SEPARATED_MD_FILE \
 ./src/rx.c
 
 # BATCH_SIZE = 1024
-sed -i -e 's/^#define BATCH_SIZE_DEFAULT 32$/#define BATCH_SIZE_DEFAULT 1024/' $OPTION_FILE
+#sed -i -e 's/^#define BATCH_SIZE_DEFAULT 32$/#define BATCH_SIZE_DEFAULT 1024/' $OPTION_FILE
 
 # VQ_SIZE = 2048
-sed -i -e 's/^#define VQ_SIZE_DEFAULT 256$/#define VQ_SIZE_DEFAULT 2048/' $OPTION_FILE
+#sed -i -e 's/^#define VQ_SIZE_DEFAULT 256$/#define VQ_SIZE_DEFAULT 2048/' $OPTION_FILE
 
 # MOBJ_CACHE_NUM = 2048
-sed -i -e 's/^#define MOBJ_CACHE_NUM_DEFAULT 512$/#define MOBJ_CACHE_NUM_DEFAULT 2048/' $OPTION_FILE
+#sed -i -e 's/^#define MOBJ_CACHE_NUM_DEFAULT 512$/#define MOBJ_CACHE_NUM_DEFAULT 2048/' $OPTION_FILE
 
 # MBUF_HEADROOM_SIZE = 0
 sed -i -e 's/^#define MBUF_HEADROOM_SIZE .*$/#define MBUF_HEADROOM_SIZE 0/' $MBUF_FILE
@@ -58,7 +58,7 @@ if [ $MD_SZ -eq 0 ]; then # METADATA_SIZE = 0
     sed -i -e 's/.*vio_reset_md_rx.*//g' $VIO_FILE
     sed -i -E 's/^(.*)vioqueue_set_len_tx.*$/\1d->len = 64;/g' $VIO_FILE
 
-elif [ $MD_SZ -ge 4 ] && [ $MD_SZ -lt 8 ]; then
+elif [ $MD_SZ -ge 2 ] && [ $MD_SZ -lt 8 ]; then
     sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
     sed -i -e 's/.*md->port.*//g' $VIO_RESET_MD_FILE
     sed -i -e 's/.*md->port.*//g' ./src/rx.c
