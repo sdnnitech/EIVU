@@ -8,7 +8,7 @@
 #include <perf.h>
 #include <pktbuf_get_put.h>
 
-#define BUF_NUM 163456
+#define BUF_NUM 131072
 #define METADATA_TOTAL_SIZE 128
 #define METADATA_RESERV_SIZE 48
 #define MBUF_HEADROOM_SIZE_DEFAULT 128
@@ -19,13 +19,7 @@
 #endif
 
 #ifndef MDBUF_SIZE
-#if METADATA_SIZE < CACHE_LINE_SIZE
-#define MDBUF_SIZE CACHE_LINE_SIZE
-#elif METADATA_SIZE < (CACHE_LINE_SIZE + CACHE_LINE_SIZE)
-#define MDBUF_SIZE (CACHE_LINE_SIZE + CACHE_LINE_SIZE)
-#else
 #define MDBUF_SIZE METADATA_SIZE
-#endif
 #endif
 
 #ifndef MBUF_HEADROOM_SIZE
@@ -39,7 +33,12 @@
 #define MBUF_PKTBUF_SIZE (MBUF_HEADROOM_SIZE + MBUF_DATAROOM_SIZE)
 
 struct metadata {
+#if METADATA_SIZE == 2
+    uint16_t pkt_len;
+    uint16_t pad;
+#else
     uint32_t pkt_len;
+#endif
     uint16_t port;
     uint16_t nb_segs;
     uint64_t ol_flags;
