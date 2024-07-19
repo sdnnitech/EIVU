@@ -8,7 +8,7 @@
 #include <perf.h>
 #include <pktbuf_get_put.h>
 
-#define BUF_NUM 131072
+#define BUF_NUM 36864
 #define METADATA_TOTAL_SIZE 128
 #define METADATA_RESERV_SIZE 48
 #define MBUF_HEADROOM_SIZE_DEFAULT 128
