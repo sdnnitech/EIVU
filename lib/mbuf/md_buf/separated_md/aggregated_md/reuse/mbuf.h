@@ -14,11 +14,7 @@ struct mbuf_ptr {
     struct mbuf_idx mbuf_idx;
     uint32_t batch_md_idx;
     struct mpools *mpools;
-#ifdef MDQUE
-    struct desc *md;
-#else
     struct metadata *md;
-#endif
     uint8_t *pkt;
 };
 

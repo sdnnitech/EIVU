@@ -30,16 +30,27 @@ free_aggregated_md_local(struct mpools *mpools, struct mbuf_ptr mps[], uint32_t 
         start_idx : (start_idx / AGGREGATED_MD_NUM + 1) * AGGREGATED_MD_NUM;
 
     for (; i < batchsz; i += AGGREGATED_MD_NUM) {
+#if defined GUEST_LED
         free_md(&mpools->md_pool, mps[i].mbuf_idx.md_idx);
+#elif defined HOST_LED
+        free_md(&mpools->md_pool, mps[i].mbuf_idx.dmidx.md_idx);
+#endif
     }
 }
 
 static inline void
 reset_mbptr_aggregated_md(struct mbuf_ptr *mbp, int32_t md_idx, uint32_t batch_md_idx)
 {
-    mbp->mbuf_idx.md_idx = md_idx;
     mbp->batch_md_idx = batch_md_idx;
+
+#if defined GUEST_LED
+    mbp->mbuf_idx.md_idx = md_idx;
     mbp->md = (struct metadata *)((uint8_t *)refer_metadata(mbp->mpools, mbp->mbuf_idx) + batch_md_idx * METADATA_SIZE);
+#elif defined HOST_LED
+    mbp->mbuf_idx.dmidx.md_idx = md_idx;
+    mbp->md = (struct metadata *)((uint8_t *)refer_metadata(mbp->mpools, mbp->mbuf_idx.dmidx) + batch_md_idx * METADATA_SIZE);
+#endif
+
     reset_metadata(mbp->md);
 }
 

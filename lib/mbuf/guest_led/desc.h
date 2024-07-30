@@ -48,12 +48,10 @@ struct mbuf_idx {
     struct desc_mbuf_idx dmidx;
 };
 
-#ifndef GUEST_INTEGRATED_MD
 static inline struct metadata*
 refer_metadata(struct mpools *mpools, struct mbuf_idx idx)
 {
     return (struct metadata *)&((uint8_t *)mpools->md_pool.pool)[idx.md_idx * mpools->md_pool.memobj_size];
 }
-#endif
 
 #endif
