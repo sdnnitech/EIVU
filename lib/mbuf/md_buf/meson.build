@@ -14,7 +14,7 @@ else
     endif
 endif
 
-if not get_option('host_aggregated_md')
+if not get_option('host_aggregated_md') and not get_option('separated_md')
     args_host += '-DMD_MEMOBJ_CACHE_STACK'
     incdir_host += include_directories('integrated_md')
 endif
