@@ -33,7 +33,7 @@ init_mpools(struct mpools *mpools, size_t mdbuf_size, size_t pktbuf_size, const 
 #endif
 
     memobjs_pktbuf = memobjs;
-    memobjs_md = (uint8_t *)memobjs + memobj_num * mdbuf_size;
+    memobjs_md = (uint8_t *)memobjs + memobj_num * pktbuf_size;
 
     if (init_mpool(&mpools->md_pool, memobjs_md, mdbuf_size, memobj_num, cache_num, md_cache_is_stack) != 0) {
         fprintf(stderr, "init_mpool");

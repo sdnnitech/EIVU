@@ -182,6 +182,7 @@ vhost_dequeue_burst(struct vhost_queue *vhq, struct mbuf_ptr mps[], uint32_t cou
         mbuf_free(vhq->host_mpools, mps[i].mbuf_idx.dmidx);
     }
     free_aggregated_md_local(vhq->host_mpools, mps, count, pkt_idx);
+    free_md_bulk(&mps[pkt_idx], count - pkt_idx);
 
     return pkt_idx;
 }
