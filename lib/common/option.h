@@ -17,6 +17,19 @@ struct vnwio_opt {
     uint32_t mobj_cache_num;
 };
 
+int
+determine_optval(const char* opt_name, const int threshold)
+{
+    int optval;
+    optval = atoi(optarg);
+    if (optval < threshold) {
+        fprintf(stderr, "%s: invalid value\n", opt_name);
+        exit(EXIT_FAILURE);
+    }
+
+    return optval;
+}
+
 struct vnwio_opt
 parse_opt(int argc, char *const argv[])
 {
@@ -32,8 +45,7 @@ parse_opt(int argc, char *const argv[])
         {"mobjcache", required_argument, NULL, 'c'},
         {0, 0, 0, 0},
     };
-    
-    int pktnum, batchsz, vq_size, mobj_cache_num;
+
     while ((parser = getopt_long(argc, argv, "hHn:b:q:c:", longopts, &longidx)) != -1) {
         switch (parser) {
             case 'h':
@@ -43,36 +55,16 @@ parse_opt(int argc, char *const argv[])
                 vnwio_opt.is_hugepage = true;
                 break;
             case 'n':
-                pktnum = atoi(optarg);
-                if (pktnum < 1) {
-                    fprintf(stderr, "pktnum: invalid value\n");
-                    exit(EXIT_FAILURE);
-                }
-                vnwio_opt.pkt_num = pktnum;
+                vnwio_opt.pkt_num = determine_optval("pktnum", 1);
                 break;
             case 'b':
-                batchsz = atoi(optarg);
-                if (batchsz < 1) {
-                    fprintf(stderr, "batchsz: invalid value\n");
-                    exit(EXIT_FAILURE);
-                }
-                vnwio_opt.batch_size = batchsz;
+                vnwio_opt.batch_size = determine_optval("batchsz", 1);
                 break;
             case 'q':
-                vq_size = atoi(optarg);
-                if (vq_size < 256) {
-                    fprintf(stderr, "vqsz: invalid value\n");
-                    exit(EXIT_FAILURE);
-                }
-                vnwio_opt.vq_size = vq_size;
+                vnwio_opt.vq_size = determine_optval("vqsz", 256);
                 break;
             case 'c':
-                mobj_cache_num = atoi(optarg);
-                if (mobj_cache_num < 0) {
-                    fprintf(stderr, "mobjcache: invalid value\n");
-                    exit(EXIT_FAILURE);
-                }
-                vnwio_opt.mobj_cache_num = mobj_cache_num;
+                vnwio_opt.mobj_cache_num = determine_optval("mobjcache", 0);
                 break;
             default:
                 fprintf(stderr, "Usage error\n");

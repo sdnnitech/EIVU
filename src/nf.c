@@ -6,23 +6,31 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../lib/shm.h"
-#include "../lib/option.h"
-#include "../lib/vio.h"
-#include "../lib/pkt.h"
+#include <shm.h>
+#include <option.h>
+#include <mpools.h>
+#include <vio.h>
+#include <pkt.h>
 
 static int
 create_shm(const char *shm_name, const uint64_t shm_size, const int file_mode, bool is_hugepage)
 {
     int shm_fd;
     
-    shm_fd = shm_open(shm_name, O_CREAT | O_RDWR, file_mode);
-    if (shm_fd == -1) {
-        perror("shm_open");
-        exit(EXIT_FAILURE);
-    }
-
-    if (!is_hugepage) {
+    if (is_hugepage) {
+        char hugepage_path[CACHE_LINE_SIZE] = HUGEPAGE_PATH;
+        char *hugepage_shm_name = strcat(hugepage_path, shm_name);
+        shm_fd = open(hugepage_shm_name, O_RDWR | O_CREAT, file_mode);
+        if (shm_fd == -1) {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        shm_fd = shm_open(shm_name, O_CREAT | O_RDWR, file_mode);
+        if (shm_fd == -1) {
+            perror("shm_open");
+            exit(EXIT_FAILURE);
+        }
         if (ftruncate(shm_fd, shm_size) == -1) {
             perror("ftruncate");
             exit(EXIT_FAILURE);
@@ -40,20 +48,23 @@ init_descs_rx(struct vioqueue* vq)
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
         d->flags = AVAIL_FLAG;
-        d->buf_idx = mbuf_alloc(vq->mpool);
+        set_desc_mbuf_idx(d, mbuf_alloc(vq->mpools));
     }
     vq->vq_free_cnt = 0;
+
+    mdque_init_descs_rx(vq);
 }
 
 static void
 init_descs_tx(struct vioqueue* vq)
 {
     struct desc *d;
+    struct desc_mbuf_idx midx = init_midx();
     uint16_t i = 0;
     for (i = 0; i < vq->nentries; i++) {
         d = &vq->descs[i];
         d->flags = USED_FLAG;
-        d->buf_idx = -1;
+        set_desc_mbuf_idx(d, midx);
     }
     vq->vq_free_cnt = 0;
 }
@@ -64,20 +75,18 @@ main(int argc, char *argv[])
     struct vnwio_opt opt;
     int shm_fd;
     struct shm shm;
-    struct memobj_pool mpool;
+    struct mpools mpools;
     struct vioqueue vq_rx, vq_tx;
     uint16_t port_rx = 3, port_tx = 4;
-    const size_t MEMOBJ_SIZE = METADATA_SIZE + DATAROOM_SIZE;
     struct mbuf_ptr mbptrs[MAX_BATCH_SIZE];
 
     opt = parse_opt(argc, argv);
 
-    assert(opt.is_hugepage == false); // No impl for hugepage
-
     /* Init */
     shm_fd = create_shm(SHM_NAME, SHM_SIZE, FILE_MODE, opt.is_hugepage);
     if (opt.is_hugepage) {
-        ;
+        shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
+            MAP_SHARED | MAP_POPULATE | MAP_HUGETLB, shm_fd, 0);
     } else {
         shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     }
@@ -87,25 +96,25 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    init_shm(&shm, shm.head, BUF_NUM * MEMOBJ_SIZE, sizeof(struct desc) * opt.vq_size);
+    init_shm(&shm, shm.head, (size_t)BUF_NUM * (size_t)MDBUF_SIZE, (size_t)BUF_NUM * (size_t)MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
 
-    memset(shm.head, 0,
-        BUF_NUM * MEMOBJ_SIZE + 2 * sizeof(struct desc) * opt.vq_size + 2 * sizeof(bool));
+    memset(shm.head, 0, SHM_SIZE);
 
-    if (init_mpool(&mpool, memobjs(&shm), MEMOBJ_SIZE, BUF_NUM, opt.mobj_cache_num) != 0) {
-        fprintf(stderr, "init_mpool");
-        exit(EXIT_FAILURE);
-    }
-    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpool);
+    init_mpools(&mpools, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, opt.mobj_cache_num, shm.head, &vq_rx);
+    init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
-    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpool);
+    init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools);
     init_descs_tx(&vq_tx);
 
     initialized_shm_assert(shm_fd, &shm, opt.vq_size);
-    assert(MEMOBJ_SIZE >= PKT_SIZE); // necessary
+    assert(MBUF_PKTBUF_SIZE >= PKT_SIZE); // necessary
     assert(opt.batch_size <= opt.vq_size);
     assert((opt.vq_size & (opt.vq_size - 1)) == 0); // confirm if opt.vq_size is a power of two
     bind_core(1);
+
+    for (int i = 0; i < MAX_BATCH_SIZE; i++) {
+        mbptrs[i].mbuf_idx.dmidx = init_midx();
+    }
 
     /* I/O */
     uint32_t prev_pkt_id = 0;
@@ -127,6 +136,8 @@ main(int argc, char *argv[])
         }
 #endif
 
+        mdque_free_md(&vq_rx, nb_rx);
+
         uint16_t nb_tx = vio_xmit_pkts(&vq_tx, mbptrs, nb_rx);
         while (nb_tx < nb_rx) {
             nb_tx += vio_xmit_pkts(&vq_tx, &mbptrs[nb_tx], nb_rx - nb_tx);
@@ -139,9 +150,13 @@ main(int argc, char *argv[])
     while (!*is_end){}
 
     /* Fin. */
-    fin_mpool(&mpool);
+    fin_mpools(&mpools, true);
     if (opt.is_hugepage) {
-        ;
+        char hugepage_path[CACHE_LINE_SIZE] = HUGEPAGE_PATH;
+        char *hugepage_shm_name = strcat(hugepage_path, SHM_NAME);
+
+        close(shm_fd);
+        unlink(hugepage_shm_name);
     } else {
         shm_unlink(SHM_NAME);
     }

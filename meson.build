@@ -13,13 +13,19 @@ cc = meson.get_compiler('c')
 add_global_arguments('-D_XOPEN_SOURCE=600', language : 'c')
 add_global_arguments('-D_GNU_SOURCE', language : 'c')
 
-# add_global_arguments('-DDEBUG', language : 'c')
+if get_option('developer_mode')
+    add_global_arguments('-DDEBUG', language : 'c')
+endif
 
-# incdir = include_directories('lib')
-# executable('nf', 'src/nf.c', include_directories : incdir)
+incdir_host = []
+incdir_guest = []
+args_host = []
+args_guest = []
+
+subdir('lib')
 
 subdir('test')
 
-executable('nf', 'src/nf.c')
-executable('rx', 'src/rx.c')
-executable('tx', 'src/tx.c')
+executable('nf', 'src/nf.c', include_directories : incdir_guest, c_args : args_guest)
+executable('rx', 'src/rx.c', include_directories : incdir_host, c_args : args_host)
+executable('tx', 'src/tx.c', include_directories : incdir_host, c_args : args_host)

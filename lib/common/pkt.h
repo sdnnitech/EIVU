@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 // #define MAX_BATCH_SIZE 1024
-#define PKT_SIZE 64
+#define PKT_SIZE 60
 #define VERIF_FLAG (0xffffffff)
 
 struct packet {
@@ -12,7 +12,7 @@ struct packet {
     uint32_t len;
     char dummy[PKT_SIZE - sizeof(uint32_t) * 3];
     uint32_t verif;
-};
+}__attribute__((__packed__));
 
 void
 init_pkt(struct packet *pkt, uint32_t id)

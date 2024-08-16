@@ -1,0 +1,19 @@
+# general
+option('developer_mode', type : 'boolean', value : false, description :
+       'verificate pkts to debug')
+option('fastest_mode', type : 'boolean' , value : false, description :
+       'change parameters for the fastest combination')
+
+# patterns of Mbuf
+option('separated_md', type : 'boolean', value : false, description :
+       'separate metadata area from Mbuf')
+option('reuse', type : 'boolean', value : false, description :
+       'reuse metadata area reserved for the number of batch')
+option('aggregated_md', type : 'boolean', value : false, description :
+       'aggregate metadata for each packet')
+option('md_queue', type : 'boolean', value : false, description :
+       'Vioqueue plays a role as metadata area')
+option('memcpy_md', type : 'boolean', value : false, description :
+       'Host memcpy metadata')
+option('host_aggregated_md', type : 'boolean', value : false, description :
+       'Host aggregate metadata for each packet')

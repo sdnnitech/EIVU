@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#include "../lib/shm.h"
+#include <shm.h>
 
 int main(void)
 {
