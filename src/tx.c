@@ -43,9 +43,9 @@ main(int argc, char *argv[])
     }
     init_shm(&shm, shm.head, (size_t)BUF_NUM * (size_t)MDBUF_SIZE, (size_t)BUF_NUM * (size_t)MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
 
-    init_mpools(&mpools_host, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, opt.mobj_cache_num,
+    init_mpools(&mpools_host, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, BUF_NUM, opt.mobj_cache_num,
         shm.head + shm.end_offset + CACHE_LINE_SIZE + BUF_NUM * (MDBUF_SIZE + MBUF_PKTBUF_SIZE), NULL);
-    init_mpools(&mpools_guest, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, opt.mobj_cache_num,
+    init_mpools(&mpools_guest, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, BUF_NUM, opt.mobj_cache_num,
         shm.head, &vq_tx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools_guest);
     vhq_tx.vq = &vq_tx;

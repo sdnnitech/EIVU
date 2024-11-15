@@ -13,7 +13,7 @@ struct mpools {
 };
 
 void
-init_mpools(struct mpools *mpools, size_t mdbuf_size, size_t pktbuf_size, const uint32_t memobj_num, const uint32_t cache_num, void *memobjs, void *que_rx)
+init_mpools(struct mpools *mpools, size_t mdbuf_size, size_t pktbuf_size, const uint32_t pktbuf_num, const uint32_t mdbuf_num, const uint32_t cache_num, void *memobjs, void *que_rx)
 {
     void *memobjs_md, *memobjs_pktbuf;
     bool md_cache_is_stack, pktbuf_cache_is_stack;
@@ -33,13 +33,13 @@ init_mpools(struct mpools *mpools, size_t mdbuf_size, size_t pktbuf_size, const 
 #endif
 
     memobjs_pktbuf = memobjs;
-    memobjs_md = (uint8_t *)memobjs + memobj_num * pktbuf_size;
+    memobjs_md = (uint8_t *)memobjs + pktbuf_num * pktbuf_size;
 
-    if (init_mpool(&mpools->md_pool, memobjs_md, mdbuf_size, memobj_num, cache_num, md_cache_is_stack) != 0) {
+    if (init_mpool(&mpools->md_pool, memobjs_md, mdbuf_size, mdbuf_num, cache_num, md_cache_is_stack) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }
-    if (init_mpool(&mpools->pktbuf_pool, memobjs_pktbuf, pktbuf_size, memobj_num, cache_num, pktbuf_cache_is_stack) != 0) {
+    if (init_mpool(&mpools->pktbuf_pool, memobjs_pktbuf, pktbuf_size, pktbuf_num, cache_num, pktbuf_cache_is_stack) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
     }
