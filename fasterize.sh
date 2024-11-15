@@ -52,11 +52,14 @@ if [ $MD_SZ -eq 0 ]; then # METADATA_SIZE = 0
     sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
 
     sed -i -e 's/.*md->.*//g' ./src/rx.c
-    sed -i -e 's/.*md->.*//g' $VHOST_FILE
+    sed -i -e 's/.*avail_descs\[i\].len;//g' $VHOST_FILE
+    sed -i -E 's/^(.*)lens\[i\](.*)$/\160\2/g' $VHOST_FILE
+    sed -i -E 's/.*60 =.*//g' $VHOST_FILE
+    sed -i -E 's/^(.*)memcpy\((.*), mps\[i\].md->pkt_len\);$/\1memcpy\(\2, 60\);/g' $VHOST_FILE
     
     sed -i -e 's/.*md->.*//g' $VIO_FILE
     sed -i -e 's/.*vio_reset_md_rx.*//g' $VIO_FILE
-    sed -i -E 's/^(.*)vioqueue_set_len_tx.*$/\1d->len = 64;/g' $VIO_FILE
+    sed -i -E 's/^(.*)vioqueue_set_len_tx.*$/\1d->len = 60;/g' $VIO_FILE
 
 elif [ $MD_SZ -ge 2 ] && [ $MD_SZ -lt 8 ]; then
     sed -i -e 's/^.*md->nb_segs = 1;$//g' $MBUF_FILE
