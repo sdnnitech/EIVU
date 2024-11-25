@@ -13,6 +13,9 @@ cc = meson.get_compiler('c')
 add_global_arguments('-D_XOPEN_SOURCE=600', language : 'c')
 add_global_arguments('-D_GNU_SOURCE', language : 'c')
 
+md = get_option('metadata_size')
+add_global_arguments(f'-DMETADATA_SIZE=@md@', language : 'c')
+
 if get_option('developer_mode')
     add_global_arguments('-DDEBUG', language : 'c')
 endif

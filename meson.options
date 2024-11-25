@@ -3,6 +3,7 @@ option('developer_mode', type : 'boolean', value : false, description :
        'verificate pkts to debug')
 option('fastest_mode', type : 'boolean' , value : false, description :
        'change parameters for the fastest combination')
+option('metadata_size', type : 'integer', min : 0, max : 128, value : 128)
 
 # patterns of Mbuf
 option('separated_md', type : 'boolean', value : false, description :
@@ -17,3 +18,4 @@ option('memcpy_md', type : 'boolean', value : false, description :
        'Host memcpy metadata')
 option('host_aggregated_md', type : 'boolean', value : false, description :
        'Host aggregate metadata for each packet')
+option('aggregation_num', type : 'integer', min : 1, value : 1)

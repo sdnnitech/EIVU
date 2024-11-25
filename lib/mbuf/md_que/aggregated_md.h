@@ -6,7 +6,9 @@
 #include <mbuf.h>
 #include <vioqueue.h>
 
-#define AGGREGATED_MD_NUM 4
+#ifndef AGGREGATED_MD_NUM
+#define AGGREGATED_MD_NUM 1
+#endif
 
 static inline void
 aggregate_md_to_head_pkt_in_batch(struct mbuf_ptr mps[], uint32_t batchsz)
