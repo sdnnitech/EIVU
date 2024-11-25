@@ -2,9 +2,10 @@
 agsz = get_option('aggregation_num')
 md = get_option('metadata_size')
 mdbufsz = md * agsz * 2 - md * agsz * 2 % 64
-
+mdbufnum = 36864 / agsz - 36864 / agsz % 64
 add_global_arguments(f'-DAGGREGATED_MD_NUM=@agsz@', language : 'c')
 add_global_arguments(f'-DMDBUF_SIZE=@mdbufsz@', language : 'c')
+add_global_arguments(f'-DMDBUF_NUM=@mdbufnum@', language : 'c')
 
 if get_option('aggregated_md')
     if get_option('reuse')

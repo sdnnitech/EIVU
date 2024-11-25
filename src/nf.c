@@ -100,7 +100,7 @@ main(int argc, char *argv[])
 
     memset(shm.head, 0, SHM_SIZE);
 
-    init_mpools(&mpools, MDBUF_SIZE, MBUF_PKTBUF_SIZE, BUF_NUM, BUF_NUM, opt.mobj_cache_num, shm.head, &vq_rx);
+    init_mpools(&mpools, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num, shm.head, &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
     init_vq(&vq_tx, opt.vq_size, txd(&shm), port_tx, &mpools);
