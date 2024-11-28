@@ -67,6 +67,11 @@ elif [ $MD_SZ -ge 2 ] && [ $MD_SZ -lt 8 ]; then
     sed -i -e 's/.*md->port.*//g' ./src/rx.c
 fi
 
+# Align Mbufs
+if [ $(($MD_SZ % 64)) -ne 0 ]; then
+	sed -i -E 's/^#define MBUF_DATAROOM_SIZE (.*)$/#define MBUF_DATAROOM_SIZE \(\1 + METADATA_SIZE % 64\)/' $MBUF_FILE
+fi
+
 # Skip packet copy
 sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
 sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
