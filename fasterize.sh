@@ -1,7 +1,10 @@
 #!/bin/bash
 
+USAGE="Usage: $0 --mdsz=<value> --pktareasz=<value> [--pktcpy]"
+
 MD_SZ=""
 PKTAREA_SZ=""
+is_pktcpy=0
 
 for arg in "$@"; do
   case $arg in
@@ -11,9 +14,12 @@ for arg in "$@"; do
     --pktareasz=*)
       PKTAREA_SZ="${arg#*=}"
       ;;
+    --pktcpy*)
+      is_pktcpy=1
+      ;;
     *)
       echo "Unknown option: $arg"
-      echo "Usage: $0 --mdsz=<value> --pktareasz=<value>"
+      echo $USAGE
       exit 1
       ;;
   esac
@@ -21,13 +27,13 @@ done
 
 if [ -z "$MD_SZ" ]; then
   echo "Error: --mdsz option is required"
-  echo "Usage: $0 --mdsz=<value> --pktareasz=<value>"
+  echo $USAGE
   exit 1
 fi
 
 if [ -z "$PKTAREA_SZ" ]; then
   echo "Error: --pktareasz option is required"
-  echo "Usage: $0 --mdsz=<value> --pktareasz=<value>"
+  echo $USAGE
   exit 1
 elif [ $PKTAREA_SZ -le 60 ]; then
   echo "Error: pktarea size is less than 60 bytes"
@@ -102,8 +108,10 @@ if [ $(($MD_SZ % 64)) -ne 0 ]; then
 fi
 
 # Skip packet copy
-sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
-sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
+if [ $is_pktcpy -eq 0 ]; then
+    sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
+    sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
+fi
 
 # desc size = 8
 # sed -i -e 's/^    int32_t md_idx;$//' ./lib/vioqueue.h
