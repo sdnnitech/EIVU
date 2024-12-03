@@ -1,5 +1,39 @@
 #!/bin/bash
 
+MD_SZ=""
+PKTAREA_SZ=""
+
+for arg in "$@"; do
+  case $arg in
+    --mdsz=*)
+      MD_SZ="${arg#*=}"
+      ;;
+    --pktareasz=*)
+      PKTAREA_SZ="${arg#*=}"
+      ;;
+    *)
+      echo "Unknown option: $arg"
+      echo "Usage: $0 --mdsz=<value> --pktareasz=<value>"
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z "$MD_SZ" ]; then
+  echo "Error: --mdsz option is required"
+  echo "Usage: $0 --mdsz=<value> --pktareasz=<value>"
+  exit 1
+fi
+
+if [ -z "$PKTAREA_SZ" ]; then
+  echo "Error: --pktareasz option is required"
+  echo "Usage: $0 --mdsz=<value> --pktareasz=<value>"
+  exit 1
+elif [ $PKTAREA_SZ -le 60 ]; then
+  echo "Error: pktarea size is less than 60 bytes"
+  exit 1
+fi
+
 OPTION_FILE=./lib/common/option.h
 MBUF_FILE=./lib/mbuf/common/mbuf_core.h
 VHOST_FILE=./lib/vnwio/vhost.h
@@ -31,14 +65,9 @@ $AGGREGATED_SEPARATED_MD_FILE \
 sed -i -e 's/^#define MBUF_HEADROOM_SIZE .*$/#define MBUF_HEADROOM_SIZE 0/' $MBUF_FILE
 
 # MBUF_DATAROOM_SIZE = 64
-sed -i -e 's/^#define MBUF_DATAROOM_SIZE .*$/#define MBUF_DATAROOM_SIZE 64/' $MBUF_FILE
+sed -i -e "s/^#define MBUF_DATAROOM_SIZE .*$/#define MBUF_DATAROOM_SIZE ${PKTAREA_SZ}/" $MBUF_FILE
 
-# METADATA_SIZE
-MD_SZ=0
-if [ "$#" -ge 1 ]; then
-    MD_SZ=$1
-fi
-
+# Change impl dependent on METADATA_SIZE
 if [ $MD_SZ -lt 64 ]; then
     sed -i -e 's/.*dpdk_prefetch.*//g' $AGGREGATED_INTEGRATED_MD_FILE
     sed -i -e 's/.*dpdk_prefetch.*//g' $AGGREGATED_SEPARATED_MD_FILE
