@@ -81,7 +81,9 @@ main(int argc, char *argv[])
         for (uint16_t i = 0; i < nb_rx; i++) {
             mbp = &mbptrs[i];
             mbp->md->pkt_len = PKT_SIZE;
+#if METADATA_SIZE > 4
             mbp->md->port = port_rx;
+#endif
         }
 
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);

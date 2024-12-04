@@ -15,7 +15,9 @@ vio_reset_md_rx(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint32_t len[], 
         rxmb = &mb_ptrs[i];
 
         rxmb->md->pkt_len = len[i];
+#if METADATA_SIZE > 4
         rxmb->md->port = vq->port_id;
+#endif
 
         if (vq->is_offload)
             vio_rx_offload((struct vio_hdr *)rxmb->pkt - 1);
