@@ -39,6 +39,9 @@ vio_tx_clear_net_hdr(struct vio_hdr *vhdr)
 static inline void
 vhost_enqueue_offload(struct vio_hdr *vhdr, struct metadata *md)
 {
+#if METADATA_SIZE < 16
+    vio_tx_clear_net_hdr(vhdr);
+#else
     uint64_t csum_l4 = md->ol_flags & (3ULL << 52);
     if (csum_l4) {
         fprintf(stderr, "vhost_enqueue_offload: caused an unexpected behavior\n");
@@ -46,6 +49,7 @@ vhost_enqueue_offload(struct vio_hdr *vhdr, struct metadata *md)
     } else {
         vio_tx_clear_net_hdr(vhdr);
     }
+#endif
 }
 
 static inline void
