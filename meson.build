@@ -16,6 +16,14 @@ add_global_arguments('-D_GNU_SOURCE', language : 'c')
 md = get_option('metadata_size')
 add_global_arguments(f'-DMETADATA_SIZE=@md@', language : 'c')
 
+if get_option('zero_copy')
+    if get_option('developer_mode')
+        error('Not support the combination of options')
+    endif
+
+    run_command('zero_copy.sh', check : true)
+endif
+
 if get_option('developer_mode')
     add_global_arguments('-DDEBUG', language : 'c')
 endif

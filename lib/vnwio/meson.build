@@ -13,14 +13,6 @@
 # endif
 
 if get_option('fastest_mode')
-    if get_option('developer_mode')
-        error('Not support the combination of options')
-    endif
-
-    if get_option('separated_md')
-        # error('Not support the combination of options')
-    endif
-
     add_global_arguments('-DDESC_SIZE=8', language : 'c')
 endif
 

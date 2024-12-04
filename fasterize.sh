@@ -1,10 +1,9 @@
 #!/bin/bash
 
-USAGE="Usage: $0 --mdsz=<value> --pktareasz=<value> [--pktcpy]"
+USAGE="Usage: $0 --mdsz=<value> --pktareasz=<value>"
 
 MD_SZ=""
 PKTAREA_SZ=""
-is_pktcpy=0
 
 for arg in "$@"; do
   case $arg in
@@ -13,9 +12,6 @@ for arg in "$@"; do
       ;;
     --pktareasz=*)
       PKTAREA_SZ="${arg#*=}"
-      ;;
-    --pktcpy*)
-      is_pktcpy=1
       ;;
     *)
       echo "Unknown option: $arg"
@@ -105,12 +101,6 @@ fi
 # Align Mbufs
 if [ $(($MD_SZ % 64)) -ne 0 ]; then
 	sed -i -E 's/^#define MBUF_DATAROOM_SIZE (.*)$/#define MBUF_DATAROOM_SIZE \(\1 + METADATA_SIZE % 64\)/' $MBUF_FILE
-fi
-
-# Skip packet copy
-if [ $is_pktcpy -eq 0 ]; then
-    sed -i -E 's/^(.*)dpdk_prefetch.*/\1memcpy(NULL, NULL, 0);/g' $VHOST_FILE
-    sed -i -E 's/memcpy\((.*), (.*), .*\);$/memcpy\(\1, \2, 0\);/g' $VHOST_FILE
 fi
 
 # desc size = 8
