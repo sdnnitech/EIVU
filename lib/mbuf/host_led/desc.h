@@ -7,7 +7,7 @@
 #include <mpools.h>
 
 struct desc_mbuf_idx {
-#if BUF_NUM < 32768
+#if MDBUF_NUM < 32768 && PKTBUF_NUM < 32768
     int16_t md_idx;
     int16_t buf_idx;
 #else

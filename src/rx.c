@@ -47,7 +47,7 @@ main(int argc, char *argv[])
         perror("mmap");
         exit(EXIT_FAILURE);
     }
-    init_shm(&shm, shm.head, (size_t)BUF_NUM * (size_t)MDBUF_SIZE, (size_t)BUF_NUM * (size_t)MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
+    init_shm(&shm, shm.head, (size_t)MDBUF_NUM * (size_t)MDBUF_SIZE, (size_t)PKTBUF_NUM * (size_t)MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
     init_mpools(&mpools_host, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num, local, NULL);
     init_mpools(&mpools_guest, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num,
         shm.head, &vq_rx);

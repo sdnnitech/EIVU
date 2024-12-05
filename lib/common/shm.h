@@ -79,14 +79,13 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
 {
     uint32_t i = 0;
     struct stat sb;
-    const size_t MEMOBJ_SIZE = MDBUF_SIZE + MBUF_PKTBUF_SIZE;
 
     assert(fstat(shm_fd, &sb) == 0);
     //assert(sb.st_size == (off_t)SHM_SIZE);
     assert((uintptr_t)md_memobjs(shm) - (uintptr_t)pktbuf_memobjs(shm)==
-        (size_t)BUF_NUM * (size_t)MBUF_PKTBUF_SIZE);
+        (size_t)PKTBUF_NUM * (size_t)MBUF_PKTBUF_SIZE);
     assert((uintptr_t)rxd(shm) - (uintptr_t)md_memobjs(shm) ==
-        (size_t)BUF_NUM * (size_t)MDBUF_SIZE);
+        (size_t)MDBUF_NUM * (size_t)MDBUF_SIZE);
 
     // whether descs are initialized at `flag_init` or not
     for (i = 0; i < vq_size; i++) {
