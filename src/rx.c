@@ -15,6 +15,7 @@ main(int argc, char *argv[])
     struct vnwio_opt opt;
     int shm_fd;
     struct shm shm;
+    uint8_t *local;
     struct vioqueue vq_rx;
     uint16_t port_rx = 3;
     struct mpools mpools_host, mpools_guest;
@@ -29,18 +30,25 @@ main(int argc, char *argv[])
         shm_fd = open(hugepage_shm_name, O_RDWR, FILE_MODE);
         shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
             MAP_SHARED | MAP_POPULATE | MAP_HUGETLB, shm_fd, 0);
+        local = mmap(NULL, 1000000000, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE | MAP_POPULATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
     } else {
         shm_fd = shm_open(SHM_NAME, O_RDWR, FILE_MODE);
         shm.head = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE,
             MAP_SHARED, shm_fd, 0);
+        local = mmap(NULL, 1000000000, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     }
     if (shm.head == MAP_FAILED) {
         perror("mmap");
         exit(EXIT_FAILURE);
     }
+    if (local == MAP_FAILED) {
+        perror("mmap");
+        exit(EXIT_FAILURE);
+    }
     init_shm(&shm, shm.head, (size_t)BUF_NUM * (size_t)MDBUF_SIZE, (size_t)BUF_NUM * (size_t)MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
-    init_mpools(&mpools_host, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num,
-        shm.head + shm.end_offset + MBUF_DATAROOM_SIZE_DEFAULT * 8, NULL);
+    init_mpools(&mpools_host, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num, local, NULL);
     init_mpools(&mpools_guest, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num,
         shm.head, &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools_guest);
