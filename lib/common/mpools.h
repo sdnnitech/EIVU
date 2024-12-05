@@ -35,6 +35,10 @@ init_mpools(struct mpools *mpools, size_t mdbuf_size, size_t pktbuf_size, const 
     memobjs_pktbuf = memobjs;
     memobjs_md = (uint8_t *)memobjs + pktbuf_num * pktbuf_size;
 
+#ifdef INTEGRATED_MD
+    pktbuf_size += mdbuf_size;
+#endif
+
     if (init_mpool(&mpools->md_pool, memobjs_md, mdbuf_size, mdbuf_num, cache_num, md_cache_is_stack) != 0) {
         fprintf(stderr, "init_mpool");
         exit(EXIT_FAILURE);
