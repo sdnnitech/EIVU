@@ -9,7 +9,7 @@ pn=100000000
 
 batchsz=$2
 vqsz=$3
-mobjcache=$vqsz
+mobjcache=$((2*$vqsz))
 
 echo "batchsz=$batchsz"
 echo "vqsz=$vqsz"
