@@ -57,3 +57,11 @@ Profiling items (perf items) can be specified to the "opt_perf" variable in the 
 ```
 $ ./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>
 ```
+
+## Academic Results
+### Papers
+- A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Rethinking Message Buffer Structures for 100 Mpps Cloud-native Network Functions", Proc. 2024 IEEE Future Networks World Forum (FNWF), 2024.
+- A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Cache Optimization for Real CNF through Message Buffer Redesign", IEICE Technical Report, vol. 124, no. 179, NS2024-76, pp. 6-11, 2024. (in Japanese)
+### Awards
+- A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "IEEE FNWF 2024 Best Paper Award", IEEE Future Networks, 2024.
+- A. Yamada, "Young Researcher Award", IEICE Tech. Committee on NS, 2024.
