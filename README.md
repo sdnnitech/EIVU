@@ -1,4 +1,5 @@
-# EIVU (Essential Implementation of Vhost-User)
+# EIVU v2 (Essential Implementation of Vhost-User ver. 2)
+(EIVU v1: https://github.com/sdnnitech/EIVUv1)
 
 ## Introduction
 
