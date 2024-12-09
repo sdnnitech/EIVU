@@ -64,8 +64,15 @@ $ ./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>
 
 #### Step 1
 Shrinking metadata areas
-`meson setup <builddir> -Dmetadata_size=<val>`
+````
+meson setup <builddir> -Dmetadata_size=<val>
+````
 
 #### Step 2
 Decoupling & Aggregating metadata areas
-`meson setup <builddir> -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=<val>`
+```
+meson setup <builddir> \
+-Daggregated_md=true \
+-Dhost_aggregated_md=true \
+-Daggregation_num=<val>
+```
