@@ -56,3 +56,16 @@ Profiling items (perf items) can be specified to the "opt_perf" variable in the 
 ```
 $ ./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>
 ```
+
+### Options
+#### Fast
+1. `./fasterize.sh --mdsz=<val1> --pktareasz=64`
+2. `meson setup <builddir> -Dfastest_mode=true -Dmetadata_size=<val1>`
+
+#### Step 1
+Shrinking metadata areas
+`meson setup <builddir> -Dmetadata_size=<val>`
+
+#### Step 2
+Decoupling & Aggregating metadata areas
+`meson setup <builddir> -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=<val>`
