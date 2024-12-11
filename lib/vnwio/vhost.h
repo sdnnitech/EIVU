@@ -53,12 +53,16 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     /* vhost_rx_batch_copy */
     for (i = 0; i < count; i++) {
         dpdk_prefetch0(desc_addrs[i]);
+#ifdef VIO_HEADER
         hdrs[i] = (struct vio_hdr *)desc_addrs[i] - 1;
+#endif
         lens[i] = mps[i].md->pkt_len;
     }
 
+#ifdef VIO_HEADER
     for (i = 0; i < count; i++)
         vhost_enqueue_offload(hdrs[i], mps[i].md);
+#endif
 
     vq->last_avail_idx += count;
     vq->last_avail_idx &= (vq->nentries - 1);
@@ -138,12 +142,14 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     // count = recognize_mds_host_tx(vq, mps, count);
     // free_aggregated_md_shm(vq->mpools, buf_idxs, count);
 
+#ifdef VIO_HEADER
     if (vq->is_offload) {
         for (i = 0; i < count; i++) {
             hdr = (struct vio_hdr *)desc_addrs[i] - 1;
             vhost_dequeue_offload(hdr);
         }
     }
+#endif
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (i = 0; i < count; i++)

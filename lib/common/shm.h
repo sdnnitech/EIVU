@@ -3,6 +3,7 @@
 
 #include "vioqueue.h"
 #include "mbuf.h"
+#include <vio_hdr.h>
 
 #include <stdbool.h>
 
@@ -79,6 +80,10 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
 {
     uint32_t i = 0;
     struct stat sb;
+
+#ifdef VIO_HEADER
+    assert(MBUF_HEADROOM_SIZE >= VIO_HEADER_SIZE);
+#endif
 
     assert(fstat(shm_fd, &sb) == 0);
     //assert(sb.st_size == (off_t)SHM_SIZE);

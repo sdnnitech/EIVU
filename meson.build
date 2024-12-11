@@ -30,6 +30,10 @@ if get_option('zero_copy')
     run_command('zero_copy.sh', check : true)
 endif
 
+if get_option('vio_header')
+    add_global_arguments('-DVIO_HEADER', language : 'c')
+endif
+
 if get_option('developer_mode')
     add_global_arguments('-DDEBUG', language : 'c')
 endif

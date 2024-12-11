@@ -88,15 +88,3 @@ fi
 # sed -i -e 's/^    int32_t md_idx;$//' ./lib/vioqueue.h
 # sed -i -e 's/^    uint32_t len;$/    uint16_t len;/' ./lib/vioqueue.h
 # sed -i -e 's/^    int16_t id;$//' ./lib/vioqueue.h
-
-# No vio_hdr
-sed -i -e 's/^    vhost_enqueue_offload((struct vio_hdr *)desc_addr - 1, mbp->md);$/    memset((struct vio_hdr *)desc_addr, 0, 0);/' $VHOST_FILE
-sed -i -e 's/^        hdrs[i] = (struct vio_hdr *)desc_addrs[i] - 1;$/        hdrs[i] = (struct vio_hdr *)desc_addrs[i];/' $VHOST_FILE
-sed -i -E 's/^(.*)vhost_enqueue_offload\((.*), .*\);$/\1memset\(\2, 0, 0\);/g' $VHOST_FILE
-sed -i -e 's/^        vhost_dequeue_offload((struct vio_hdr *)desc_addr - 1);$/        memset((struct vio_hdr *)desc_addr, 0, 0);/' $VHOST_FILE
-sed -i -e 's/^            hdr = (struct vio_hdr *)desc_addrs[i] - 1;$/            hdr = (struct vio_hdr *)desc_addrs[i];/' $VHOST_FILE
-sed -i -E 's/^(.*)vhost_dequeue_offload\((.*)\);.*$/\1memset\(\2, 0, 0\);/g' $VHOST_FILE
-
-sed -i -E 's/^(.*)vio_rx_offload\((.*) - 1\);$/\1memset\(\2, 0, 0\);/g' $VIO_RESET_MD_FILE
-sed -i -E 's/^(.*)vio_tx_clear_net_hdr\((.*) - 1\);$/\1memset\(\2, 0, 0\);/g' $VIO_FILE
-
