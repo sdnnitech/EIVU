@@ -16,6 +16,12 @@ add_global_arguments('-D_GNU_SOURCE', language : 'c')
 md = get_option('metadata_size')
 add_global_arguments(f'-DMETADATA_SIZE=@md@', language : 'c')
 
+dataroom = get_option('dataroom_size')
+add_global_arguments(f'-DMBUF_DATAROOM_SIZE=@dataroom@', language : 'c')
+
+headroom = get_option('headroom_size')
+add_global_arguments(f'-DMBUF_HEADROOM_SIZE=@headroom@', language : 'c')
+
 if get_option('zero_copy')
     if get_option('developer_mode')
         error('Not support the combination of options')

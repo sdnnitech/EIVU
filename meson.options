@@ -4,6 +4,8 @@ option('developer_mode', type : 'boolean', value : false, description :
 option('fastest_mode', type : 'boolean' , value : false, description :
        'change parameters for the fastest combination')
 option('metadata_size', type : 'integer', min : 0, max : 128, value : 128)
+option('headroom_size', type : 'integer', min : 0, max : 128, value : 128)
+option('dataroom_size', type : 'integer', min : 60, max : 2048, value : 2048)
 option('zero_copy', type : 'boolean', value : false, description :
        'skip packet copy')
 

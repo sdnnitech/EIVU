@@ -1,17 +1,13 @@
 #!/bin/bash
 
-USAGE="Usage: $0 --mdsz=<value> --pktareasz=<value>"
+USAGE="Usage: $0 --mdsz=<value>"
 
 MD_SZ=""
-PKTAREA_SZ=""
 
 for arg in "$@"; do
   case $arg in
     --mdsz=*)
       MD_SZ="${arg#*=}"
-      ;;
-    --pktareasz=*)
-      PKTAREA_SZ="${arg#*=}"
       ;;
     *)
       echo "Unknown option: $arg"
@@ -24,15 +20,6 @@ done
 if [ -z "$MD_SZ" ]; then
   echo "Error: --mdsz option is required"
   echo $USAGE
-  exit 1
-fi
-
-if [ -z "$PKTAREA_SZ" ]; then
-  echo "Error: --pktareasz option is required"
-  echo $USAGE
-  exit 1
-elif [ $PKTAREA_SZ -le 60 ]; then
-  echo "Error: pktarea size is less than 60 bytes"
   exit 1
 fi
 
@@ -62,12 +49,6 @@ $AGGREGATED_SEPARATED_MD_FILE \
 
 # MOBJ_CACHE_NUM = 2048
 #sed -i -e 's/^#define MOBJ_CACHE_NUM_DEFAULT 512$/#define MOBJ_CACHE_NUM_DEFAULT 2048/' $OPTION_FILE
-
-# MBUF_HEADROOM_SIZE = 0
-sed -i -e 's/^#define MBUF_HEADROOM_SIZE .*$/#define MBUF_HEADROOM_SIZE 0/' $MBUF_FILE
-
-# MBUF_DATAROOM_SIZE = 64
-sed -i -e "s/^#define MBUF_DATAROOM_SIZE .*$/#define MBUF_DATAROOM_SIZE ${PKTAREA_SZ}/" $MBUF_FILE
 
 # Change impl dependent on METADATA_SIZE
 if [ $MD_SZ -lt 64 ]; then
