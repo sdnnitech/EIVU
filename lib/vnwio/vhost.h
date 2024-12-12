@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <pkt.h>
+
 #include "perf.h"
 #include "vioqueue.h"
 #include "vio_hdr.h"
@@ -56,7 +58,11 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 #ifdef VIO_HEADER
         hdrs[i] = (struct vio_hdr *)desc_addrs[i] - 1;
 #endif
+#if METADATA_SIZE == 0
+        lens[i] = PKT_SIZE;
+#else
         lens[i] = mps[i].md->pkt_len;
+#endif
     }
 
 #ifdef VIO_HEADER
@@ -123,9 +129,11 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     for (i = 0; i < count; i++)
         buf_idxs[i] = get_desc_mbuf_idx(&avail_descs[i]);
 
+#if METADATA_SIZE > 0
     for (i = 0; i < count; i++) {
         mps[i].md->pkt_len = avail_descs[i].len;
     }
+#endif
 
     for (i = 0; i < count; i++)
         desc_addrs[i] = mbuf_mtod(vq->mpools, buf_idxs[i]);
@@ -134,7 +142,11 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
         dpdk_prefetch0(desc_addrs[i]);
 
     for (i = 0; i < count; i++) {
+#if METADATA_SIZE == 0
+        memcpy(mps[i].pkt, desc_addrs[i], PKT_SIZE);
+#else
         memcpy(mps[i].pkt, desc_addrs[i], mps[i].md->pkt_len);
+#endif
     }
     
     vhost_memcpy_md_tx(vq->mpools, buf_idxs, mps, count);

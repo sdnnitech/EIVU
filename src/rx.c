@@ -86,6 +86,7 @@ main(int argc, char *argv[])
         }
 
         alloc_aggregated_md_local(&mpools_host, mbptrs, nb_rx);
+#if METADATA_SIZE > 0
         for (uint16_t i = 0; i < nb_rx; i++) {
             mbp = &mbptrs[i];
             mbp->md->pkt_len = PKT_SIZE;
@@ -93,6 +94,7 @@ main(int argc, char *argv[])
             mbp->md->port = port_rx;
 #endif
         }
+#endif
 
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);
 
