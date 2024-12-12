@@ -54,7 +54,9 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 
     /* vhost_rx_batch_copy */
     for (i = 0; i < count; i++) {
+#ifndef ZEROCOPY_RX
         dpdk_prefetch0(desc_addrs[i]);
+#endif
 #ifdef VIO_HEADER
         hdrs[i] = (struct vio_hdr *)desc_addrs[i] - 1;
 #endif
@@ -75,8 +77,10 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 
     vhost_memcpy_md_rx(vq->mpools, buf_idxs, mps, count);
 
+#ifndef ZEROCOPY_RX
     for (i = 0; i < count; i++)
         memcpy(desc_addrs[i], mps[i].pkt, lens[i]);
+#endif
 
     for (i = 0; i < count; i++) {
         used_descs[i].len = lens[i];
@@ -138,6 +142,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     for (i = 0; i < count; i++)
         desc_addrs[i] = mbuf_mtod(vq->mpools, buf_idxs[i]);
 
+#ifndef ZEROCOPY_TX
     for (i = 0; i < count; i++)
         dpdk_prefetch0(desc_addrs[i]);
 
@@ -148,6 +153,7 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
         memcpy(mps[i].pkt, desc_addrs[i], mps[i].md->pkt_len);
 #endif
     }
+#endif
     
     vhost_memcpy_md_tx(vq->mpools, buf_idxs, mps, count);
 

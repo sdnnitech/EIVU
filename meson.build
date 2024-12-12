@@ -22,13 +22,18 @@ add_global_arguments(f'-DMBUF_DATAROOM_SIZE=@dataroom@', language : 'c')
 headroom = get_option('headroom_size')
 add_global_arguments(f'-DMBUF_HEADROOM_SIZE=@headroom@', language : 'c')
 
-if get_option('zero_copy')
+zerocpy = get_option('zero_copy')
+foreach zc : zerocpy
     if get_option('developer_mode')
         error('Not support the combination of options')
     endif
 
-    run_command('zero_copy.sh', check : true)
-endif
+    if zc == 'rx'
+        add_global_arguments('-DZEROCOPY_RX', language : 'c')
+    elif zc == 'tx'
+        add_global_arguments('-DZEROCOPY_TX', language : 'c')
+    endif
+endforeach
 
 if get_option('vio_header')
     add_global_arguments('-DVIO_HEADER', language : 'c')

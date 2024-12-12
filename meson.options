@@ -6,7 +6,7 @@ option('fastest_mode', type : 'boolean' , value : false, description :
 option('metadata_size', type : 'integer', min : 0, max : 128, value : 128)
 option('headroom_size', type : 'integer', min : 0, max : 128, value : 128)
 option('dataroom_size', type : 'integer', min : 60, max : 2048, value : 2048)
-option('zero_copy', type : 'boolean', value : false, description :
+option('zero_copy', type : 'array', choices : ['rx', 'tx'], value : [], description :
        'skip packet copy')
 option('vio_header', type : 'boolean', value : true, description :
        'header added for H/W offload in virtual network I/O')
