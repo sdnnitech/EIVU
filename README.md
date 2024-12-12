@@ -59,8 +59,14 @@ $ ./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>
 
 ### Options
 #### Fast
-1. `./fasterize.sh --mdsz=<val1> --pktareasz=64`
-2. `meson setup <builddir> -Dfastest_mode=true -Dmetadata_size=<val1>`
+```
+meson setup <builddir> \
+-Dtiny_descs=true \
+-Dheadroom_size=0 \
+-Ddataroom_size=64 \
+-Dvio_header=false \
+-Dzero_copy=rx,tx
+```
 
 #### Step 1
 Shrinking metadata areas
