@@ -55,11 +55,7 @@ struct metadata {
 static inline void
 reset_metadata(struct metadata *md)
 {
-#if METADATA_SIZE >= METADATA_TOTAL_SIZE - METADATA_RESERV_SIZE
-    memset(md, 0, METADATA_TOTAL_SIZE - METADATA_RESERV_SIZE);
-#else
     memset(md, 0, METADATA_SIZE);
-#endif
 
 #if METADATA_SIZE >= 8
     md->nb_segs = 1;
