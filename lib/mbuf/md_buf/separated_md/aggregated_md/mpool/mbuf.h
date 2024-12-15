@@ -49,7 +49,7 @@ mbuf_mtod_offset(struct mpools *mpools, struct desc_mbuf_idx idx, int offset)
 static inline uint8_t*
 mbuf_mtod(struct mpools *mpools, struct desc_mbuf_idx idx)
 {
-    return mbuf_mtod_offset(mpools, idx, METADATA_SIZE + MBUF_HEADROOM_SIZE);
+    return mbuf_mtod_offset(mpools, idx, MBUF_HEADROOM_SIZE);
 }
 
 static inline void
