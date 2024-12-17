@@ -68,6 +68,9 @@ main(int argc, char *argv[])
 
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
         mbptrs[i].mbuf_idx.dmidx = init_midx();
+#ifdef GUEST_LED
+        mbptrs[i].mbuf_idx.md_idx = -1;
+#endif
     }
 
     while (!*is_start) {}
