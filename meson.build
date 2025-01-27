@@ -17,9 +17,24 @@ md = get_option('metadata_size')
 add_global_arguments(f'-DMETADATA_SIZE=@md@', language : 'c')
 
 dataroom = get_option('dataroom_size')
-add_global_arguments(f'-DMBUF_DATAROOM_SIZE=@dataroom@', language : 'c')
-
 headroom = get_option('headroom_size')
+
+CACHELINE_SIZE = 64
+
+mbuf_alignment = get_option('mbuf_alignment')
+mdbuf = md
+if mbuf_alignment == 'metadata' or mbuf_alignment == 'mbuf'
+    if mdbuf % 64 != 0
+        mdbuf += CACHELINE_SIZE - mdbuf % CACHELINE_SIZE
+    endif
+endif
+if mbuf_alignment == 'pkt' or mbuf_alignment == 'mbuf'
+    if dataroom % 64 != 0
+        dataroom += CACHELINE_SIZE - dataroom % CACHELINE_SIZE
+    endif
+endif
+
+add_global_arguments(f'-DMBUF_DATAROOM_SIZE=@dataroom@', language : 'c')
 add_global_arguments(f'-DMBUF_HEADROOM_SIZE=@headroom@', language : 'c')
 
 zerocpy = get_option('zero_copy')
@@ -47,6 +62,13 @@ incdir_host = []
 incdir_guest = []
 args_host = []
 args_guest = []
+
+if not get_option('aggregated_md')
+    args_guest += f'-DMDBUF_SIZE=@mdbuf@'
+endif
+if not get_option('host_aggregated_md')
+    args_host += f'-DMDBUF_SIZE=@mdbuf@'
+endif
 
 subdir('lib')
 

@@ -10,6 +10,7 @@ option('zero_copy', type : 'array', choices : ['rx', 'tx'], value : [], descript
        'skip packet copy')
 option('vio_header', type : 'boolean', value : true, description :
        'header added for H/W offload in virtual network I/O')
+option('mbuf_alignment', type : 'combo', choices : ['mbuf', 'metadata', 'pkt', 'none'], value : 'mbuf')
 
 # patterns of Mbuf
 option('separated_md', type : 'boolean', value : false, description :
