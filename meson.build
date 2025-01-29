@@ -23,14 +23,23 @@ CACHELINE_SIZE = 64
 
 mbuf_alignment = get_option('mbuf_alignment')
 mdbuf = md
-if mbuf_alignment == 'metadata' or mbuf_alignment == 'mbuf'
+if mbuf_alignment == 'mbuf'
     if mdbuf % 64 != 0
         mdbuf += CACHELINE_SIZE - mdbuf % CACHELINE_SIZE
     endif
+    if (dataroom + headroom) % 64 != 0
+        dataroom += CACHELINE_SIZE - (dataroom + headroom) % CACHELINE_SIZE
+    endif
 endif
-if mbuf_alignment == 'pkt' or mbuf_alignment == 'mbuf'
-    if dataroom % 64 != 0
-        dataroom += CACHELINE_SIZE - dataroom % CACHELINE_SIZE
+if mbuf_alignment == 'pkt'
+    if  get_option('separated_md') or get_option('aggregated_md')
+        if (dataroom + headroom) % 64 != 0
+            dataroom += CACHELINE_SIZE - (dataroom + headroom) % CACHELINE_SIZE
+        endif
+    else
+        if (mdbuf + dataroom + headroom) % 64 != 0
+            dataroom += CACHELINE_SIZE - (mdbuf + dataroom + headroom) % CACHELINE_SIZE
+        endif
     endif
 endif
 
