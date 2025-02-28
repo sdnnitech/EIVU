@@ -19,9 +19,9 @@ run() {
   pn=100000000
 
   sudo $2 $1/nf --pktnum=$pn -H --batchsz=$5 --vqsz=$6 --mobjcache=$7 &
-  sleep 4
+  sleep 1
   sudo $3 $1/rx --pktnum=$pn -H --batchsz=$5 --vqsz=$6 --mobjcache=$7 &
-  sleep 4
+  sleep 1
   sudo $4 $1/tx --pktnum=$pn -H --batchsz=$5 --vqsz=$6 --mobjcache=$7
 }
 
