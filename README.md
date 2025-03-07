@@ -85,6 +85,9 @@ meson setup <builddir> \
 -Daggregation_num=<val>
 ```
 
+## Evaluation
+https://sdnnitech.github.io/EIVU/eval/index.html
+
 ## Academic Results
 ### Papers
 - A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Rethinking Message Buffer Structures for 100 Mpps Cloud-native Network Functions", Proc. 2024 IEEE Future Networks World Forum (FNWF), 2024.
