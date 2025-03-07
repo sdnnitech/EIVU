@@ -1,8 +1,17 @@
 
+CACHELINE_SIZE = 64
+
 agsz = get_option('aggregation_num')
 md = get_option('metadata_size')
-mdbufsz = md * agsz + md * agsz % 64
-mdbufnum = 36864 / agsz + 36864 / agsz % 64
+mdbufsz = md * agsz
+if mdbufsz % 64 != 0
+    mdbufsz += CACHELINE_SIZE - md * agsz % CACHELINE_SIZE
+endif
+mdbufnum = 2048 / agsz * 32
+if mdbufnum % 64 != 0
+    mdbufnum += CACHELINE_SIZE - (2048 / agsz * 32) % CACHELINE_SIZE
+endif
+
 add_global_arguments(f'-DAGGREGATED_MD_NUM=@agsz@', language : 'c')
 add_global_arguments(f'-DMDBUF_SIZE=@mdbufsz@', language : 'c')
 add_global_arguments(f'-DMDBUF_NUM=@mdbufnum@', language : 'c')

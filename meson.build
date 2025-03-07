@@ -16,12 +16,51 @@ add_global_arguments('-D_GNU_SOURCE', language : 'c')
 md = get_option('metadata_size')
 add_global_arguments(f'-DMETADATA_SIZE=@md@', language : 'c')
 
-if get_option('zero_copy')
+dataroom = get_option('dataroom_size')
+headroom = get_option('headroom_size')
+
+CACHELINE_SIZE = 64
+
+mbuf_alignment = get_option('mbuf_alignment')
+mdbuf = md
+if mbuf_alignment == 'mbuf'
+    if mdbuf % 64 != 0
+        mdbuf += CACHELINE_SIZE - mdbuf % CACHELINE_SIZE
+    endif
+    if (dataroom + headroom) % 64 != 0
+        dataroom += CACHELINE_SIZE - (dataroom + headroom) % CACHELINE_SIZE
+    endif
+endif
+if mbuf_alignment == 'pkt'
+    if  get_option('separated_md') or get_option('aggregated_md')
+        if (dataroom + headroom) % 64 != 0
+            dataroom += CACHELINE_SIZE - (dataroom + headroom) % CACHELINE_SIZE
+        endif
+    else
+        if (mdbuf + dataroom + headroom) % 64 != 0
+            dataroom += CACHELINE_SIZE - (mdbuf + dataroom + headroom) % CACHELINE_SIZE
+        endif
+    endif
+endif
+
+add_global_arguments(f'-DMBUF_DATAROOM_SIZE=@dataroom@', language : 'c')
+add_global_arguments(f'-DMBUF_HEADROOM_SIZE=@headroom@', language : 'c')
+
+zerocpy = get_option('zero_copy')
+foreach zc : zerocpy
     if get_option('developer_mode')
         error('Not support the combination of options')
     endif
 
-    run_command('zero_copy.sh', check : true)
+    if zc == 'rx'
+        add_global_arguments('-DZEROCOPY_RX', language : 'c')
+    elif zc == 'tx'
+        add_global_arguments('-DZEROCOPY_TX', language : 'c')
+    endif
+endforeach
+
+if get_option('vio_header')
+    add_global_arguments('-DVIO_HEADER', language : 'c')
 endif
 
 if get_option('developer_mode')
@@ -32,6 +71,13 @@ incdir_host = []
 incdir_guest = []
 args_host = []
 args_guest = []
+
+if not get_option('aggregated_md')
+    args_guest += f'-DMDBUF_SIZE=@mdbuf@'
+endif
+if not get_option('host_aggregated_md')
+    args_host += f'-DMDBUF_SIZE=@mdbuf@'
+endif
 
 subdir('lib')
 

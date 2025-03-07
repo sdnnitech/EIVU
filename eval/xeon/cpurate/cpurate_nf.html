@@ -1,0 +1,390 @@
+<html>
+<body>
+<table border="1">
+<thead>
+<tr>
+<th>Implementation Patterns</th>
+<th>Buf Type</th>
+<th>Aggregation No.</th>
+<th>Metadata Size (bytes)</th>
+<th>Clock Rate (GHz)</th>
+<th>Throughput (Mpps)</th>
+<th>L1 hit ratio (%)</th>
+<th>Rep. (times/packet)</th>
+<th>RFO (times/packet)</th>
+<th>Raw Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="5">Fast</td>
+<td rowspan="5"></td>
+<td rowspan="5"></td>
+<td rowspan="5">0</td>
+<td>1</td>
+<td class="perf-data">45.562</td><td class="perf-data">99.95</td><td class="perf-data">1.60</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/nm/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">93.240</td><td class="perf-data">99.97</td><td class="perf-data">1.61</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/nm/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">115.580</td><td class="perf-data">99.98</td><td class="perf-data">1.59</td><td class="perf-data">1.02</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/nm/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">162.966</td><td class="perf-data">99.99</td><td class="perf-data">1.62</td><td class="perf-data">1.11</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/nm/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">190.470</td><td class="perf-data">99.99</td><td class="perf-data">1.61</td><td class="perf-data">1.10</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/nm/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="112">Fast (Step 1)</td>
+<td rowspan="35">Coupled metadata areas</td>
+<td rowspan="5"></td>
+<td rowspan="5">2</td>
+<td>1</td>
+<td class="perf-data">29.128</td><td class="perf-data">98.12</td><td class="perf-data">5.73</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz2/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">61.839</td><td class="perf-data">98.94</td><td class="perf-data">5.73</td><td class="perf-data">0.96</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz2/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">87.727</td><td class="perf-data">99.26</td><td class="perf-data">5.74</td><td class="perf-data">1.02</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz2/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">119.036</td><td class="perf-data">99.43</td><td class="perf-data">5.73</td><td class="perf-data">1.07</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz2/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">141.940</td><td class="perf-data">99.54</td><td class="perf-data">5.68</td><td class="perf-data">1.10</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz2/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5"></td>
+<td rowspan="5">4</td>
+<td>1</td>
+<td class="perf-data">29.142</td><td class="perf-data">97.99</td><td class="perf-data">5.73</td><td class="perf-data">0.94</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz4/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">59.598</td><td class="perf-data">98.84</td><td class="perf-data">5.74</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz4/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">89.262</td><td class="perf-data">99.19</td><td class="perf-data">5.75</td><td class="perf-data">1.02</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz4/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">117.778</td><td class="perf-data">99.37</td><td class="perf-data">5.74</td><td class="perf-data">1.04</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz4/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">140.083</td><td class="perf-data">99.49</td><td class="perf-data">5.75</td><td class="perf-data">1.12</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz4/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5"></td>
+<td rowspan="5">8</td>
+<td>1</td>
+<td class="perf-data">29.198</td><td class="perf-data">98.00</td><td class="perf-data">5.75</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz8/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">61.499</td><td class="perf-data">98.87</td><td class="perf-data">5.73</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz8/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">91.912</td><td class="perf-data">99.20</td><td class="perf-data">5.77</td><td class="perf-data">1.01</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz8/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">118.074</td><td class="perf-data">99.38</td><td class="perf-data">5.73</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz8/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">139.872</td><td class="perf-data">99.50</td><td class="perf-data">5.77</td><td class="perf-data">1.12</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz8/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5"></td>
+<td rowspan="5">16</td>
+<td>1</td>
+<td class="perf-data">28.101</td><td class="perf-data">98.01</td><td class="perf-data">5.77</td><td class="perf-data">0.94</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz16/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">59.643</td><td class="perf-data">98.86</td><td class="perf-data">5.73</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz16/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">87.228</td><td class="perf-data">99.20</td><td class="perf-data">5.76</td><td class="perf-data">1.07</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz16/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">111.006</td><td class="perf-data">99.38</td><td class="perf-data">5.74</td><td class="perf-data">1.07</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz16/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">134.696</td><td class="perf-data">99.49</td><td class="perf-data">5.72</td><td class="perf-data">1.11</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz16/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5"></td>
+<td rowspan="5">32</td>
+<td>1</td>
+<td class="perf-data">26.782</td><td class="perf-data">98.11</td><td class="perf-data">5.77</td><td class="perf-data">0.94</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz32/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">54.547</td><td class="perf-data">98.94</td><td class="perf-data">5.76</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz32/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">79.113</td><td class="perf-data">99.25</td><td class="perf-data">5.78</td><td class="perf-data">1.03</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz32/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">104.333</td><td class="perf-data">99.42</td><td class="perf-data">5.78</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz32/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">125.758</td><td class="perf-data">99.54</td><td class="perf-data">5.73</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz32/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5"></td>
+<td rowspan="5">64</td>
+<td>1</td>
+<td class="perf-data">25.168</td><td class="perf-data">98.40</td><td class="perf-data">5.42</td><td class="perf-data">0.90</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz64/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">50.998</td><td class="perf-data">99.09</td><td class="perf-data">5.42</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz64/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">75.114</td><td class="perf-data">99.37</td><td class="perf-data">5.39</td><td class="perf-data">1.00</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz64/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">96.988</td><td class="perf-data">99.51</td><td class="perf-data">5.42</td><td class="perf-data">1.13</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz64/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">120.870</td><td class="perf-data">99.60</td><td class="perf-data">5.40</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz64/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5"></td>
+<td rowspan="5">128</td>
+<td>1</td>
+<td class="perf-data">12.189</td><td class="perf-data">97.98</td><td class="perf-data">8.44</td><td class="perf-data">0.89</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz128/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">24.584</td><td class="perf-data">98.84</td><td class="perf-data">8.37</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz128/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">36.759</td><td class="perf-data">99.19</td><td class="perf-data">8.36</td><td class="perf-data">0.98</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz128/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">48.631</td><td class="perf-data">99.37</td><td class="perf-data">8.32</td><td class="perf-data">1.03</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz128/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">60.056</td><td class="perf-data">99.48</td><td class="perf-data">8.35</td><td class="perf-data">1.07</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/cp/mdsz128/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="35">Decoupled metadata areas</td>
+<td rowspan="35">1</td>
+<td rowspan="5">2</td>
+<td>1</td>
+<td class="perf-data">23.091</td><td class="perf-data">98.59</td><td class="perf-data">4.76</td><td class="perf-data">0.94</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz2/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">49.064</td><td class="perf-data">99.15</td><td class="perf-data">4.68</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz2/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">74.347</td><td class="perf-data">99.39</td><td class="perf-data">4.80</td><td class="perf-data">1.01</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz2/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">94.779</td><td class="perf-data">99.52</td><td class="perf-data">4.75</td><td class="perf-data">1.03</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz2/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">110.534</td><td class="perf-data">99.59</td><td class="perf-data">4.83</td><td class="perf-data">1.10</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz2/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">4</td>
+<td>1</td>
+<td class="perf-data">23.912</td><td class="perf-data">98.58</td><td class="perf-data">4.76</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz4/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">45.860</td><td class="perf-data">99.15</td><td class="perf-data">4.75</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz4/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">76.054</td><td class="perf-data">99.38</td><td class="perf-data">4.81</td><td class="perf-data">0.99</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz4/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">95.948</td><td class="perf-data">99.53</td><td class="perf-data">4.72</td><td class="perf-data">1.06</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz4/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">116.540</td><td class="perf-data">99.61</td><td class="perf-data">4.77</td><td class="perf-data">1.11</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz4/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">8</td>
+<td>1</td>
+<td class="perf-data">23.246</td><td class="perf-data">98.40</td><td class="perf-data">4.85</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz8/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">48.063</td><td class="perf-data">99.00</td><td class="perf-data">4.85</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz8/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">75.925</td><td class="perf-data">99.26</td><td class="perf-data">4.91</td><td class="perf-data">0.99</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz8/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">94.029</td><td class="perf-data">99.43</td><td class="perf-data">4.87</td><td class="perf-data">1.04</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz8/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">106.980</td><td class="perf-data">99.54</td><td class="perf-data">4.85</td><td class="perf-data">1.10</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz8/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">16</td>
+<td>1</td>
+<td class="perf-data">23.148</td><td class="perf-data">98.36</td><td class="perf-data">4.90</td><td class="perf-data">0.95</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz16/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">46.333</td><td class="perf-data">98.99</td><td class="perf-data">4.89</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz16/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">72.734</td><td class="perf-data">99.26</td><td class="perf-data">4.88</td><td class="perf-data">1.06</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz16/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">94.780</td><td class="perf-data">99.43</td><td class="perf-data">4.94</td><td class="perf-data">1.06</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz16/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">111.320</td><td class="perf-data">99.53</td><td class="perf-data">4.92</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz16/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">32</td>
+<td>1</td>
+<td class="perf-data">20.723</td><td class="perf-data">98.36</td><td class="perf-data">4.89</td><td class="perf-data">0.94</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz32/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">43.961</td><td class="perf-data">99.00</td><td class="perf-data">4.88</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz32/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">68.308</td><td class="perf-data">99.27</td><td class="perf-data">4.91</td><td class="perf-data">1.02</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz32/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">86.510</td><td class="perf-data">99.43</td><td class="perf-data">4.90</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz32/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">113.303</td><td class="perf-data">99.52</td><td class="perf-data">4.89</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz32/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">64</td>
+<td>1</td>
+<td class="perf-data">22.809</td><td class="perf-data">98.50</td><td class="perf-data">4.92</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz64/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">49.164</td><td class="perf-data">99.12</td><td class="perf-data">4.90</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz64/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">60.681</td><td class="perf-data">99.36</td><td class="perf-data">4.87</td><td class="perf-data">1.00</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz64/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">86.156</td><td class="perf-data">99.51</td><td class="perf-data">4.94</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz64/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">103.854</td><td class="perf-data">99.59</td><td class="perf-data">4.89</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz64/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">128</td>
+<td>1</td>
+<td class="perf-data">10.831</td><td class="perf-data">98.07</td><td class="perf-data">8.21</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz128/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">21.886</td><td class="perf-data">98.84</td><td class="perf-data">8.19</td><td class="perf-data">0.89</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz128/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">33.478</td><td class="perf-data">99.16</td><td class="perf-data">8.17</td><td class="perf-data">1.04</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz128/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">44.679</td><td class="perf-data">99.34</td><td class="perf-data">8.23</td><td class="perf-data">1.03</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz128/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">54.935</td><td class="perf-data">99.46</td><td class="perf-data">8.17</td><td class="perf-data">1.08</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/dv/mdsz128/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="35">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="35">Batch No.</td>
+<td rowspan="5">2</td>
+<td>1</td>
+<td class="perf-data">40.124</td><td class="perf-data">99.94</td><td class="perf-data">1.60</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz2/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">79.665</td><td class="perf-data">99.97</td><td class="perf-data">1.61</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz2/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">115.841</td><td class="perf-data">99.98</td><td class="perf-data">1.58</td><td class="perf-data">1.01</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz2/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">145.181</td><td class="perf-data">99.99</td><td class="perf-data">1.61</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz2/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">172.041</td><td class="perf-data">99.99</td><td class="perf-data">1.60</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz2/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">4</td>
+<td>1</td>
+<td class="perf-data">38.425</td><td class="perf-data">99.95</td><td class="perf-data">1.61</td><td class="perf-data">0.91</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz4/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">82.238</td><td class="perf-data">99.97</td><td class="perf-data">1.60</td><td class="perf-data">0.90</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz4/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">116.156</td><td class="perf-data">99.98</td><td class="perf-data">1.61</td><td class="perf-data">1.03</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz4/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">147.272</td><td class="perf-data">99.99</td><td class="perf-data">1.60</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz4/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">173.534</td><td class="perf-data">99.99</td><td class="perf-data">1.59</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz4/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">8</td>
+<td>1</td>
+<td class="perf-data">36.859</td><td class="perf-data">99.93</td><td class="perf-data">1.63</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz8/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">72.972</td><td class="perf-data">99.96</td><td class="perf-data">1.63</td><td class="perf-data">0.89</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz8/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">105.474</td><td class="perf-data">99.98</td><td class="perf-data">1.60</td><td class="perf-data">1.05</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz8/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">136.912</td><td class="perf-data">99.98</td><td class="perf-data">1.60</td><td class="perf-data">1.04</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz8/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">163.452</td><td class="perf-data">99.99</td><td class="perf-data">1.61</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz8/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">16</td>
+<td>1</td>
+<td class="perf-data">34.427</td><td class="perf-data">99.93</td><td class="perf-data">1.67</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz16/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">68.661</td><td class="perf-data">99.96</td><td class="perf-data">1.67</td><td class="perf-data">0.90</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz16/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">99.759</td><td class="perf-data">99.98</td><td class="perf-data">1.64</td><td class="perf-data">1.06</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz16/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">138.929</td><td class="perf-data">99.98</td><td class="perf-data">1.64</td><td class="perf-data">1.04</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz16/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">157.061</td><td class="perf-data">99.99</td><td class="perf-data">1.64</td><td class="perf-data">1.08</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz16/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">32</td>
+<td>1</td>
+<td class="perf-data">33.081</td><td class="perf-data">99.82</td><td class="perf-data">2.09</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz32/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">66.445</td><td class="perf-data">99.91</td><td class="perf-data">2.07</td><td class="perf-data">0.90</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz32/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">98.448</td><td class="perf-data">99.93</td><td class="perf-data">2.07</td><td class="perf-data">1.01</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz32/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">128.113</td><td class="perf-data">99.95</td><td class="perf-data">2.07</td><td class="perf-data">1.04</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz32/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">160.451</td><td class="perf-data">99.96</td><td class="perf-data">2.09</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz32/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">64</td>
+<td>1</td>
+<td class="perf-data">23.234</td><td class="perf-data">97.81</td><td class="perf-data">6.00</td><td class="perf-data">0.93</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz64/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">47.241</td><td class="perf-data">98.77</td><td class="perf-data">5.99</td><td class="perf-data">0.92</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz64/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">71.881</td><td class="perf-data">99.14</td><td class="perf-data">6.02</td><td class="perf-data">1.01</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz64/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">94.565</td><td class="perf-data">99.35</td><td class="perf-data">6.05</td><td class="perf-data">1.02</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz64/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">115.612</td><td class="perf-data">99.47</td><td class="perf-data">6.00</td><td class="perf-data">1.09</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz64/batchsz512/cpu5.perf">here</a></td></tr>
+<tr>
+<td rowspan="5">128</td>
+<td>1</td>
+<td class="perf-data">13.388</td><td class="perf-data">97.86</td><td class="perf-data">7.43</td><td class="perf-data">0.89</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz128/batchsz512/cpu1.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td class="perf-data">27.199</td><td class="perf-data">98.79</td><td class="perf-data">7.42</td><td class="perf-data">0.90</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz128/batchsz512/cpu2.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td class="perf-data">40.612</td><td class="perf-data">99.15</td><td class="perf-data">7.41</td><td class="perf-data">0.99</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz128/batchsz512/cpu3.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">53.848</td><td class="perf-data">99.34</td><td class="perf-data">7.42</td><td class="perf-data">1.02</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz128/batchsz512/cpu4.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td class="perf-data">66.269</td><td class="perf-data">99.47</td><td class="perf-data">7.42</td><td class="perf-data">1.08</td><td class="raw-data"><a href="eivuv2_results/xeon/cpurate////fast/default/av/mdsz128/batchsz512/cpu5.perf">here</a></td></tr>
+</tbody>
+</table>
+</body>
+</html>

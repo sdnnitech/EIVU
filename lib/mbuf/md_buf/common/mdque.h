@@ -34,10 +34,15 @@ mdque_init_descs_rx(struct vioqueue *vq_rx)
     return;
 }
 
+#include <pkt.h>
 static inline void
 vioqueue_set_len_tx(struct desc *d, struct mbuf_ptr *mbp)
 {
+#if METADATA_SIZE == 0
+    d->len = PKT_SIZE;
+#else
     d->len = mbp->md->pkt_len;
+#endif
 }
 
 #endif

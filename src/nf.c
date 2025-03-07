@@ -98,8 +98,6 @@ main(int argc, char *argv[])
 
     init_shm(&shm, shm.head, (size_t)MDBUF_NUM * (size_t)MDBUF_SIZE, (size_t)PKTBUF_NUM * (size_t)MBUF_PKTBUF_SIZE, sizeof(struct desc) * opt.vq_size);
 
-    memset(shm.head, 0, SHM_SIZE);
-
     init_mpools(&mpools, MDBUF_SIZE, MBUF_PKTBUF_SIZE, PKTBUF_NUM, MDBUF_NUM, opt.mobj_cache_num, shm.head, &vq_rx);
     init_vq(&vq_rx, opt.vq_size, rxd(&shm), port_rx, &mpools);
     init_descs_rx(&vq_rx);
@@ -114,6 +112,9 @@ main(int argc, char *argv[])
 
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
         mbptrs[i].mbuf_idx.dmidx = init_midx();
+#ifdef GUEST_LED
+        mbptrs[i].mbuf_idx.md_idx = -1;
+#endif
     }
 
     /* I/O */

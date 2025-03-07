@@ -1,0 +1,78 @@
+NF Thread
+Time taken by program is : 2.594511 seconds (38.543 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///base/av/mdsz128/nf --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+    32,601,025,216      all_data_cache_accesses                                                 (41.65%)
+       298,896,970      l1_data_cache_fills_all                                                 (41.65%)
+       328,035,422      l2_cache_accesses_from_dc_misses                                        (41.66%)
+       260,245,374      l2_cache_hits_from_dc_misses                                            (41.67%)
+        26,529,272      l2_cache_misses_from_dc_misses                                          (41.67%)
+        76,704,583      l2_cache_hits_from_l2_hwpf                                              (41.68%)
+   <not supported>      l3_cache_accesses                                                     
+   <not supported>      l3_misses                                                             
+        77,263,218      cache-misses                     #   14.57% of all cache refs           (41.68%)
+       530,432,051      cache-references                                                        (41.68%)
+   141,082,914,240      instructions                                                            (41.68%)
+       330,111,305      L1-dcache-load-misses            #    1.05% of all L1-dcache accesses   (41.67%)
+    31,536,757,207      L1-dcache-loads                                                         (41.66%)
+        63,864,549      L1-dcache-prefetches                                                    (41.65%)
+
+      10.641098673 seconds time elapsed
+
+      10.348714000 seconds user
+       0.193904000 seconds sys
+
+
+RX Thread
+Time taken by program is : 2.611190 seconds (38.297 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///base/av/mdsz128/rx --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+    22,701,800,447      all_data_cache_accesses                                                 (41.64%)
+       284,744,139      l1_data_cache_fills_all                                                 (41.65%)
+       393,327,770      l2_cache_accesses_from_dc_misses                                        (41.67%)
+       166,829,957      l2_cache_hits_from_dc_misses                                            (41.69%)
+       113,491,212      l2_cache_misses_from_dc_misses                                          (41.70%)
+       104,075,470      l2_cache_hits_from_l2_hwpf                                              (41.71%)
+   <not supported>      l3_cache_accesses                                                     
+   <not supported>      l3_misses                                                             
+       145,423,784      cache-misses                     #   30.05% of all cache refs           (41.69%)
+       483,956,164      cache-references                                                        (41.68%)
+    62,184,770,274      instructions                                                            (41.66%)
+       391,194,418      L1-dcache-load-misses            #    1.78% of all L1-dcache accesses   (41.65%)
+    21,961,833,723      L1-dcache-loads                                                         (41.63%)
+        70,023,952      L1-dcache-prefetches                                                    (41.63%)
+
+       6.642132030 seconds time elapsed
+
+       6.537166000 seconds user
+       0.049490000 seconds sys
+
+
+TX Thread
+Time taken by program is : 2.636306 seconds (37.932 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///base/av/mdsz128/tx --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+     7,546,704,308      all_data_cache_accesses                                                 (41.64%)
+       180,120,457      l1_data_cache_fills_all                                                 (41.63%)
+       181,372,462      l2_cache_accesses_from_dc_misses                                        (41.63%)
+        49,373,360      l2_cache_hits_from_dc_misses                                            (41.64%)
+       120,704,632      l2_cache_misses_from_dc_misses                                          (41.68%)
+        83,522,818      l2_cache_hits_from_l2_hwpf                                              (41.69%)
+   <not supported>      l3_cache_accesses                                                     
+   <not supported>      l3_misses                                                             
+       144,747,522      cache-misses                     #   50.06% of all cache refs           (41.69%)
+       289,123,208      cache-references                                                        (41.69%)
+    15,266,944,280      instructions                                                            (41.69%)
+       180,352,731      L1-dcache-load-misses            #    2.68% of all L1-dcache accesses   (41.69%)
+     6,736,083,612      L1-dcache-loads                                                         (41.68%)
+        21,762,767      L1-dcache-prefetches                                                    (41.65%)
+
+       2.686776099 seconds time elapsed
+
+       2.614935000 seconds user
+       0.049513000 seconds sys
+
+

@@ -3,6 +3,7 @@
 
 #include "vioqueue.h"
 #include "mbuf.h"
+#include <vio_hdr.h>
 
 #include <stdbool.h>
 
@@ -13,17 +14,18 @@
 
 #define SHM_NAME "multimbuf"
 #define HUGEPAGE_PATH "/dev/hugepages/"
-#define SHM_SIZE 4000000000
+#define SHM_SIZE 4000000000ULL
+#define GIB 1073741824ULL
 #define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
 
 struct shm {
     uint8_t *head;
-    int pktbuf_memobjs_offset;
-    int md_memobjs_offset;
-    int rxd_offset;
-    int txd_offset;
-    int end_offset;
-    int start_offset;
+    uint64_t pktbuf_memobjs_offset;
+    uint64_t md_memobjs_offset;
+    uint64_t rxd_offset;
+    uint64_t txd_offset;
+    uint64_t end_offset;
+    uint64_t start_offset;
 };
 
 static inline void*
@@ -68,10 +70,10 @@ init_shm(struct shm *shm, uint8_t *head, size_t mdmpool_size, size_t pktmpool_si
     shm->head = head;
     shm->pktbuf_memobjs_offset = 0;
     shm->md_memobjs_offset = pktmpool_size;
-    shm->rxd_offset = pktmpool_size + mdmpool_size;
-    shm->txd_offset = pktmpool_size + mdmpool_size + rxtxd_size;
-    shm->end_offset = pktmpool_size + mdmpool_size + 2 * rxtxd_size;
-    shm->start_offset = pktmpool_size + mdmpool_size + 2 * rxtxd_size + sizeof(bool);
+    shm->rxd_offset = 2 * GIB;
+    shm->txd_offset = 2 * GIB + rxtxd_size;
+    shm->end_offset = 2 * GIB + 2 * rxtxd_size;
+    shm->start_offset = 2 * GIB + 2 * rxtxd_size + sizeof(uint64_t);
 }
 
 void
@@ -80,12 +82,15 @@ initialized_shm_assert(int shm_fd, struct shm *shm, uint32_t vq_size)
     uint32_t i = 0;
     struct stat sb;
 
+#ifdef VIO_HEADER
+    assert(MBUF_HEADROOM_SIZE >= VIO_HEADER_SIZE);
+#endif
+
     assert(fstat(shm_fd, &sb) == 0);
     //assert(sb.st_size == (off_t)SHM_SIZE);
     assert((uintptr_t)md_memobjs(shm) - (uintptr_t)pktbuf_memobjs(shm)==
         (size_t)PKTBUF_NUM * (size_t)MBUF_PKTBUF_SIZE);
-    assert((uintptr_t)rxd(shm) - (uintptr_t)md_memobjs(shm) ==
-        (size_t)MDBUF_NUM * (size_t)MDBUF_SIZE);
+    assert((size_t)PKTBUF_NUM * (size_t)MBUF_PKTBUF_SIZE + (size_t)MDBUF_NUM * (size_t)MDBUF_SIZE <= 2 * GIB);
 
     // whether descs are initialized at `flag_init` or not
     for (i = 0; i < vq_size; i++) {

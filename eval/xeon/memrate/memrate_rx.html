@@ -1,0 +1,258 @@
+<html>
+<body>
+<table border="1">
+<thead>
+<tr>
+<th>Implementation Patterns</th>
+<th>Buf Type</th>
+<th>Aggregation No.</th>
+<th>Metadata Size (bytes)</th>
+<th>Memory Rate (MHz)</th>
+<th>Throughput (Mpps)</th>
+<th>L1 hit ratio (%)</th>
+<th>Rep. (times/packet)</th>
+<th>RFO (times/packet)</th>
+<th>Raw Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="3">Fast</td>
+<td rowspan="3"></td>
+<td rowspan="3"></td>
+<td rowspan="3">0</td>
+<td>3200</td>
+<td class="perf-data">120.199</td><td class="perf-data">99.92</td><td class="perf-data">0.33</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/nm/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">119.038</td><td class="perf-data">99.92</td><td class="perf-data">0.33</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/nm/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">119.130</td><td class="perf-data">99.92</td><td class="perf-data">0.32</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/nm/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="63">Fast (Step 1)</td>
+<td rowspan="21">Coupled metadata areas</td>
+<td rowspan="3"></td>
+<td rowspan="3">2</td>
+<td>3200</td>
+<td class="perf-data">81.917</td><td class="perf-data">98.83</td><td class="perf-data">3.41</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz2/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">81.336</td><td class="perf-data">98.82</td><td class="perf-data">3.43</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz2/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">81.072</td><td class="perf-data">98.84</td><td class="perf-data">3.36</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz2/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3"></td>
+<td rowspan="3">4</td>
+<td>3200</td>
+<td class="perf-data">81.763</td><td class="perf-data">98.80</td><td class="perf-data">3.43</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz4/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">80.881</td><td class="perf-data">98.83</td><td class="perf-data">3.46</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz4/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">82.105</td><td class="perf-data">98.80</td><td class="perf-data">3.44</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz4/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3"></td>
+<td rowspan="3">8</td>
+<td>3200</td>
+<td class="perf-data">82.310</td><td class="perf-data">98.78</td><td class="perf-data">3.25</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz8/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">83.110</td><td class="perf-data">98.76</td><td class="perf-data">3.25</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz8/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">82.782</td><td class="perf-data">98.76</td><td class="perf-data">3.24</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz8/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3"></td>
+<td rowspan="3">16</td>
+<td>3200</td>
+<td class="perf-data">82.183</td><td class="perf-data">98.75</td><td class="perf-data">3.25</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz16/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">79.576</td><td class="perf-data">98.81</td><td class="perf-data">3.32</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz16/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">78.348</td><td class="perf-data">98.78</td><td class="perf-data">3.31</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz16/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3"></td>
+<td rowspan="3">32</td>
+<td>3200</td>
+<td class="perf-data">77.559</td><td class="perf-data">98.80</td><td class="perf-data">3.31</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz32/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">77.562</td><td class="perf-data">98.77</td><td class="perf-data">3.27</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz32/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">78.335</td><td class="perf-data">98.75</td><td class="perf-data">3.24</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz32/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3"></td>
+<td rowspan="3">64</td>
+<td>3200</td>
+<td class="perf-data">70.889</td><td class="perf-data">98.69</td><td class="perf-data">4.82</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz64/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">72.415</td><td class="perf-data">98.68</td><td class="perf-data">4.65</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz64/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">72.594</td><td class="perf-data">98.67</td><td class="perf-data">4.69</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz64/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3"></td>
+<td rowspan="3">128</td>
+<td>3200</td>
+<td class="perf-data">31.947</td><td class="perf-data">98.24</td><td class="perf-data">7.87</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz128/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">32.427</td><td class="perf-data">98.21</td><td class="perf-data">7.78</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz128/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">32.473</td><td class="perf-data">98.25</td><td class="perf-data">7.71</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/cp/mdsz128/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="21">Decoupled metadata areas</td>
+<td rowspan="21">1</td>
+<td rowspan="3">2</td>
+<td>3200</td>
+<td class="perf-data">70.507</td><td class="perf-data">98.84</td><td class="perf-data">3.57</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz2/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">70.410</td><td class="perf-data">98.76</td><td class="perf-data">3.53</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz2/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">72.824</td><td class="perf-data">98.83</td><td class="perf-data">3.52</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz2/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">4</td>
+<td>3200</td>
+<td class="perf-data">70.887</td><td class="perf-data">98.82</td><td class="perf-data">3.56</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz4/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">69.099</td><td class="perf-data">98.86</td><td class="perf-data">3.67</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz4/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">72.226</td><td class="perf-data">98.85</td><td class="perf-data">3.56</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz4/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">8</td>
+<td>3200</td>
+<td class="perf-data">69.516</td><td class="perf-data">98.82</td><td class="perf-data">3.69</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz8/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">71.020</td><td class="perf-data">98.78</td><td class="perf-data">3.66</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz8/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">69.393</td><td class="perf-data">98.81</td><td class="perf-data">3.65</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz8/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">16</td>
+<td>3200</td>
+<td class="perf-data">70.602</td><td class="perf-data">98.80</td><td class="perf-data">3.62</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz16/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">70.649</td><td class="perf-data">98.81</td><td class="perf-data">3.63</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz16/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">70.710</td><td class="perf-data">98.81</td><td class="perf-data">3.59</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz16/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">32</td>
+<td>3200</td>
+<td class="perf-data">67.139</td><td class="perf-data">98.78</td><td class="perf-data">3.66</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz32/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">67.386</td><td class="perf-data">98.80</td><td class="perf-data">3.65</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz32/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">68.197</td><td class="perf-data">98.82</td><td class="perf-data">3.63</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz32/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">64</td>
+<td>3200</td>
+<td class="perf-data">65.117</td><td class="perf-data">98.81</td><td class="perf-data">3.61</td><td class="perf-data">0.11</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz64/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">64.622</td><td class="perf-data">98.83</td><td class="perf-data">3.70</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz64/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">64.948</td><td class="perf-data">98.78</td><td class="perf-data">3.60</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz64/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">128</td>
+<td>3200</td>
+<td class="perf-data">29.665</td><td class="perf-data">98.55</td><td class="perf-data">7.34</td><td class="perf-data">0.11</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz128/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">29.895</td><td class="perf-data">98.54</td><td class="perf-data">7.30</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz128/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">29.820</td><td class="perf-data">98.55</td><td class="perf-data">7.29</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/dv/mdsz128/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="21">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="21">Batch No.</td>
+<td rowspan="3">2</td>
+<td>3200</td>
+<td class="perf-data">102.772</td><td class="perf-data">99.93</td><td class="perf-data">0.34</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz2/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">101.222</td><td class="perf-data">99.93</td><td class="perf-data">0.34</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz2/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">102.710</td><td class="perf-data">99.94</td><td class="perf-data">0.32</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz2/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">4</td>
+<td>3200</td>
+<td class="perf-data">101.037</td><td class="perf-data">99.93</td><td class="perf-data">0.35</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz4/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">102.907</td><td class="perf-data">99.93</td><td class="perf-data">0.34</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz4/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">102.371</td><td class="perf-data">99.94</td><td class="perf-data">0.32</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz4/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">8</td>
+<td>3200</td>
+<td class="perf-data">99.205</td><td class="perf-data">99.92</td><td class="perf-data">0.35</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz8/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">98.395</td><td class="perf-data">99.92</td><td class="perf-data">0.34</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz8/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">98.361</td><td class="perf-data">99.92</td><td class="perf-data">0.33</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz8/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">16</td>
+<td>3200</td>
+<td class="perf-data">97.985</td><td class="perf-data">99.91</td><td class="perf-data">0.37</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz16/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">95.571</td><td class="perf-data">99.92</td><td class="perf-data">0.37</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz16/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">100.498</td><td class="perf-data">99.92</td><td class="perf-data">0.36</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz16/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">32</td>
+<td>3200</td>
+<td class="perf-data">91.849</td><td class="perf-data">99.74</td><td class="perf-data">0.91</td><td class="perf-data">0.11</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz32/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">90.109</td><td class="perf-data">99.74</td><td class="perf-data">0.90</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz32/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">91.010</td><td class="perf-data">99.74</td><td class="perf-data">0.90</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz32/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">64</td>
+<td>3200</td>
+<td class="perf-data">65.309</td><td class="perf-data">98.26</td><td class="perf-data">4.90</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz64/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">65.091</td><td class="perf-data">98.26</td><td class="perf-data">4.93</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz64/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">65.828</td><td class="perf-data">98.26</td><td class="perf-data">4.91</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz64/batchsz512/mem4800.perf">here</a></td></tr>
+<tr>
+<td rowspan="3">128</td>
+<td>3200</td>
+<td class="perf-data">35.397</td><td class="perf-data">98.45</td><td class="perf-data">6.38</td><td class="perf-data">0.11</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz128/batchsz512/mem3200.perf">here</a></td></tr>
+<tr>
+<td>4000</td>
+<td class="perf-data">35.309</td><td class="perf-data">98.46</td><td class="perf-data">6.41</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz128/batchsz512/mem4000.perf">here</a></td></tr>
+<tr>
+<td>4800</td>
+<td class="perf-data">35.425</td><td class="perf-data">98.45</td><td class="perf-data">6.39</td><td class="perf-data">0.10</td><td class="raw-data"><a href="eivuv2_results/xeon/memrate////fast/default/av/mdsz128/batchsz512/mem4800.perf">here</a></td></tr>
+</tbody>
+</table>
+</body>
+</html>

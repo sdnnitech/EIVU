@@ -58,6 +58,33 @@ Profiling items (perf items) can be specified to the "opt_perf" variable in the 
 $ ./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>
 ```
 
+=======
+### Options
+#### Fast
+```
+meson setup <builddir> \
+-Dtiny_descs=true \
+-Dheadroom_size=0 \
+-Ddataroom_size=64 \
+-Dvio_header=false \
+-Dzero_copy=rx,tx
+```
+
+#### Step 1
+Shrinking metadata areas
+````
+meson setup <builddir> -Dmetadata_size=<val>
+````
+
+#### Step 2
+Decoupling & Aggregating metadata areas
+```
+meson setup <builddir> \
+-Daggregated_md=true \
+-Dhost_aggregated_md=true \
+-Daggregation_num=<val>
+```
+
 ## Academic Results
 ### Papers
 - A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Rethinking Message Buffer Structures for 100 Mpps Cloud-native Network Functions", Proc. 2024 IEEE Future Networks World Forum (FNWF), 2024.

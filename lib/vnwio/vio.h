@@ -93,12 +93,14 @@ vioqueue_enqueue_burst_tx(struct vioqueue *vq, struct mbuf_ptr *mbp)
 {
     struct desc *d;
 
+#ifdef VIO_HEADER
     if (!vq->is_offload)
         vio_tx_clear_net_hdr((struct vio_hdr *)mbp->pkt - 1);
     else {
         fprintf(stderr, "vio_tx_offload: caused an unexpected behavior\n");
         exit(EXIT_FAILURE);
     }
+#endif
 
     d = &vq->descs[vq->last_avail_idx];
     set_desc_mbuf_idx(d, mbp->mbuf_idx.dmidx);

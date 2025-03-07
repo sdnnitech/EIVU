@@ -21,13 +21,13 @@ run() {
   sudo $2 $1/nf --pktnum=$pn -H --batchsz=$5 --vqsz=$6 --mobjcache=$7 &
   sleep 1
   sudo $3 $1/rx --pktnum=$pn -H --batchsz=$5 --vqsz=$6 --mobjcache=$7 &
-  sleep 1 
+  sleep 1
   sudo $4 $1/tx --pktnum=$pn -H --batchsz=$5 --vqsz=$6 --mobjcache=$7
 }
 
 batchsz=$2
 vqsz=$3
-mobjcache=$vqsz
+mobjcache=$((2*$vqsz))
 
 echo "batchsz=$batchsz"
 echo "vqsz=$vqsz"

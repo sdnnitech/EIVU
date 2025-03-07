@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <pkt.h>
+
 #include "perf.h"
 #include "vioqueue.h"
 #include "vio_hdr.h"
@@ -52,21 +54,33 @@ vhost_rx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
 
     /* vhost_rx_batch_copy */
     for (i = 0; i < count; i++) {
+#ifndef ZEROCOPY_RX
         dpdk_prefetch0(desc_addrs[i]);
+#endif
+#ifdef VIO_HEADER
         hdrs[i] = (struct vio_hdr *)desc_addrs[i] - 1;
+#endif
+#if METADATA_SIZE == 0
+        lens[i] = PKT_SIZE;
+#else
         lens[i] = mps[i].md->pkt_len;
+#endif
     }
 
+#ifdef VIO_HEADER
     for (i = 0; i < count; i++)
         vhost_enqueue_offload(hdrs[i], mps[i].md);
+#endif
 
     vq->last_avail_idx += count;
     vq->last_avail_idx &= (vq->nentries - 1);
 
     vhost_memcpy_md_rx(vq->mpools, buf_idxs, mps, count);
 
+#ifndef ZEROCOPY_RX
     for (i = 0; i < count; i++)
         memcpy(desc_addrs[i], mps[i].pkt, lens[i]);
+#endif
 
     for (i = 0; i < count; i++) {
         used_descs[i].len = lens[i];
@@ -119,31 +133,41 @@ vhost_tx_batch(struct vioqueue *vq, struct mbuf_ptr mps[], uint32_t count)
     for (i = 0; i < count; i++)
         buf_idxs[i] = get_desc_mbuf_idx(&avail_descs[i]);
 
+#if METADATA_SIZE > 0
     for (i = 0; i < count; i++) {
         mps[i].md->pkt_len = avail_descs[i].len;
     }
+#endif
 
     for (i = 0; i < count; i++)
         desc_addrs[i] = mbuf_mtod(vq->mpools, buf_idxs[i]);
 
+#ifndef ZEROCOPY_TX
     for (i = 0; i < count; i++)
         dpdk_prefetch0(desc_addrs[i]);
 
     for (i = 0; i < count; i++) {
+#if METADATA_SIZE == 0
+        memcpy(mps[i].pkt, desc_addrs[i], PKT_SIZE);
+#else
         memcpy(mps[i].pkt, desc_addrs[i], mps[i].md->pkt_len);
+#endif
     }
+#endif
     
     vhost_memcpy_md_tx(vq->mpools, buf_idxs, mps, count);
 
     // count = recognize_mds_host_tx(vq, mps, count);
     // free_aggregated_md_shm(vq->mpools, buf_idxs, count);
 
+#ifdef VIO_HEADER
     if (vq->is_offload) {
         for (i = 0; i < count; i++) {
             hdr = (struct vio_hdr *)desc_addrs[i] - 1;
             vhost_dequeue_offload(hdr);
         }
     }
+#endif
 
     dpdk_atomic_thread_fence(__ATOMIC_RELEASE);
     for (i = 0; i < count; i++)

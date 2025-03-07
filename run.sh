@@ -16,8 +16,8 @@ echo "vqsz=$vqsz"
 echo "mobjcache=${mobjcache}"
 
 sudo $1/nf --pktnum=$pn -H --batchsz=$2 --vqsz=$vqsz --mobjcache=$mobjcache &
-sleep 3
+sleep 1
 sudo $1/rx --pktnum=$pn -H --batchsz=$2 --vqsz=$vqsz --mobjcache=$mobjcache &
-sleep 3
+sleep 1
 sudo $1/tx --pktnum=$pn -H --batchsz=$2 --vqsz=$vqsz --mobjcache=$mobjcache
 
