@@ -1,0 +1,342 @@
+<html>
+<body>
+<table border="1">
+<thead>
+<tr>
+<th>Implementation Patterns</th>
+<th>Buf Type</th>
+<th>Aggregation No.</th>
+<th>Metadata Size (bytes)</th>
+<th>Throughput (Mpps)</th>
+<th>L1 hit ratio (%)</th>
+<th>Rep. (times/packet)</th>
+<th>RFO (times/packet)</th>
+<th>Raw Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base</td>
+<td></td>
+<td></td>
+<td>128</td>
+<td class="perf-data">N/A</td>
+<td class="perf-data">N/A</td>
+<td class="perf-data">N/A</td>
+<td class="perf-data">N/A</td>
+<td class="perf-data">N/A</td>
+</tr>
+<tr>
+<td>Fast</td>
+<td></td>
+<td></td>
+<td>0</td>
+<td class="perf-data">160.173</td><td class="perf-data">99.61</td><td class="perf-data">0.41</td><td class="perf-data">0.23</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/nm/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="21">Fast (Step 1, zero-copy)</td>
+<td rowspan="7">Coupled metadata areas</td>
+<td></td>
+<td>2</td>
+<td class="perf-data">110.090</td><td class="perf-data">98.62</td><td class="perf-data">2.57</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>4</td>
+<td class="perf-data">109.608</td><td class="perf-data">98.66</td><td class="perf-data">2.63</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>8</td>
+<td class="perf-data">107.989</td><td class="perf-data">98.64</td><td class="perf-data">2.61</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>16</td>
+<td class="perf-data">106.509</td><td class="perf-data">98.56</td><td class="perf-data">2.62</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>32</td>
+<td class="perf-data">104.554</td><td class="perf-data">98.67</td><td class="perf-data">2.64</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>64</td>
+<td class="perf-data">86.420</td><td class="perf-data">98.56</td><td class="perf-data">3.52</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>128</td>
+<td class="perf-data">40.211</td><td class="perf-data">96.48</td><td class="perf-data">6.94</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/cp/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled metadata areas</td>
+<td rowspan="7">1</td>
+<td>2</td>
+<td class="perf-data">92.584</td><td class="perf-data">98.90</td><td class="perf-data">2.81</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">92.770</td><td class="perf-data">98.90</td><td class="perf-data">2.81</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">86.364</td><td class="perf-data">98.95</td><td class="perf-data">2.88</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">90.490</td><td class="perf-data">99.17</td><td class="perf-data">2.80</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">89.816</td><td class="perf-data">99.10</td><td class="perf-data">2.84</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">84.095</td><td class="perf-data">99.19</td><td class="perf-data">2.81</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">37.515</td><td class="perf-data">97.78</td><td class="perf-data">5.62</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/dv/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="7">Batch size</td>
+<td>2</td>
+<td class="perf-data">133.572</td><td class="perf-data">99.66</td><td class="perf-data">0.41</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">136.457</td><td class="perf-data">99.68</td><td class="perf-data">0.40</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">131.407</td><td class="perf-data">99.61</td><td class="perf-data">0.40</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">125.817</td><td class="perf-data">99.68</td><td class="perf-data">0.42</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">123.183</td><td class="perf-data">99.63</td><td class="perf-data">0.56</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">88.063</td><td class="perf-data">97.12</td><td class="perf-data">3.79</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">45.493</td><td class="perf-data">95.23</td><td class="perf-data">5.37</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/default/av/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="21">Fast (Step 1, RX copy)</td>
+<td rowspan="7">Coupled metadata areas</td>
+<td></td>
+<td>2</td>
+<td class="perf-data">45.714</td><td class="perf-data">99.57</td><td class="perf-data">3.02</td><td class="perf-data">0.26</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>4</td>
+<td class="perf-data">45.660</td><td class="perf-data">99.57</td><td class="perf-data">3.07</td><td class="perf-data">0.25</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>8</td>
+<td class="perf-data">45.470</td><td class="perf-data">99.55</td><td class="perf-data">2.98</td><td class="perf-data">0.25</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>16</td>
+<td class="perf-data">46.012</td><td class="perf-data">99.51</td><td class="perf-data">2.93</td><td class="perf-data">0.25</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>32</td>
+<td class="perf-data">47.895</td><td class="perf-data">99.52</td><td class="perf-data">2.82</td><td class="perf-data">0.25</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>64</td>
+<td class="perf-data">48.585</td><td class="perf-data">98.96</td><td class="perf-data">5.14</td><td class="perf-data">0.22</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>128</td>
+<td class="perf-data">29.432</td><td class="perf-data">96.56</td><td class="perf-data">8.83</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/cp/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled metadata areas</td>
+<td rowspan="7">1</td>
+<td>2</td>
+<td class="perf-data">74.565</td><td class="perf-data">99.28</td><td class="perf-data">2.72</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">73.950</td><td class="perf-data">99.29</td><td class="perf-data">2.69</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">73.590</td><td class="perf-data">99.29</td><td class="perf-data">2.70</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">73.496</td><td class="perf-data">99.31</td><td class="perf-data">2.65</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">72.920</td><td class="perf-data">99.30</td><td class="perf-data">2.65</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">68.833</td><td class="perf-data">99.18</td><td class="perf-data">2.72</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">36.461</td><td class="perf-data">97.43</td><td class="perf-data">5.72</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/dv/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="7">Batch size</td>
+<td>2</td>
+<td class="perf-data">95.456</td><td class="perf-data">99.81</td><td class="perf-data">0.40</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">94.184</td><td class="perf-data">99.82</td><td class="perf-data">0.40</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">91.228</td><td class="perf-data">99.80</td><td class="perf-data">0.40</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">86.803</td><td class="perf-data">99.84</td><td class="perf-data">0.40</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">84.573</td><td class="perf-data">99.81</td><td class="perf-data">0.48</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">73.290</td><td class="perf-data">97.20</td><td class="perf-data">4.07</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">41.232</td><td class="perf-data">96.18</td><td class="perf-data">5.67</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/rxcpy/av/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="21">Fast (Step 1, TX copy)</td>
+<td rowspan="7">Coupled metadata areas</td>
+<td></td>
+<td>2</td>
+<td class="perf-data">94.024</td><td class="perf-data">91.63</td><td class="perf-data">5.68</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>4</td>
+<td class="perf-data">92.381</td><td class="perf-data">91.40</td><td class="perf-data">5.79</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>8</td>
+<td class="perf-data">86.287</td><td class="perf-data">92.03</td><td class="perf-data">5.94</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>16</td>
+<td class="perf-data">89.065</td><td class="perf-data">90.87</td><td class="perf-data">6.30</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>32</td>
+<td class="perf-data">80.945</td><td class="perf-data">90.77</td><td class="perf-data">6.96</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>64</td>
+<td class="perf-data">73.168</td><td class="perf-data">93.33</td><td class="perf-data">7.49</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>128</td>
+<td class="perf-data">37.714</td><td class="perf-data">92.56</td><td class="perf-data">10.07</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/cp/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled metadata areas</td>
+<td rowspan="7">1</td>
+<td>2</td>
+<td class="perf-data">82.300</td><td class="perf-data">95.22</td><td class="perf-data">7.31</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">83.483</td><td class="perf-data">95.29</td><td class="perf-data">7.32</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">83.035</td><td class="perf-data">95.40</td><td class="perf-data">7.39</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">82.859</td><td class="perf-data">95.25</td><td class="perf-data">7.27</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">81.026</td><td class="perf-data">95.33</td><td class="perf-data">7.36</td><td class="perf-data">0.18</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">75.784</td><td class="perf-data">95.31</td><td class="perf-data">7.31</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">37.366</td><td class="perf-data">94.93</td><td class="perf-data">9.42</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/dv/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="7">Batch size</td>
+<td>2</td>
+<td class="perf-data">105.773</td><td class="perf-data">96.50</td><td class="perf-data">4.10</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">112.526</td><td class="perf-data">96.45</td><td class="perf-data">4.17</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">110.184</td><td class="perf-data">96.33</td><td class="perf-data">4.29</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">107.636</td><td class="perf-data">96.10</td><td class="perf-data">4.63</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">100.852</td><td class="perf-data">95.39</td><td class="perf-data">5.24</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">85.671</td><td class="perf-data">91.35</td><td class="perf-data">7.88</td><td class="perf-data">0.18</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">44.448</td><td class="perf-data">91.76</td><td class="perf-data">9.13</td><td class="perf-data">0.18</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/txcpy/av/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="21">Fast (Step 1, RX &amp; TX copy)</td>
+<td rowspan="7">Coupled metadata areas</td>
+<td></td>
+<td>2</td>
+<td class="perf-data">41.943</td><td class="perf-data">97.31</td><td class="perf-data">7.07</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>4</td>
+<td class="perf-data">42.105</td><td class="perf-data">97.31</td><td class="perf-data">7.09</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>8</td>
+<td class="perf-data">42.272</td><td class="perf-data">97.17</td><td class="perf-data">7.12</td><td class="perf-data">0.21</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>16</td>
+<td class="perf-data">42.323</td><td class="perf-data">97.02</td><td class="perf-data">7.11</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>32</td>
+<td class="perf-data">44.913</td><td class="perf-data">96.90</td><td class="perf-data">7.01</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>64</td>
+<td class="perf-data">46.801</td><td class="perf-data">97.52</td><td class="perf-data">6.98</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td></td>
+<td>128</td>
+<td class="perf-data">29.673</td><td class="perf-data">93.55</td><td class="perf-data">11.15</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/cp/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled metadata areas</td>
+<td rowspan="7">1</td>
+<td>2</td>
+<td class="perf-data">56.880</td><td class="perf-data">96.83</td><td class="perf-data">6.90</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">58.577</td><td class="perf-data">96.70</td><td class="perf-data">6.91</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">56.808</td><td class="perf-data">96.84</td><td class="perf-data">6.89</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">56.575</td><td class="perf-data">96.76</td><td class="perf-data">6.96</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">53.325</td><td class="perf-data">97.11</td><td class="perf-data">6.94</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">55.543</td><td class="perf-data">96.63</td><td class="perf-data">6.98</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">32.448</td><td class="perf-data">95.17</td><td class="perf-data">9.54</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/dv/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td rowspan="7">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="7">Batch size</td>
+<td>2</td>
+<td class="perf-data">68.313</td><td class="perf-data">97.46</td><td class="perf-data">3.13</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td class="perf-data">67.737</td><td class="perf-data">97.39</td><td class="perf-data">3.25</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td class="perf-data">64.839</td><td class="perf-data">97.34</td><td class="perf-data">3.41</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td class="perf-data">65.837</td><td class="perf-data">97.05</td><td class="perf-data">3.89</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td class="perf-data">62.425</td><td class="perf-data">96.49</td><td class="perf-data">4.77</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>64</td>
+<td class="perf-data">56.867</td><td class="perf-data">94.11</td><td class="perf-data">7.53</td><td class="perf-data">0.20</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>128</td>
+<td class="perf-data">35.575</td><td class="perf-data">91.83</td><td class="perf-data">9.38</td><td class="perf-data">0.19</td><td class="raw-data"><a href="eivuv2_results/corei9_11gen/factors////fast/fullcpy/av/mdsz128/batchsz512.perf">here</a></td></tr>
+</tbody>
+</table>
+</body>
+</html>

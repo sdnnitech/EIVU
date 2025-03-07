@@ -1,0 +1,99 @@
+NF Thread
+Time taken by program is : 1.023680 seconds (97.687 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///fast/default/av/mdsz8/nf --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+    20,861,068,661      mem_load_retired.l1_hit                                                 (19.03%)
+         1,830,365      mem_load_retired.l2_hit                                                 (19.04%)
+            96,321      mem_load_retired.l3_hit                                                 (19.05%)
+         2,851,997      mem_load_retired.l1_miss                                                (19.06%)
+         1,013,282      mem_load_retired.l2_miss                                                (19.07%)
+             2,087      mem_load_retired.l3_miss                                                (19.07%)
+       128,623,532      cache-misses                     #   64.90% of all cache refs           (23.83%)
+       198,186,150      cache-references                                                        (28.60%)
+       186,321,034      l1d.replacement                                                         (28.60%)
+       133,758,547      l2_lines_out.non_silent                                                 (28.60%)
+        64,826,454      l2_lines_out.silent                                                     (28.60%)
+            10,087      l2_lines_out.useless_hwpf                                               (28.60%)
+       153,628,245      offcore_requests.demand_rfo                                             (19.06%)
+    13,892,737,787      offcore_requests_outstanding.demand_rfo                                        (19.05%)
+     2,665,916,030      offcore_requests_outstanding.cycles_with_demand_rfo                                        (19.04%)
+       148,780,581      ocr.demand_rfo.any_response                                             (19.03%)
+        31,196,647      ocr.hwpf_l2_rfo.any_response                                            (19.02%)
+         1,564,641      LLC-loads                                                               (9.51%)
+       148,789,300      LLC-stores                                                              (9.51%)
+       699,041,752      l1d_pend_miss.fb_full                                                   (14.27%)
+       212,432,315      l1d_pend_miss.pending_cycles                                            (19.02%)
+
+       9.085135945 seconds time elapsed
+
+       8.807565000 seconds user
+       0.249874000 seconds sys
+
+
+RX Thread
+Time taken by program is : 1.029465 seconds (97.138 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///fast/default/av/mdsz8/rx --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+    15,729,430,151      mem_load_retired.l1_hit                                                 (19.03%)
+           645,258      mem_load_retired.l2_hit                                                 (19.05%)
+           141,329      mem_load_retired.l3_hit                                                 (19.07%)
+        10,069,528      mem_load_retired.l1_miss                                                (19.09%)
+         9,528,672      mem_load_retired.l2_miss                                                (19.09%)
+               455      mem_load_retired.l3_miss                                                (19.09%)
+        15,198,358      cache-misses                     #   20.22% of all cache refs           (23.87%)
+        75,173,006      cache-references                                                        (28.64%)
+        51,045,446      l1d.replacement                                                         (28.64%)
+        16,407,531      l2_lines_out.non_silent                                                 (28.62%)
+        58,838,146      l2_lines_out.silent                                                     (28.60%)
+             6,371      l2_lines_out.useless_hwpf                                               (28.58%)
+        28,332,203      offcore_requests.demand_rfo                                             (19.02%)
+     3,145,075,791      offcore_requests_outstanding.demand_rfo                                        (19.02%)
+       723,399,294      offcore_requests_outstanding.cycles_with_demand_rfo                                        (19.02%)
+        28,300,096      ocr.demand_rfo.any_response                                             (19.02%)
+        18,199,939      ocr.hwpf_l2_rfo.any_response                                            (19.02%)
+        11,737,664      LLC-loads                                                               (9.51%)
+        28,213,611      LLC-stores                                                              (9.51%)
+       119,092,549      l1d_pend_miss.fb_full                                                   (14.26%)
+       852,741,306      l1d_pend_miss.pending_cycles                                            (19.01%)
+
+       5.069794780 seconds time elapsed
+
+       4.990262000 seconds user
+       0.063714000 seconds sys
+
+
+TX Thread
+Time taken by program is : 0.943751 seconds (105.960 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///fast/default/av/mdsz8/tx --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+     2,012,629,164      mem_load_retired.l1_hit                                                 (19.07%)
+           497,787      mem_load_retired.l2_hit                                                 (19.07%)
+           306,299      mem_load_retired.l3_hit                                                 (19.07%)
+         9,418,397      mem_load_retired.l1_miss                                                (19.07%)
+         8,949,723      mem_load_retired.l2_miss                                                (19.04%)
+                 5      mem_load_retired.l3_miss                                                (19.04%)
+        15,278,353      cache-misses                     #   28.86% of all cache refs           (23.80%)
+        52,941,375      cache-references                                                        (28.56%)
+        48,715,765      l1d.replacement                                                         (28.56%)
+        16,525,358      l2_lines_out.non_silent                                                 (28.56%)
+        36,599,295      l2_lines_out.silent                                                     (28.56%)
+             3,385      l2_lines_out.useless_hwpf                                               (28.56%)
+        28,162,838      offcore_requests.demand_rfo                                             (19.04%)
+     3,069,422,873      offcore_requests_outstanding.demand_rfo                                        (19.04%)
+       667,856,230      offcore_requests_outstanding.cycles_with_demand_rfo                                        (19.04%)
+        28,051,112      ocr.demand_rfo.any_response                                             (19.04%)
+         1,569,182      ocr.hwpf_l2_rfo.any_response                                            (19.04%)
+        10,652,763      LLC-loads                                                               (9.52%)
+        27,984,353      LLC-stores                                                              (9.52%)
+       118,626,197      l1d_pend_miss.fb_full                                                   (14.28%)
+       717,751,321      l1d_pend_miss.pending_cycles                                            (19.04%)
+
+       1.008422723 seconds time elapsed
+
+       0.941600000 seconds user
+       0.063730000 seconds sys
+
+

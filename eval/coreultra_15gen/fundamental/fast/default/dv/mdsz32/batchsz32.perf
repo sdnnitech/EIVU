@@ -1,0 +1,39 @@
+NF Thread
+Time taken by program is : 1.135282 seconds (88.084 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///fast/default/dv/mdsz32/nf --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+       166,238,641      cache-references                                                      
+
+       9.226423348 seconds time elapsed
+
+       8.910691000 seconds user
+       0.288718000 seconds sys
+
+
+RX Thread
+Time taken by program is : 1.104897 seconds (90.506 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///fast/default/dv/mdsz32/rx --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+        34,937,461      cache-references                                                      
+
+       5.158557506 seconds time elapsed
+
+       5.082637000 seconds user
+       0.071944000 seconds sys
+
+
+TX Thread
+Time taken by program is : 1.063926 seconds (93.991 Mpps)
+
+ Performance counter stats for './journal/builddirs/noalign_modagsz///fast/default/dv/mdsz32/tx --pktnum=100000000 -H --batchsz=32 --vqsz=256 --mobjcache=512':
+
+        34,380,458      cache-references                                                      
+
+       1.137342151 seconds time elapsed
+
+       1.063534000 seconds user
+       0.072973000 seconds sys
+
+

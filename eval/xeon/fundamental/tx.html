@@ -1,0 +1,230 @@
+<html>
+<body>
+<table border="1">
+<thead>
+<tr>
+<th>ID</th>
+<th>Implementation Patterns</th>
+<th>Buf Type</th>
+<th>Aggregation No.</th>
+<th>Metadata Size (bytes)</th>
+<th>Throughput (Mpps)</th>
+<th>L1 hit ratio (%)</th>
+<th>Rep. (times/packet)</th>
+<th>RFO (times/packet)</th>
+<th>Raw Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Base</td>
+<td></td>
+<td></td>
+<td>128</td>
+<td class="perf-data">21.572</td><td class="perf-data">99.34</td><td class="perf-data">2.03</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz128/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>2</td>
+<td>Fast</td>
+<td></td>
+<td></td>
+<td>0</td>
+<td class="perf-data">119.178</td><td class="perf-data">99.67</td><td class="perf-data">0.31</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/nm/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>3</td>
+<td rowspan="21">Base (Step 1)</td>
+<td rowspan="7">Coupled metadata areas</td>
+<td></td>
+<td>2</td>
+<td class="perf-data">13.093</td><td class="perf-data">99.52</td><td class="perf-data">2.82</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz2/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>4</td>
+<td class="perf-data">13.473</td><td class="perf-data">99.49</td><td class="perf-data">2.78</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz4/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>8</td>
+<td class="perf-data">13.846</td><td class="perf-data">99.48</td><td class="perf-data">2.79</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz8/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>16</td>
+<td class="perf-data">14.513</td><td class="perf-data">99.53</td><td class="perf-data">2.70</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz16/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>7</td>
+<td></td>
+<td>32</td>
+<td class="perf-data">16.066</td><td class="perf-data">99.62</td><td class="perf-data">2.53</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz32/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>8</td>
+<td></td>
+<td>64</td>
+<td class="perf-data">22.042</td><td class="perf-data">99.73</td><td class="perf-data">2.20</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz64/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>9</td>
+<td></td>
+<td>128</td>
+<td class="perf-data">21.572</td><td class="perf-data">99.34</td><td class="perf-data">2.03</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/cp/mdsz128/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>10</td>
+<td rowspan="7">Decoupled metadata areas</td>
+<td rowspan="7">1</td>
+<td>2</td>
+<td class="perf-data">14.948</td><td class="perf-data">99.82</td><td class="perf-data">2.20</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz2/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>11</td>
+<td>4</td>
+<td class="perf-data">14.965</td><td class="perf-data">99.82</td><td class="perf-data">2.16</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz4/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>12</td>
+<td>8</td>
+<td class="perf-data">14.908</td><td class="perf-data">99.82</td><td class="perf-data">2.19</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz8/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td class="perf-data">14.886</td><td class="perf-data">99.82</td><td class="perf-data">2.19</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz16/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>14</td>
+<td>32</td>
+<td class="perf-data">14.931</td><td class="perf-data">99.82</td><td class="perf-data">2.19</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz32/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>15</td>
+<td>64</td>
+<td class="perf-data">14.916</td><td class="perf-data">99.81</td><td class="perf-data">2.18</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz64/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>16</td>
+<td>128</td>
+<td class="perf-data">11.700</td><td class="perf-data">99.63</td><td class="perf-data">2.16</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/dv/mdsz128/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>17</td>
+<td rowspan="7">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="7">Batch size</td>
+<td>2</td>
+<td class="perf-data">15.272</td><td class="perf-data">99.77</td><td class="perf-data">2.19</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz2/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>18</td>
+<td>4</td>
+<td class="perf-data">15.485</td><td class="perf-data">99.76</td><td class="perf-data">2.15</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz4/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>19</td>
+<td>8</td>
+<td class="perf-data">15.182</td><td class="perf-data">99.76</td><td class="perf-data">2.26</td><td class="perf-data">0.14</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz8/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td class="perf-data">15.066</td><td class="perf-data">99.76</td><td class="perf-data">2.26</td><td class="perf-data">0.14</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz16/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>21</td>
+<td>32</td>
+<td class="perf-data">15.014</td><td class="perf-data">99.74</td><td class="perf-data">2.24</td><td class="perf-data">0.13</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz32/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>22</td>
+<td>64</td>
+<td class="perf-data">15.076</td><td class="perf-data">99.75</td><td class="perf-data">2.23</td><td class="perf-data">0.13</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz64/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>23</td>
+<td>128</td>
+<td class="perf-data">12.577</td><td class="perf-data">99.39</td><td class="perf-data">2.21</td><td class="perf-data">0.12</td><td class="raw-data"><a href="page///xeon/fundamental///base/av/mdsz128/batchsz32.perf">here</a></td></tr>
+<tr>
+<td>24</td>
+<td rowspan="21">Fast (Step 1)</td>
+<td rowspan="7">Coupled metadata areas</td>
+<td></td>
+<td>2</td>
+<td class="perf-data">81.669</td><td class="perf-data">98.98</td><td class="perf-data">2.68</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>25</td>
+<td></td>
+<td>4</td>
+<td class="perf-data">80.753</td><td class="perf-data">99.04</td><td class="perf-data">2.69</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>26</td>
+<td></td>
+<td>8</td>
+<td class="perf-data">83.225</td><td class="perf-data">98.86</td><td class="perf-data">2.60</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>27</td>
+<td></td>
+<td>16</td>
+<td class="perf-data">82.099</td><td class="perf-data">98.93</td><td class="perf-data">2.62</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>28</td>
+<td></td>
+<td>32</td>
+<td class="perf-data">76.633</td><td class="perf-data">98.94</td><td class="perf-data">2.65</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>29</td>
+<td></td>
+<td>64</td>
+<td class="perf-data">72.950</td><td class="perf-data">98.70</td><td class="perf-data">3.35</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>30</td>
+<td></td>
+<td>128</td>
+<td class="perf-data">32.453</td><td class="perf-data">95.77</td><td class="perf-data">7.30</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/cp/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>31</td>
+<td rowspan="7">Decoupled metadata areas</td>
+<td rowspan="7">1</td>
+<td>2</td>
+<td class="perf-data">70.775</td><td class="perf-data">99.24</td><td class="perf-data">2.94</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>32</td>
+<td>4</td>
+<td class="perf-data">70.485</td><td class="perf-data">99.29</td><td class="perf-data">2.93</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>33</td>
+<td>8</td>
+<td class="perf-data">71.155</td><td class="perf-data">99.24</td><td class="perf-data">2.94</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>34</td>
+<td>16</td>
+<td class="perf-data">71.187</td><td class="perf-data">99.22</td><td class="perf-data">2.91</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>35</td>
+<td>32</td>
+<td class="perf-data">69.841</td><td class="perf-data">99.16</td><td class="perf-data">2.84</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>36</td>
+<td>64</td>
+<td class="perf-data">65.962</td><td class="perf-data">99.20</td><td class="perf-data">2.85</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>37</td>
+<td>128</td>
+<td class="perf-data">29.995</td><td class="perf-data">98.11</td><td class="perf-data">5.98</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/dv/mdsz128/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>38</td>
+<td rowspan="7">Decoupled &amp; aggregated metadata areas</td>
+<td rowspan="7">Batch size</td>
+<td>2</td>
+<td class="perf-data">102.525</td><td class="perf-data">99.68</td><td class="perf-data">0.31</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz2/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>39</td>
+<td>4</td>
+<td class="perf-data">101.708</td><td class="perf-data">99.67</td><td class="perf-data">0.32</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz4/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>40</td>
+<td>8</td>
+<td class="perf-data">94.134</td><td class="perf-data">99.71</td><td class="perf-data">0.32</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz8/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>41</td>
+<td>16</td>
+<td class="perf-data">92.668</td><td class="perf-data">99.73</td><td class="perf-data">0.34</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz16/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>42</td>
+<td>32</td>
+<td class="perf-data">88.987</td><td class="perf-data">99.59</td><td class="perf-data">0.57</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz32/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>43</td>
+<td>64</td>
+<td class="perf-data">65.440</td><td class="perf-data">97.88</td><td class="perf-data">3.67</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz64/batchsz512.perf">here</a></td></tr>
+<tr>
+<td>44</td>
+<td>128</td>
+<td class="perf-data">35.326</td><td class="perf-data">96.99</td><td class="perf-data">5.34</td><td class="perf-data">0.10</td><td class="raw-data"><a href="page///xeon/fundamental///fast/default/av/mdsz128/batchsz512.perf">here</a></td></tr>
+</tbody>
+</table>
+</body>
+</html>
