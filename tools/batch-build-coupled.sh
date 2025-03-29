@@ -33,7 +33,7 @@ TYPES=('base' 'fast')
 for tp in ${TYPES[@]}; do
 	for meta in ${METADATA_SIZES[@]}; do
 		meta=$((meta))
-		setup_and_build $tp $aggr $meta
+		setup_and_build $tp $meta
 	done
 done
 
