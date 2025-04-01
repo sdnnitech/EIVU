@@ -8,11 +8,15 @@ function make_dir() {
 }
 
 function run() {
-	./run.sh output/bin/$1/coupled/$2 $3 $4 | tee output/eval/$1/coupled/batch-$3/result-$2.txt
+	RUN="./run.sh output/bin/$1/coupled/$2 $3 $4 | tee output/eval/$1/coupled/batch-$3/result-$2.txt"
+	echo $RUN
+	eval $RUN
 }
 
 function perfrun() {
-	./perfrun.sh output/bin/$1/coupled/$2 $3 $4 output/eval/$1/coupled/batch-$3/perf-$2.txt
+	PERFRUN="./perfrun.sh output/bin/$1/coupled/$2 $3 $4 output/eval/$1/coupled/batch-$3/perf-$2.txt"
+	echo $PERFRUN
+	eval $PERFRUN
 }
 
 

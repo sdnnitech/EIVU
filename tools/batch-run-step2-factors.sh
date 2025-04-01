@@ -8,11 +8,15 @@ function make_dir() {
 }
 
 function run() {
-	./run.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 | tee output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/result-$3.txt
+	RUN="./run.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 | tee output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/result-$3.txt"
+	echo $RUN
+	eval $RUN
 }
 
 function perfrun() {
-	./perfrun.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/perf-$3.txt
+	PERFRUN="./perfrun.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/perf-$3.txt"
+	echo $PERFRUN
+	eval $PERFRUN
 }
 
 

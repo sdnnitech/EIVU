@@ -8,16 +8,20 @@ function make_dir() {
 }
 
 function run() {
-	./run.sh output/bin/$1/decoupled/aggr-$2/$3 $4 $5 | tee output/eval/$1/decoupled/batch-$4/aggr-$2/result-$3.txt
+	RUN="./run.sh output/bin/$1/decoupled/aggr-$2/$3 $4 $5 | tee output/eval/$1/decoupled/batch-$4/aggr-$2/result-$3.txt"
+	echo $RUN
+	eval $RUN
 }
 
 function perfrun() {
-	./perfrun.sh output/bin/$1/decoupled/aggr-$2/$3 $4 $5 output/eval/$1/decoupled/batch-$4/aggr-$2/perf-$3.txt
+	PERFRUN="./perfrun.sh output/bin/$1/decoupled/aggr-$2/$3 $4 $5 output/eval/$1/decoupled/batch-$4/aggr-$2/perf-$3.txt"
+	echo $PERFRUN
+	eval $PERFRUN
 }
 
 
 TYPES=('fast')
-NUM_OF_AGGREGATIONS=(256 512 1024)
+NUM_OF_AGGREGATIONS=(1 256 512 1024)
 METADATA_SIZES=(2 4 8 16 32 64 128 256)
 BATCH_SIZES=(32 256 512 1024)
 VQ_SIZES=(256 512 1024 2048)
@@ -35,6 +39,10 @@ for tp in ${TYPES[@]}; do
 
 				batch=$((batch))
 				vq=$((vq))
+
+				if [ $aggr -eq 1 ] && [ $batch -ne 512 ]; then
+					continue
+				fi
 
 				make_dir $tp $aggr $batch
 
