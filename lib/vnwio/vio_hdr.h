@@ -19,10 +19,16 @@ struct vio_hdr {
 };
 
 /* DPDK's solution for avoiding RFO */
+#if 1
 #define ASSIGN_UNLESS_EQUAL(var, val) do {     \
        if ((var) != (val))                     \
                (var) = (val);                  \
 } while (0)
+#else // NetSoft'23 (Takeya et al.)
+#define ASSIGN_UNLESS_EQUAL(var, val) do {     \
+       (var) = (val);                          \
+} while (0)
+#endif
 
 static inline void
 vio_tx_clear_net_hdr(struct vio_hdr *vhdr)

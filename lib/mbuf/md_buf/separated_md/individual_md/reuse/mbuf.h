@@ -54,8 +54,6 @@ reset_mbptr(struct mbuf_ptr *mbptr, struct desc_mbuf_idx idx, struct mpools *mpo
     mbptr->md = refer_metadata(mpools, mbptr->mbuf_idx);
     mbptr->pkt = mbuf_mtod(mpools, mbptr->mbuf_idx.dmidx);
     mbptr->mpools = mpools;
-
-    reset_metadata(refer_metadata(mpools, mbptr->mbuf_idx));
 }
 
 #endif /* _MBUF_H_ */

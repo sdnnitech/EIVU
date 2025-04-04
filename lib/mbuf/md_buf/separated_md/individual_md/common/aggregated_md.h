@@ -6,6 +6,7 @@
 #include <mbuf.h>
 #include <md_get_put.h>
 #include <vioqueue.h>
+#include <vio_reset_md.h> // TBD: to be moved to vio-related file
 
 #ifndef AGGREGATED_MD_NUM
 #define AGGREGATED_MD_NUM 1
@@ -59,6 +60,15 @@ alloc_aggregated_md_local(struct mpools *local_mpools, struct mbuf_ptr mps[], ui
     }
 #endif
 #endif
+}
+
+// TBD: to be moved to vio-realated file
+static inline void
+setup_metadata(struct mpools *local_mpools, struct mbuf_ptr mps[], uint32_t len[], uint32_t num, uint16_t port_id, bool is_offload)
+{
+    for (uint16_t i = 0; i < num; i++) {
+        vio_reset_md_rx(&mps[i], len[i], port_id, is_offload);
+    }
 }
 
 #endif

@@ -28,8 +28,6 @@ mbuf_alloc(struct mpools *mpools)
 
     idx.pktbuf_idx = alloc_pktbuf(&mpools->pktbuf_pool);
 
-    reset_metadata(refer_integrated_metadata(mpools, idx));
-
     return idx;
 }
 

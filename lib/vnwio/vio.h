@@ -58,10 +58,7 @@ vio_recv_pkts(struct vioqueue *vq, struct mbuf_ptr mb_ptrs[], uint16_t nb_pkts)
         reset_mbptr(&mb_ptrs[i], idxs[i], vq->mpools);
     }
 
-    // num = recognize_mds_guest(vq, mb_ptrs, num);
-    alloc_aggregated_md_local(vq->mpools, mb_ptrs, num);
-
-    vio_reset_md_rx(vq, mb_ptrs, len, num);
+    setup_metadata(vq->mpools, mb_ptrs, len, num, vq->port_id, vq->is_offload); // TBD: interface
 
     vioqueue_refill_desc_rx(vq, num);
 

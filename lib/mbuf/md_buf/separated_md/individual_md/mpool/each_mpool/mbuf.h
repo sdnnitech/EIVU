@@ -18,7 +18,6 @@ mbuf_alloc(struct mpools *mpools)
 
 #ifdef HOST_LED
     idx.md_idx = alloc_md(&mpools->md_pool);
-    reset_metadata(refer_metadata(mpools, idx));
 #endif
 
     return idx;
@@ -62,7 +61,6 @@ reset_mbptr(struct mbuf_ptr *mbptr, struct desc_mbuf_idx idx, struct mpools *mpo
 #if defined GUEST_LED
     mbptr->mbuf_idx.md_idx = alloc_md(&mpools->md_pool);
     mbptr->md = refer_metadata(mpools, mbptr->mbuf_idx);
-    reset_metadata(mbptr->md);
 #elif defined HOST_LED
     mbptr->md = refer_metadata(mpools, idx);
 #endif

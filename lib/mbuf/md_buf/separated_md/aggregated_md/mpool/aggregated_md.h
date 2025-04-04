@@ -6,6 +6,7 @@
 #include <mbuf.h>
 #include <md_get_put.h>
 #include <vioqueue.h>
+#include <vio_reset_md.h> // TBD: to be moved to vio-related file
 
 #ifndef AGGREGATED_MD_NUM
 #define AGGREGATED_MD_NUM 4
@@ -50,8 +51,6 @@ reset_mbptr_aggregated_md(struct mbuf_ptr *mbp, int32_t md_idx, uint32_t batch_m
     mbp->mbuf_idx.dmidx.md_idx = md_idx;
     mbp->md = (struct metadata *)((uint8_t *)refer_metadata(mbp->mpools, mbp->mbuf_idx.dmidx) + batch_md_idx * METADATA_SIZE);
 #endif
-
-    reset_metadata(mbp->md);
 }
 
 
@@ -146,6 +145,28 @@ alloc_aggregated_md_local(struct mpools *local_mpools, struct mbuf_ptr mps[], ui
                 break;
             }
             reset_mbptr_aggregated_md(&mps[i + j], md_idx, j);
+        }
+    }
+
+    return;
+}
+
+// TBD: to be moved to vio-realated file
+static inline void
+setup_metadata(struct mpools *local_mpools, struct mbuf_ptr mps[], uint32_t len[], uint32_t num, uint16_t port_id, bool is_offload)
+{
+    int32_t md_idx;
+    uint32_t i, j;
+
+    for (i = 0; i < num; i += AGGREGATED_MD_NUM) {
+        md_idx = alloc_md(&local_mpools->md_pool);
+        for (j = 0; j < AGGREGATED_MD_NUM; j++) {
+            if (i + j >= num) {
+                i += num;
+                break;
+            }
+            reset_mbptr_aggregated_md(&mps[i + j], md_idx, j);
+            vio_reset_md_rx(&mps[i + j], len[j], port_id, is_offload);
         }
     }
 

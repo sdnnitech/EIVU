@@ -19,14 +19,10 @@ refer_metadata(struct mpools *mpools, struct mbuf_idx idx)
 static inline struct mbuf_idx
 mbuf_alloc(struct mpools *mpools)
 {
-    struct metadata* md;
     struct mbuf_idx idx;
 
     idx.pktbuf_idx = alloc_pktbuf(&mpools->buf_pool);
     idx.md_idx = alloc_md(&mpools->buf_pool);
-
-    md = refer_metadata(mpools, idx);
-    reset_metadata(md);
 
     return idx;
 }

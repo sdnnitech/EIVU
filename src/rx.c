@@ -65,12 +65,14 @@ main(int argc, char *argv[])
     uint16_t nb_rx = 0;
     uint32_t pkt_id;
     uint32_t pkt_counter = 0;
+    uint32_t pkt_lens[MAX_BATCH_SIZE];
 
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
         mbptrs[i].mbuf_idx.dmidx = init_midx();
 #ifdef GUEST_LED
         mbptrs[i].mbuf_idx.md_idx = -1;
 #endif
+        pkt_lens[i] = PKT_SIZE;
     }
 
     while (!*is_start) {}
@@ -88,16 +90,8 @@ main(int argc, char *argv[])
 #endif
         }
 
-        alloc_aggregated_md_local(&mpools_host, mbptrs, nb_rx);
-#if METADATA_SIZE > 0
-        for (uint16_t i = 0; i < nb_rx; i++) {
-            mbp = &mbptrs[i];
-            mbp->md->pkt_len = PKT_SIZE;
-#if METADATA_SIZE > 4
-            mbp->md->port = port_rx;
-#endif
-        }
-#endif
+        //alloc_aggregated_md_local(&mpools_host, mbptrs, nb_rx);
+        setup_metadata(&mpools_host, mbptrs, pkt_lens, nb_rx, port_rx, false); // TBD: interface
 
         nb_tx = vhost_enqueue_burst(&vq_rx, mbptrs, nb_rx);
 
