@@ -4,19 +4,26 @@ cd "$(dirname $0)/.."
 
 
 function make_dir() {
+	mkdir -p output/eval/$1/coupled/batch-$3/factors/$4
 	mkdir -p output/eval/$1/decoupled/batch-$3/aggr-$2/factors/$4
 }
 
 function run() {
-	RUN="./run.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 | tee output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/result-$3.txt"
-	echo $RUN
-	eval $RUN
+	RUNS=("./run.sh output/bin/$1/coupled/factors/$6/$3           $4 $5 | tee output/eval/$1/coupled/batch-$4/factors/$6/result-$3.txt"
+	      "./run.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 | tee output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/result-$3.txt")
+	for RUN in "${RUNS[@]}"; do
+		echo $RUN
+		eval $RUN
+	done
 }
 
 function perfrun() {
-	PERFRUN="./perfrun.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/perf-$3.txt"
-	echo $PERFRUN
-	eval $PERFRUN
+	PERFRUNS=("./perfrun.sh output/bin/$1/coupled/factors/$6/$3           $4 $5 output/eval/$1/coupled/batch-$4/factors/$6/perf-$3.txt"
+	          "./perfrun.sh output/bin/$1/decoupled/aggr-$2/factors/$6/$3 $4 $5 output/eval/$1/decoupled/batch-$4/aggr-$2/factors/$6/perf-$3.txt")
+	for PERFRUN in "${PERFRUNS[@]}"; do
+		echo $PERFRUN
+		eval $PERFRUN
+	done
 }
 
 

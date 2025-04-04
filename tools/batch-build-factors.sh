@@ -4,10 +4,12 @@ cd "$(dirname $0)/.."
 
 
 function setup_a() {
+	meson setup output/bin/fast/coupled/factors/a/$2           -Dmetadata_size=$2 -Dtiny_descs=true -Dheadroom_size=64 -Ddataroom_size=64 -Dzero_copy=rx,tx
 	meson setup output/bin/fast/decoupled/aggr-$1/factors/a/$2 -Dmetadata_size=$2 -Dtiny_descs=true -Dheadroom_size=64 -Ddataroom_size=64 -Dzero_copy=rx,tx -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=$1
 }
 
 function build_a() {
+	ninja -C output/bin/fast/coupled/factors/a/$2
 	ninja -C output/bin/fast/decoupled/aggr-$1/factors/a/$2
 }
 
@@ -18,10 +20,12 @@ function setup_and_build_a() {
 
 
 function setup_b() {
+	meson setup output/bin/fast/coupled/factors/b/$2           -Dmetadata_size=$2 -Dvio_header=false -Dheadroom_size=0 -Ddataroom_size=64 -Dzero_copy=rx,tx
 	meson setup output/bin/fast/decoupled/aggr-$1/factors/b/$2 -Dmetadata_size=$2 -Dvio_header=false -Dheadroom_size=0 -Ddataroom_size=64 -Dzero_copy=rx,tx -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=$1
 }
 
 function build_b() {
+	ninja -C output/bin/fast/coupled/factors/b/$2
 	ninja -C output/bin/fast/decoupled/aggr-$1/factors/b/$2
 }
 
@@ -32,10 +36,12 @@ function setup_and_build_b() {
 
 
 function setup_d() {
+	meson setup output/bin/fast/coupled/factors/d/droom-$3/$2           -Dmetadata_size=$2 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=$3 -Dzero_copy=rx,tx
 	meson setup output/bin/fast/decoupled/aggr-$1/factors/d/droom-$3/$2 -Dmetadata_size=$2 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=$3 -Dzero_copy=rx,tx -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=$1
 }
 
 function build_d() {
+	ninja -C output/bin/fast/coupled/factors/d/droom-$3/$2
 	ninja -C output/bin/fast/decoupled/aggr-$1/factors/d/droom-$3/$2
 }
 
@@ -60,10 +66,12 @@ function setup_e() {
 		ZCOPY_OPT=''
 	fi
 
+	meson setup output/bin/fast/coupled/factors/e/$3-copy/$2           -Dmetadata_size=$2 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=64 $ZCOPY_OPT
 	meson setup output/bin/fast/decoupled/aggr-$1/factors/e/$3-copy/$2 -Dmetadata_size=$2 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=64 $ZCOPY_OPT -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=$1
 }
 
 function build_e() {
+	ninja -C output/bin/fast/coupled/factors/e/$3-copy/$2
 	ninja -C output/bin/fast/decoupled/aggr-$1/factors/e/$3-copy/$2
 }
 

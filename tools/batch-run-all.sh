@@ -21,7 +21,7 @@ echo "Done (decoupled)"
 
 echo "[3] Running 'factors' types..."
 
-./tools/batch-run-step2-factors.sh
+./tools/batch-run-factors.sh
 
 echo "Done (factors)"
 

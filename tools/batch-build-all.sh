@@ -21,7 +21,7 @@ echo "Done (decoupled)"
 
 echo "[3] Building 'factors' types..."
 
-./tools/batch-build-step2-factors.sh
+./tools/batch-build-factors.sh
 
 echo "Done (factors)"
 
