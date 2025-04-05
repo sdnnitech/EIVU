@@ -1,0 +1,28 @@
+th {
+    text-align: center;
+}
+th.value {
+    width: 80px;
+}
+th.str {
+    width: 360px;
+    text-align: left;
+}
+
+td {
+    padding: 10px 20px;
+}
+td.value {
+    text-align: right;
+}
+td.id {
+
+}
+td.meta {
+    font-weight: bold;
+}
+td.thru {
+    font-weight: bold;
+}
+td.perf {
+}
