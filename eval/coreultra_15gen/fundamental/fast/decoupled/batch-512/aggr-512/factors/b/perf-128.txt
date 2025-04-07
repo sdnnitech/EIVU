@@ -1,0 +1,96 @@
+NF Thread
+Time taken by program is : 1.387848 seconds (72.054 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/factors/b/128/nf --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     7,442,713,059      cpu_atom/L1-dcache-loads/                                               (29.97%)
+     7,431,628,329      cpu_core/L1-dcache-loads/                                               (30.00%)
+         5,878,745      cpu_atom/L1-dcache-load-misses/  #    0.08% of all L1-dcache accesses   (30.03%)
+         5,884,739      cpu_core/L1-dcache-load-misses/  #    0.08% of all L1-dcache accesses   (30.06%)
+     6,097,323,079      cpu_atom/L1-dcache-stores/                                              (20.08%)
+     6,096,829,016      cpu_core/L1-dcache-stores/                                              (20.08%)
+     7,407,769,644      cpu_atom/dTLB-loads/                                                    (20.07%)
+     7,427,855,486      cpu_core/dTLB-loads/                                                    (20.04%)
+             1,404      cpu_atom/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (20.01%)
+             1,111      cpu_core/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (19.98%)
+     6,111,960,400      cpu_atom/dTLB-stores/                                                   (19.96%)
+     6,111,946,297      cpu_core/dTLB-stores/                                                   (19.96%)
+            12,659      cpu_atom/dTLB-store-misses/                                             (19.96%)
+            12,659      cpu_core/dTLB-store-misses/                                             (19.96%)
+         5,573,884      cpu_atom/LLC-loads/                                                     (19.96%)
+         5,573,477      cpu_core/LLC-loads/                                                     (19.96%)
+           244,428      cpu_atom/LLC-stores/                                                    (19.96%)
+           242,901      cpu_core/LLC-stores/                                                    (19.96%)
+        62,074,340      cache-misses                     #   51.35% of all cache refs           (24.95%)
+       120,890,217      cache-references                                                        (29.94%)
+
+       3.446519609 seconds time elapsed
+
+       3.132444000 seconds user
+       0.304968000 seconds sys
+
+
+RX Thread
+Time taken by program is : 1.380612 seconds (72.432 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/factors/b/128/rx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     9,552,417,233      cpu_atom/L1-dcache-loads/                                               (29.85%)
+     9,565,457,386      cpu_core/L1-dcache-loads/                                               (29.89%)
+        10,849,340      cpu_atom/L1-dcache-load-misses/  #    0.11% of all L1-dcache accesses   (29.93%)
+        10,810,280      cpu_core/L1-dcache-load-misses/  #    0.11% of all L1-dcache accesses   (29.97%)
+     4,102,975,455      cpu_atom/L1-dcache-stores/                                              (20.04%)
+     4,102,818,762      cpu_core/L1-dcache-stores/                                              (20.04%)
+     9,543,864,458      cpu_atom/dTLB-loads/                                                    (20.04%)
+     9,544,078,070      cpu_core/dTLB-loads/                                                    (20.04%)
+               838      cpu_atom/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (20.04%)
+               838      cpu_core/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (20.04%)
+     4,104,824,056      cpu_atom/dTLB-stores/                                                   (20.04%)
+     4,104,535,224      cpu_core/dTLB-stores/                                                   (20.04%)
+             9,664      cpu_atom/dTLB-store-misses/                                             (20.04%)
+             9,664      cpu_core/dTLB-store-misses/                                             (20.04%)
+        10,588,518      cpu_atom/LLC-loads/                                                     (20.04%)
+        10,629,833      cpu_core/LLC-loads/                                                     (20.00%)
+            60,301      cpu_atom/LLC-stores/                                                    (19.96%)
+            56,819      cpu_core/LLC-stores/                                                    (19.92%)
+        14,843,834      cache-misses                     #   34.40% of all cache refs           (24.89%)
+        43,148,111      cache-references                                                        (29.86%)
+
+       2.454822621 seconds time elapsed
+
+       2.372394000 seconds user
+       0.075752000 seconds sys
+
+
+TX Thread
+Time taken by program is : 1.379543 seconds (72.488 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/factors/b/128/tx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     6,940,885,746      cpu_atom/L1-dcache-loads/                                               (29.84%)
+     6,946,819,938      cpu_core/L1-dcache-loads/                                               (29.84%)
+        13,838,542      cpu_atom/L1-dcache-load-misses/  #    0.20% of all L1-dcache accesses   (29.85%)
+        13,802,077      cpu_core/L1-dcache-load-misses/  #    0.20% of all L1-dcache accesses   (29.92%)
+     4,809,935,097      cpu_atom/L1-dcache-stores/                                              (20.05%)
+     4,814,263,090      cpu_core/L1-dcache-stores/                                              (20.05%)
+     6,916,188,773      cpu_atom/dTLB-loads/                                                    (20.05%)
+     6,913,659,384      cpu_core/dTLB-loads/                                                    (20.05%)
+                 4      cpu_atom/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (20.05%)
+                 4      cpu_core/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (20.05%)
+     4,808,500,851      cpu_atom/dTLB-stores/                                                   (20.05%)
+     4,810,454,214      cpu_core/dTLB-stores/                                                   (20.05%)
+             5,527      cpu_atom/dTLB-store-misses/                                             (20.05%)
+             5,527      cpu_core/dTLB-store-misses/                                             (20.05%)
+        13,528,920      cpu_atom/LLC-loads/                                                     (20.05%)
+        13,515,543      cpu_core/LLC-loads/                                                     (20.05%)
+            62,044      cpu_atom/LLC-stores/                                                    (20.03%)
+            59,228      cpu_core/LLC-stores/                                                    (19.96%)
+        14,725,334      cache-misses                     #   33.95% of all cache refs           (24.90%)
+        43,377,538      cache-references                                                        (29.85%)
+
+       1.456733999 seconds time elapsed
+
+       1.376225000 seconds user
+       0.076766000 seconds sys
+
+
