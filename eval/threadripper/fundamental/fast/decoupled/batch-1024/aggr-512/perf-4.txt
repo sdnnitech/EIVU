@@ -1,0 +1,69 @@
+NF Thread
+Time taken by program is : 0.737051 seconds (135.676 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/4/nf --pktnum=100000000 -H --batchsz=1024 --vqsz=2048 --mobjcache=4096':
+
+     9,826,824,190      L1-dcache-loads                                                         (83.31%)
+       326,561,402      L1-dcache-load-misses            #    3.32% of all L1-dcache accesses   (83.34%)
+   <not supported>      L1-dcache-stores                                                      
+             2,544      dTLB-loads                                                              (83.34%)
+               671      dTLB-load-misses                 #   26.38% of all dTLB cache accesses  (83.34%)
+   <not supported>      dTLB-stores                                                           
+   <not supported>      dTLB-store-misses                                                     
+   <not supported>      LLC-loads                                                             
+   <not supported>      LLC-stores                                                            
+        18,621,794      cache-misses                     #    3.31% of all cache refs           (83.34%)
+       562,505,318      cache-references                                                        (83.32%)
+
+       2.768034025 seconds time elapsed
+
+       2.550098000 seconds user
+       0.193964000 seconds sys
+
+
+RX Thread
+Time taken by program is : 0.719236 seconds (139.036 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/4/rx --pktnum=100000000 -H --batchsz=1024 --vqsz=2048 --mobjcache=4096':
+
+     7,664,547,232      L1-dcache-loads                                                         (83.33%)
+       436,497,616      L1-dcache-load-misses            #    5.70% of all L1-dcache accesses   (83.33%)
+   <not supported>      L1-dcache-stores                                                      
+             3,549      dTLB-loads                                                              (83.33%)
+               772      dTLB-load-misses                 #   21.75% of all dTLB cache accesses  (83.33%)
+   <not supported>      dTLB-stores                                                           
+   <not supported>      dTLB-store-misses                                                     
+   <not supported>      LLC-loads                                                             
+   <not supported>      LLC-stores                                                            
+        15,670,527      cache-misses                     #    2.29% of all cache refs           (83.33%)
+       685,568,785      cache-references                                                        (83.34%)
+
+       1.764135399 seconds time elapsed
+
+       1.700378000 seconds user
+       0.049518000 seconds sys
+
+
+TX Thread
+Time taken by program is : 0.715818 seconds (139.700 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/4/tx --pktnum=100000000 -H --batchsz=1024 --vqsz=2048 --mobjcache=4096':
+
+     4,531,837,885      L1-dcache-loads                                                         (83.27%)
+       444,142,574      L1-dcache-load-misses            #    9.80% of all L1-dcache accesses   (83.27%)
+   <not supported>      L1-dcache-stores                                                      
+             2,984      dTLB-loads                                                              (83.37%)
+               865      dTLB-load-misses                 #   28.99% of all dTLB cache accesses  (83.40%)
+   <not supported>      dTLB-stores                                                           
+   <not supported>      dTLB-store-misses                                                     
+   <not supported>      LLC-loads                                                             
+   <not supported>      LLC-stores                                                            
+        14,097,356      cache-misses                     #    2.06% of all cache refs           (83.40%)
+       683,157,329      cache-references                                                        (83.30%)
+
+       0.765179334 seconds time elapsed
+
+       0.710501000 seconds user
+       0.048546000 seconds sys
+
+
