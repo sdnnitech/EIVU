@@ -2,14 +2,47 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Evaluation Result (TNSM)</title>
+        <title>Results (basic)</title>
     </head>
     <body>
-        <h1>Evaluation Result</h1>
-        <ul>
-            <li><a href="./fundamental.html">Results (basic)</a></li>
-            <li><a href="./factors.html">Effect of Six Factors (additional)</a></li>
-            <li><a href="./clock.html">Effect of CPU/Memory Clock rate (additional)</a></li>
-        </ul>
+        <h1>Evaluation Results</h1>
+        <br/>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <tr>
+                <th>Servers</th>
+                <th>Summary</th>
+                <th>Details</th>
+                <th>Six-factors</th>
+                <th>Clock rate</th>
+            </tr>
+            <tr>
+                <td>Server 1 (Intel Core i9 11900K)</td>
+                <td><a href="./corei9_11gen/summary.html">Result</td>
+                <td><a href="./corei9_11gen/details.html">Result</td>
+                <td><a href="./corei9_11gen/factors.html">Result</td>
+                <td>-</td>
+             </tr>
+            <tr>
+                <td>Server 2 (Intel Core Ultra 9 285K)</td>
+                <td><a href="./coreultra_15gen/summary.html">Result</td>
+                <td><a href="./coreultra_15gen/details.html">Result</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Server 3 (Intel Xeon w7-2475X)</td>
+                <td><a href="./xeon/summary.html">Result</td>
+                <td><a href="./xeon/details.html">Result</td>
+                <td>-</td>
+                <td><a href="./xeon/clockrate.html">Result</td>
+            </tr>
+            <tr>
+                <td>Server 4 (AMD Threadripper 5965WX)</td>
+                <td><a href="./threadripper/summary.html">Result</td>
+                <td><a href="./threadripper/details.html">Result</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </table>
     </body>
 </html>

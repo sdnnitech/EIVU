@@ -8,6 +8,11 @@ th.str {
     width: 360px;
     text-align: left;
 }
+th.desc {
+    width: 540px;
+    text-align: left;
+}    
+
 
 td {
     padding: 10px 20px;
@@ -15,6 +20,10 @@ td {
 td.value {
     text-align: right;
 }
+td.str {
+    text-align: left;
+}
+
 td.id {
 
 }
@@ -25,4 +34,5 @@ td.thru {
     font-weight: bold;
 }
 td.perf {
+
 }

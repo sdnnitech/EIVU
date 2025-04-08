@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Result (six-factors)</title>
+        <link rel="stylesheet" type="text/css" href="../style.css"/>
+    </head>
+    <body>
+        <h1>Evaluation Result (Six-performance Factors) (Server 1)</h1>
+        <br/>
+
+        <h3>Six-performance Factors</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thead>
+                <tr>
+                    <th rowspan="2">Factor</th>
+                    <th rowspan="2" class="desc">Description</th>
+                </tr>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>(a)</th>
+                    <td>The virtio_net header was removed.</td>
+                    <td class="value">12B</td>
+                    <td class="value">0B</td>
+                </tr>
+                <tr>
+                    <td>(b)</th>
+                    <td>The size of each virtqueue entry was shrunk.</td>
+                    <td class="value">16B</td>
+                    <td class="value">8B</td>
+                </tr>
+                <tr>
+                    <td>(c)</th>
+                    <td>The metadata area was removed.</td>
+                    <td class="value">128B</td>
+                    <td class="value">0B</td>
+                </tr>
+                <tr>
+                    <td>(d)</th>
+                    <td>The dataroom area in packet buffers was minimized.</td>
+                    <td class="value">2048B</td>
+                    <td class="value">64B</td>
+                </tr>
+                <tr>
+                    <td>(e)</th>
+                    <td>Packet copying was skipped.</td>
+                    <td>Copy</td>
+                    <td>Zero-copy</td>
+                </tr>
+                <tr>
+                    <td>(f)</th>
+                    <td>The batch length of in-flight packets was prolonged.</td>
+                    <td class="value">32</td>
+                    <td class="value">1024</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Benchmark: Fast Type (STEP-I&II) (Batch: 512, Aggregation: 512)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thead>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="97">
+                    <td class="id value">97</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-2.txt">137.820</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.864</td>
+                    <td class="perf value">67.597</td>
+                    <td class="perf value">99.933</td>
+                    <td class="perf value">1.229</td>
+                    <td class="perf value">0.651</td>
+        
+                    <td class="perf value">99.843</td>
+                    <td class="perf value">20.760</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">0.429</td>
+                    <td class="perf value">0.276</td>
+        
+                    <td class="perf value">99.689</td>
+                    <td class="perf value">20.477</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.405</td>
+                    <td class="perf value">0.238</td>
+                    <td></td>
+                </tr>
+                <tr id="98">
+                    <td class="id value">98</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-4.txt">138.450</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.866</td>
+                    <td class="perf value">69.619</td>
+                    <td class="perf value">99.941</td>
+                    <td class="perf value">1.238</td>
+                    <td class="perf value">0.646</td>
+        
+                    <td class="perf value">99.836</td>
+                    <td class="perf value">22.392</td>
+                    <td class="perf value">99.942</td>
+                    <td class="perf value">0.457</td>
+                    <td class="perf value">0.277</td>
+        
+                    <td class="perf value">99.687</td>
+                    <td class="perf value">21.885</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.404</td>
+                    <td class="perf value">0.235</td>
+                    <td></td>
+                </tr>
+                <tr id="99">
+                    <td class="id value">99</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-8.txt">131.215</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.869</td>
+                    <td class="perf value">71.629</td>
+                    <td class="perf value">99.936</td>
+                    <td class="perf value">1.257</td>
+                    <td class="perf value">0.662</td>
+        
+                    <td class="perf value">99.841</td>
+                    <td class="perf value">22.371</td>
+                    <td class="perf value">99.988</td>
+                    <td class="perf value">0.457</td>
+                    <td class="perf value">0.293</td>
+        
+                    <td class="perf value">99.691</td>
+                    <td class="perf value">20.698</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.410</td>
+                    <td class="perf value">0.229</td>
+                    <td></td>
+                </tr>
+                <tr id="100">
+                    <td class="id value">100</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-16.txt">131.007</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.867</td>
+                    <td class="perf value">73.983</td>
+                    <td class="perf value">99.926</td>
+                    <td class="perf value">1.268</td>
+                    <td class="perf value">0.659</td>
+        
+                    <td class="perf value">99.817</td>
+                    <td class="perf value">26.627</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">0.477</td>
+                    <td class="perf value">0.292</td>
+        
+                    <td class="perf value">99.717</td>
+                    <td class="perf value">22.921</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.419</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="101">
+                    <td class="id value">101</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-32.txt">121.865</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">99.753</td>
+                    <td class="perf value">91.486</td>
+                    <td class="perf value">99.887</td>
+                    <td class="perf value">1.569</td>
+                    <td class="perf value">0.656</td>
+        
+                    <td class="perf value">99.408</td>
+                    <td class="perf value">78.738</td>
+                    <td class="perf value">99.926</td>
+                    <td class="perf value">1.022</td>
+                    <td class="perf value">0.291</td>
+        
+                    <td class="perf value">99.712</td>
+                    <td class="perf value">30.306</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.558</td>
+                    <td class="perf value">0.223</td>
+                    <td></td>
+                </tr>
+                <tr id="102">
+                    <td class="id value">102</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-64.txt">95.387</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">99.184</td>
+                    <td class="perf value">94.934</td>
+                    <td class="perf value">99.973</td>
+                    <td class="perf value">2.254</td>
+                    <td class="perf value">0.649</td>
+        
+                    <td class="perf value">96.582</td>
+                    <td class="perf value">95.974</td>
+                    <td class="perf value">99.991</td>
+                    <td class="perf value">3.873</td>
+                    <td class="perf value">0.290</td>
+        
+                    <td class="perf value">99.520</td>
+                    <td class="perf value">68.292</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.886</td>
+                    <td class="perf value">0.231</td>
+                    <td></td>
+                </tr>
+                <tr id="103">
+                    <td class="id value">103</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-128.txt">74.840</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">97.828</td>
+                    <td class="perf value">99.069</td>
+                    <td class="perf value">99.787</td>
+                    <td class="perf value">5.024</td>
+                    <td class="perf value">0.611</td>
+        
+                    <td class="perf value">97.848</td>
+                    <td class="perf value">96.354</td>
+                    <td class="perf value">99.988</td>
+                    <td class="perf value">5.368</td>
+                    <td class="perf value">0.266</td>
+        
+                    <td class="perf value">99.221</td>
+                    <td class="perf value">82.664</td>
+                    <td class="perf value">99.982</td>
+                    <td class="perf value">1.759</td>
+                    <td class="perf value">0.225</td>
+                    <td></td>
+                </tr>
+                <tr id="104">
+                    <td class="id value">104</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/result-256.txt">38.916</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">97.618</td>
+                    <td class="perf value">99.078</td>
+                    <td class="perf value">99.927</td>
+                    <td class="perf value">7.204</td>
+                    <td class="perf value">0.640</td>
+        
+                    <td class="perf value">96.617</td>
+                    <td class="perf value">96.687</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">7.912</td>
+                    <td class="perf value">0.274</td>
+        
+                    <td class="perf value">99.749</td>
+                    <td class="perf value">72.451</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">1.797</td>
+                    <td class="perf value">0.217</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (a) => (with the virtio_net header, the size of the headroom area: 64B)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="129">
+                    <td class="id value">129</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-0.txt">103.120</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">98.995</td>
+                    <td class="perf value">98.251</td>
+                    <td class="perf value">99.917</td>
+                    <td class="perf value">4.302</td>
+                    <td class="perf value">0.629</td>
+        
+                    <td class="perf value">97.282</td>
+                    <td class="perf value">95.332</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">3.536</td>
+                    <td class="perf value">0.259</td>
+        
+                    <td class="perf value">99.789</td>
+                    <td class="perf value">26.636</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.420</td>
+                    <td class="perf value">0.228</td>
+                    <td></td>
+                </tr>
+                <tr id="130">
+                    <td class="id value">130</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-2.txt">98.719</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">98.997</td>
+                    <td class="perf value">98.368</td>
+                    <td class="perf value">99.260</td>
+                    <td class="perf value">4.368</td>
+                    <td class="perf value">0.647</td>
+        
+                    <td class="perf value">97.407</td>
+                    <td class="perf value">95.496</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">3.756</td>
+                    <td class="perf value">0.260</td>
+        
+                    <td class="perf value">99.794</td>
+                    <td class="perf value">24.380</td>
+                    <td class="perf value">99.937</td>
+                    <td class="perf value">0.416</td>
+                    <td class="perf value">0.241</td>
+                    <td></td>
+                </tr>
+                <tr id="131">
+                    <td class="id value">131</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-4.txt">95.464</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">98.987</td>
+                    <td class="perf value">97.240</td>
+                    <td class="perf value">99.879</td>
+                    <td class="perf value">4.348</td>
+                    <td class="perf value">0.612</td>
+        
+                    <td class="perf value">97.235</td>
+                    <td class="perf value">95.618</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">3.758</td>
+                    <td class="perf value">0.260</td>
+        
+                    <td class="perf value">99.786</td>
+                    <td class="perf value">23.024</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.416</td>
+                    <td class="perf value">0.230</td>
+                    <td></td>
+                </tr>
+                <tr id="132">
+                    <td class="id value">132</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-8.txt">92.378</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.011</td>
+                    <td class="perf value">96.652</td>
+                    <td class="perf value">99.774</td>
+                    <td class="perf value">4.485</td>
+                    <td class="perf value">0.647</td>
+        
+                    <td class="perf value">97.419</td>
+                    <td class="perf value">95.371</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">3.960</td>
+                    <td class="perf value">0.257</td>
+        
+                    <td class="perf value">99.807</td>
+                    <td class="perf value">25.329</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.423</td>
+                    <td class="perf value">0.244</td>
+                    <td></td>
+                </tr>
+                <tr id="133">
+                    <td class="id value">133</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-16.txt">90.640</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">98.803</td>
+                    <td class="perf value">96.296</td>
+                    <td class="perf value">99.956</td>
+                    <td class="perf value">4.852</td>
+                    <td class="perf value">0.645</td>
+        
+                    <td class="perf value">97.389</td>
+                    <td class="perf value">95.360</td>
+                    <td class="perf value">99.989</td>
+                    <td class="perf value">4.419</td>
+                    <td class="perf value">0.250</td>
+        
+                    <td class="perf value">99.809</td>
+                    <td class="perf value">24.957</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.445</td>
+                    <td class="perf value">0.237</td>
+                    <td></td>
+                </tr>
+                <tr id="134">
+                    <td class="id value">134</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-32.txt">84.316</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">98.415</td>
+                    <td class="perf value">96.710</td>
+                    <td class="perf value">99.959</td>
+                    <td class="perf value">5.484</td>
+                    <td class="perf value">0.651</td>
+        
+                    <td class="perf value">96.897</td>
+                    <td class="perf value">96.182</td>
+                    <td class="perf value">99.990</td>
+                    <td class="perf value">5.177</td>
+                    <td class="perf value">0.242</td>
+        
+                    <td class="perf value">99.755</td>
+                    <td class="perf value">31.253</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.642</td>
+                    <td class="perf value">0.226</td>
+                    <td></td>
+                </tr>
+                <tr id="135">
+                    <td class="id value">135</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-64.txt">74.366</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">97.722</td>
+                    <td class="perf value">99.109</td>
+                    <td class="perf value">99.908</td>
+                    <td class="perf value">6.710</td>
+                    <td class="perf value">0.640</td>
+        
+                    <td class="perf value">94.615</td>
+                    <td class="perf value">97.472</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">7.714</td>
+                    <td class="perf value">0.237</td>
+        
+                    <td class="perf value">99.203</td>
+                    <td class="perf value">75.828</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">1.896</td>
+                    <td class="perf value">0.229</td>
+                    <td></td>
+                </tr>
+                <tr id="136">
+                    <td class="id value">136</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-128.txt">64.917</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">97.768</td>
+                    <td class="perf value">98.852</td>
+                    <td class="perf value">99.918</td>
+                    <td class="perf value">7.977</td>
+                    <td class="perf value">0.627</td>
+        
+                    <td class="perf value">96.357</td>
+                    <td class="perf value">96.407</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">8.913</td>
+                    <td class="perf value">0.237</td>
+        
+                    <td class="perf value">99.200</td>
+                    <td class="perf value">77.506</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">1.993</td>
+                    <td class="perf value">0.227</td>
+                    <td></td>
+                </tr>
+                <tr id="137">
+                    <td class="id value">137</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/a/result-256.txt">31.175</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/a/perf-256.txt">perf-256.txt</a></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (b) => (the size of the virtqueue entry: 16B)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="138">
+                    <td class="id value">138</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-0.txt">120.058</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">99.864</td>
+                    <td class="perf value">50.676</td>
+                    <td class="perf value">99.958</td>
+                    <td class="perf value">1.785</td>
+                    <td class="perf value">0.712</td>
+        
+                    <td class="perf value">99.592</td>
+                    <td class="perf value">13.757</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.692</td>
+                    <td class="perf value">0.377</td>
+        
+                    <td class="perf value">99.197</td>
+                    <td class="perf value">15.030</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.654</td>
+                    <td class="perf value">0.337</td>
+                    <td></td>
+                </tr>
+                <tr id="139">
+                    <td class="id value">139</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-2.txt">120.041</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.804</td>
+                    <td class="perf value">61.759</td>
+                    <td class="perf value">99.967</td>
+                    <td class="perf value">1.764</td>
+                    <td class="perf value">0.712</td>
+        
+                    <td class="perf value">99.608</td>
+                    <td class="perf value">13.783</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.694</td>
+                    <td class="perf value">0.391</td>
+        
+                    <td class="perf value">99.173</td>
+                    <td class="perf value">11.984</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.674</td>
+                    <td class="perf value">0.348</td>
+                    <td></td>
+                </tr>
+                <tr id="140">
+                    <td class="id value">140</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-4.txt">118.602</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.795</td>
+                    <td class="perf value">65.805</td>
+                    <td class="perf value">99.962</td>
+                    <td class="perf value">1.808</td>
+                    <td class="perf value">0.702</td>
+        
+                    <td class="perf value">99.605</td>
+                    <td class="perf value">14.843</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.698</td>
+                    <td class="perf value">0.386</td>
+        
+                    <td class="perf value">99.211</td>
+                    <td class="perf value">13.616</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">0.661</td>
+                    <td class="perf value">0.344</td>
+                    <td></td>
+                </tr>
+                <tr id="141">
+                    <td class="id value">141</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-8.txt">115.017</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.771</td>
+                    <td class="perf value">72.866</td>
+                    <td class="perf value">99.949</td>
+                    <td class="perf value">1.874</td>
+                    <td class="perf value">0.705</td>
+        
+                    <td class="perf value">99.601</td>
+                    <td class="perf value">17.003</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.700</td>
+                    <td class="perf value">0.377</td>
+        
+                    <td class="perf value">99.213</td>
+                    <td class="perf value">13.862</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.659</td>
+                    <td class="perf value">0.339</td>
+                    <td></td>
+                </tr>
+                <tr id="142">
+                    <td class="id value">142</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-16.txt">112.911</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.641</td>
+                    <td class="perf value">84.299</td>
+                    <td class="perf value">99.963</td>
+                    <td class="perf value">2.062</td>
+                    <td class="perf value">0.719</td>
+        
+                    <td class="perf value">99.542</td>
+                    <td class="perf value">31.300</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.874</td>
+                    <td class="perf value">0.391</td>
+        
+                    <td class="perf value">99.309</td>
+                    <td class="perf value">17.462</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.709</td>
+                    <td class="perf value">0.340</td>
+                    <td></td>
+                </tr>
+                <tr id="143">
+                    <td class="id value">143</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-32.txt">102.338</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">98.953</td>
+                    <td class="perf value">96.000</td>
+                    <td class="perf value">99.893</td>
+                    <td class="perf value">2.866</td>
+                    <td class="perf value">0.672</td>
+        
+                    <td class="perf value">98.548</td>
+                    <td class="perf value">76.000</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">1.831</td>
+                    <td class="perf value">0.371</td>
+        
+                    <td class="perf value">99.242</td>
+                    <td class="perf value">34.893</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">1.046</td>
+                    <td class="perf value">0.327</td>
+                    <td></td>
+                </tr>
+                <tr id="144">
+                    <td class="id value">144</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-64.txt">84.386</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">98.095</td>
+                    <td class="perf value">97.460</td>
+                    <td class="perf value">99.959</td>
+                    <td class="perf value">3.768</td>
+                    <td class="perf value">0.693</td>
+        
+                    <td class="perf value">96.258</td>
+                    <td class="perf value">91.084</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">4.175</td>
+                    <td class="perf value">0.389</td>
+        
+                    <td class="perf value">98.924</td>
+                    <td class="perf value">62.652</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">1.639</td>
+                    <td class="perf value">0.344</td>
+                    <td></td>
+                </tr>
+                <tr id="145">
+                    <td class="id value">145</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-128.txt">69.609</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">97.529</td>
+                    <td class="perf value">98.746</td>
+                    <td class="perf value">99.932</td>
+                    <td class="perf value">6.019</td>
+                    <td class="perf value">0.700</td>
+        
+                    <td class="perf value">97.231</td>
+                    <td class="perf value">91.608</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">5.748</td>
+                    <td class="perf value">0.389</td>
+        
+                    <td class="perf value">98.909</td>
+                    <td class="perf value">67.646</td>
+                    <td class="perf value">99.984</td>
+                    <td class="perf value">2.107</td>
+                    <td class="perf value">0.363</td>
+                    <td></td>
+                </tr>
+                <tr id="146">
+                    <td class="id value">146</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/b/result-256.txt">39.112</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/b/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">98.379</td>
+                    <td class="perf value">96.031</td>
+                    <td class="perf value">99.978</td>
+                    <td class="perf value">6.437</td>
+                    <td class="perf value">0.766</td>
+        
+                    <td class="perf value">96.374</td>
+                    <td class="perf value">91.124</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">8.337</td>
+                    <td class="perf value">0.410</td>
+        
+                    <td class="perf value">99.600</td>
+                    <td class="perf value">55.979</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">2.038</td>
+                    <td class="perf value">0.367</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (d)(I) => (the size of the dataroom area: 256B)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="147">
+                    <td class="id value">147</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-0.txt">144.328</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">99.868</td>
+                    <td class="perf value">69.930</td>
+                    <td class="perf value">99.941</td>
+                    <td class="perf value">1.247</td>
+                    <td class="perf value">0.647</td>
+        
+                    <td class="perf value">99.881</td>
+                    <td class="perf value">19.139</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">0.437</td>
+                    <td class="perf value">0.276</td>
+        
+                    <td class="perf value">99.688</td>
+                    <td class="perf value">19.960</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.412</td>
+                    <td class="perf value">0.231</td>
+                    <td></td>
+                </tr>
+                <tr id="148">
+                    <td class="id value">148</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-2.txt">138.227</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.878</td>
+                    <td class="perf value">69.058</td>
+                    <td class="perf value">99.938</td>
+                    <td class="perf value">1.260</td>
+                    <td class="perf value">0.656</td>
+        
+                    <td class="perf value">99.842</td>
+                    <td class="perf value">20.357</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">0.428</td>
+                    <td class="perf value">0.266</td>
+        
+                    <td class="perf value">99.685</td>
+                    <td class="perf value">21.055</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.403</td>
+                    <td class="perf value">0.237</td>
+                    <td></td>
+                </tr>
+                <tr id="149">
+                    <td class="id value">149</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-4.txt">138.979</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.873</td>
+                    <td class="perf value">72.758</td>
+                    <td class="perf value">99.951</td>
+                    <td class="perf value">1.253</td>
+                    <td class="perf value">0.647</td>
+        
+                    <td class="perf value">99.831</td>
+                    <td class="perf value">25.136</td>
+                    <td class="perf value">99.990</td>
+                    <td class="perf value">0.438</td>
+                    <td class="perf value">0.271</td>
+        
+                    <td class="perf value">99.695</td>
+                    <td class="perf value">22.410</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.412</td>
+                    <td class="perf value">0.236</td>
+                    <td></td>
+                </tr>
+                <tr id="150">
+                    <td class="id value">150</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-8.txt">127.463</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.869</td>
+                    <td class="perf value">73.491</td>
+                    <td class="perf value">99.949</td>
+                    <td class="perf value">1.244</td>
+                    <td class="perf value">0.637</td>
+        
+                    <td class="perf value">99.837</td>
+                    <td class="perf value">22.728</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">0.458</td>
+                    <td class="perf value">0.262</td>
+        
+                    <td class="perf value">99.692</td>
+                    <td class="perf value">20.002</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.404</td>
+                    <td class="perf value">0.223</td>
+                    <td></td>
+                </tr>
+                <tr id="151">
+                    <td class="id value">151</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-16.txt">131.764</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.867</td>
+                    <td class="perf value">75.831</td>
+                    <td class="perf value">99.955</td>
+                    <td class="perf value">1.252</td>
+                    <td class="perf value">0.636</td>
+        
+                    <td class="perf value">99.832</td>
+                    <td class="perf value">27.836</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">0.461</td>
+                    <td class="perf value">0.276</td>
+        
+                    <td class="perf value">99.702</td>
+                    <td class="perf value">24.632</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.419</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="152">
+                    <td class="id value">152</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-32.txt">121.817</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">99.762</td>
+                    <td class="perf value">90.217</td>
+                    <td class="perf value">99.933</td>
+                    <td class="perf value">1.553</td>
+                    <td class="perf value">0.637</td>
+        
+                    <td class="perf value">99.427</td>
+                    <td class="perf value">78.636</td>
+                    <td class="perf value">99.988</td>
+                    <td class="perf value">1.035</td>
+                    <td class="perf value">0.276</td>
+        
+                    <td class="perf value">99.710</td>
+                    <td class="perf value">33.168</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.559</td>
+                    <td class="perf value">0.231</td>
+                    <td></td>
+                </tr>
+                <tr id="153">
+                    <td class="id value">153</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-64.txt">94.524</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">98.306</td>
+                    <td class="perf value">98.456</td>
+                    <td class="perf value">99.932</td>
+                    <td class="perf value">3.387</td>
+                    <td class="perf value">0.649</td>
+        
+                    <td class="perf value">96.414</td>
+                    <td class="perf value">95.797</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">3.791</td>
+                    <td class="perf value">0.291</td>
+        
+                    <td class="perf value">99.521</td>
+                    <td class="perf value">68.376</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">0.874</td>
+                    <td class="perf value">0.230</td>
+                    <td></td>
+                </tr>
+                <tr id="154">
+                    <td class="id value">154</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-128.txt">73.828</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">97.838</td>
+                    <td class="perf value">99.173</td>
+                    <td class="perf value">99.894</td>
+                    <td class="perf value">5.363</td>
+                    <td class="perf value">0.638</td>
+        
+                    <td class="perf value">97.867</td>
+                    <td class="perf value">96.398</td>
+                    <td class="perf value">99.985</td>
+                    <td class="perf value">5.360</td>
+                    <td class="perf value">0.263</td>
+        
+                    <td class="perf value">99.180</td>
+                    <td class="perf value">82.657</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">1.761</td>
+                    <td class="perf value">0.231</td>
+                    <td></td>
+                </tr>
+                <tr id="155">
+                    <td class="id value">155</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/result-256.txt">39.143</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-256/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">97.543</td>
+                    <td class="perf value">99.220</td>
+                    <td class="perf value">99.774</td>
+                    <td class="perf value">7.510</td>
+                    <td class="perf value">0.626</td>
+        
+                    <td class="perf value">96.616</td>
+                    <td class="perf value">96.860</td>
+                    <td class="perf value">99.980</td>
+                    <td class="perf value">8.305</td>
+                    <td class="perf value">0.273</td>
+        
+                    <td class="perf value">99.736</td>
+                    <td class="perf value">72.551</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">1.772</td>
+                    <td class="perf value">0.240</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (d)(II) => (the size of the dataroom area: 2048B)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="156">
+                    <td class="id value">156</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-0.txt">143.070</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">99.867</td>
+                    <td class="perf value">69.864</td>
+                    <td class="perf value">99.924</td>
+                    <td class="perf value">1.250</td>
+                    <td class="perf value">0.648</td>
+        
+                    <td class="perf value">99.907</td>
+                    <td class="perf value">18.563</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">0.433</td>
+                    <td class="perf value">0.273</td>
+        
+                    <td class="perf value">99.691</td>
+                    <td class="perf value">19.563</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.415</td>
+                    <td class="perf value">0.237</td>
+                    <td></td>
+                </tr>
+                <tr id="157">
+                    <td class="id value">157</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-2.txt">137.102</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.871</td>
+                    <td class="perf value">69.807</td>
+                    <td class="perf value">99.903</td>
+                    <td class="perf value">1.224</td>
+                    <td class="perf value">0.631</td>
+        
+                    <td class="perf value">99.843</td>
+                    <td class="perf value">19.129</td>
+                    <td class="perf value">99.987</td>
+                    <td class="perf value">0.439</td>
+                    <td class="perf value">0.273</td>
+        
+                    <td class="perf value">99.687</td>
+                    <td class="perf value">21.521</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">0.403</td>
+                    <td class="perf value">0.242</td>
+                    <td></td>
+                </tr>
+                <tr id="158">
+                    <td class="id value">158</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-4.txt">132.364</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.874</td>
+                    <td class="perf value">71.405</td>
+                    <td class="perf value">99.918</td>
+                    <td class="perf value">1.259</td>
+                    <td class="perf value">0.653</td>
+        
+                    <td class="perf value">99.833</td>
+                    <td class="perf value">21.087</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">0.436</td>
+                    <td class="perf value">0.264</td>
+        
+                    <td class="perf value">99.687</td>
+                    <td class="perf value">23.096</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.402</td>
+                    <td class="perf value">0.237</td>
+                    <td></td>
+                </tr>
+                <tr id="159">
+                    <td class="id value">159</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-8.txt">132.026</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.870</td>
+                    <td class="perf value">71.751</td>
+                    <td class="perf value">99.958</td>
+                    <td class="perf value">1.261</td>
+                    <td class="perf value">0.646</td>
+        
+                    <td class="perf value">99.838</td>
+                    <td class="perf value">23.576</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">0.453</td>
+                    <td class="perf value">0.275</td>
+        
+                    <td class="perf value">99.695</td>
+                    <td class="perf value">20.903</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">0.402</td>
+                    <td class="perf value">0.222</td>
+                    <td></td>
+                </tr>
+                <tr id="160">
+                    <td class="id value">160</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-16.txt">130.980</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.863</td>
+                    <td class="perf value">76.807</td>
+                    <td class="perf value">99.956</td>
+                    <td class="perf value">1.246</td>
+                    <td class="perf value">0.637</td>
+        
+                    <td class="perf value">99.818</td>
+                    <td class="perf value">24.326</td>
+                    <td class="perf value">99.948</td>
+                    <td class="perf value">0.479</td>
+                    <td class="perf value">0.279</td>
+        
+                    <td class="perf value">99.704</td>
+                    <td class="perf value">23.209</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.415</td>
+                    <td class="perf value">0.229</td>
+                    <td></td>
+                </tr>
+                <tr id="161">
+                    <td class="id value">161</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-32.txt">121.244</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">99.764</td>
+                    <td class="perf value">90.964</td>
+                    <td class="perf value">99.896</td>
+                    <td class="perf value">1.505</td>
+                    <td class="perf value">0.690</td>
+        
+                    <td class="perf value">99.400</td>
+                    <td class="perf value">78.741</td>
+                    <td class="perf value">99.990</td>
+                    <td class="perf value">1.021</td>
+                    <td class="perf value">0.268</td>
+        
+                    <td class="perf value">99.707</td>
+                    <td class="perf value">33.677</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.565</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="162">
+                    <td class="id value">162</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-64.txt">96.231</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">99.226</td>
+                    <td class="perf value">94.447</td>
+                    <td class="perf value">99.957</td>
+                    <td class="perf value">2.141</td>
+                    <td class="perf value">0.656</td>
+        
+                    <td class="perf value">96.466</td>
+                    <td class="perf value">96.357</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">3.792</td>
+                    <td class="perf value">0.282</td>
+        
+                    <td class="perf value">99.542</td>
+                    <td class="perf value">66.524</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">0.902</td>
+                    <td class="perf value">0.243</td>
+                    <td></td>
+                </tr>
+                <tr id="163">
+                    <td class="id value">163</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-128.txt">77.192</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">98.248</td>
+                    <td class="perf value">98.757</td>
+                    <td class="perf value">99.820</td>
+                    <td class="perf value">4.389</td>
+                    <td class="perf value">0.655</td>
+        
+                    <td class="perf value">97.865</td>
+                    <td class="perf value">96.461</td>
+                    <td class="perf value">99.988</td>
+                    <td class="perf value">5.478</td>
+                    <td class="perf value">0.268</td>
+        
+                    <td class="perf value">99.216</td>
+                    <td class="perf value">81.896</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">1.778</td>
+                    <td class="perf value">0.233</td>
+                    <td></td>
+                </tr>
+                <tr id="164">
+                    <td class="id value">164</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/result-256.txt">39.134</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/d/droom-2048/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">97.676</td>
+                    <td class="perf value">98.854</td>
+                    <td class="perf value">99.788</td>
+                    <td class="perf value">7.069</td>
+                    <td class="perf value">0.629</td>
+        
+                    <td class="perf value">96.579</td>
+                    <td class="perf value">96.229</td>
+                    <td class="perf value">99.989</td>
+                    <td class="perf value">8.753</td>
+                    <td class="perf value">0.278</td>
+        
+                    <td class="perf value">99.732</td>
+                    <td class="perf value">72.846</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">1.765</td>
+                    <td class="perf value">0.243</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (e)(I) => (Rx-side copy)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="165">
+                    <td class="id value">165</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-0.txt">107.982</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">99.853</td>
+                    <td class="perf value">59.932</td>
+                    <td class="perf value">99.956</td>
+                    <td class="perf value">1.239</td>
+                    <td class="perf value">0.669</td>
+        
+                    <td class="perf value">98.664</td>
+                    <td class="perf value">93.236</td>
+                    <td class="perf value">99.989</td>
+                    <td class="perf value">4.211</td>
+                    <td class="perf value">0.284</td>
+        
+                    <td class="perf value">99.764</td>
+                    <td class="perf value">25.184</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">0.412</td>
+                    <td class="perf value">0.244</td>
+                    <td></td>
+                </tr>
+                <tr id="166">
+                    <td class="id value">166</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-2.txt">97.952</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.860</td>
+                    <td class="perf value">56.271</td>
+                    <td class="perf value">99.964</td>
+                    <td class="perf value">1.248</td>
+                    <td class="perf value">0.665</td>
+        
+                    <td class="perf value">97.770</td>
+                    <td class="perf value">93.207</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">5.148</td>
+                    <td class="perf value">0.304</td>
+        
+                    <td class="perf value">99.780</td>
+                    <td class="perf value">27.984</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">0.407</td>
+                    <td class="perf value">0.233</td>
+                    <td></td>
+                </tr>
+                <tr id="167">
+                    <td class="id value">167</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-4.txt">95.596</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.856</td>
+                    <td class="perf value">57.437</td>
+                    <td class="perf value">99.974</td>
+                    <td class="perf value">1.246</td>
+                    <td class="perf value">0.660</td>
+        
+                    <td class="perf value">97.718</td>
+                    <td class="perf value">93.578</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">5.519</td>
+                    <td class="perf value">0.300</td>
+        
+                    <td class="perf value">99.797</td>
+                    <td class="perf value">28.620</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">0.409</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="168">
+                    <td class="id value">168</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-8.txt">90.566</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.856</td>
+                    <td class="perf value">56.139</td>
+                    <td class="perf value">99.972</td>
+                    <td class="perf value">1.208</td>
+                    <td class="perf value">0.698</td>
+        
+                    <td class="perf value">97.596</td>
+                    <td class="perf value">94.154</td>
+                    <td class="perf value">99.990</td>
+                    <td class="perf value">5.299</td>
+                    <td class="perf value">0.300</td>
+        
+                    <td class="perf value">99.783</td>
+                    <td class="perf value">29.071</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">0.405</td>
+                    <td class="perf value">0.229</td>
+                    <td></td>
+                </tr>
+                <tr id="169">
+                    <td class="id value">169</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-16.txt">90.856</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.859</td>
+                    <td class="perf value">57.640</td>
+                    <td class="perf value">99.943</td>
+                    <td class="perf value">1.225</td>
+                    <td class="perf value">0.642</td>
+        
+                    <td class="perf value">97.366</td>
+                    <td class="perf value">94.117</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">5.800</td>
+                    <td class="perf value">0.305</td>
+        
+                    <td class="perf value">99.804</td>
+                    <td class="perf value">29.166</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.430</td>
+                    <td class="perf value">0.238</td>
+                    <td></td>
+                </tr>
+                <tr id="170">
+                    <td class="id value">170</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-32.txt">82.875</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">99.868</td>
+                    <td class="perf value">55.106</td>
+                    <td class="perf value">99.947</td>
+                    <td class="perf value">1.238</td>
+                    <td class="perf value">0.646</td>
+        
+                    <td class="perf value">96.771</td>
+                    <td class="perf value">94.986</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">6.341</td>
+                    <td class="perf value">0.302</td>
+        
+                    <td class="perf value">99.814</td>
+                    <td class="perf value">33.423</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">0.462</td>
+                    <td class="perf value">0.244</td>
+                    <td></td>
+                </tr>
+                <tr id="171">
+                    <td class="id value">171</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-64.txt">74.463</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">99.845</td>
+                    <td class="perf value">63.002</td>
+                    <td class="perf value">99.956</td>
+                    <td class="perf value">1.343</td>
+                    <td class="perf value">0.679</td>
+        
+                    <td class="perf value">95.174</td>
+                    <td class="perf value">96.811</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">7.674</td>
+                    <td class="perf value">0.303</td>
+        
+                    <td class="perf value">99.766</td>
+                    <td class="perf value">54.520</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">0.667</td>
+                    <td class="perf value">0.249</td>
+                    <td></td>
+                </tr>
+                <tr id="172">
+                    <td class="id value">172</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-128.txt">65.989</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">99.579</td>
+                    <td class="perf value">86.289</td>
+                    <td class="perf value">99.879</td>
+                    <td class="perf value">1.968</td>
+                    <td class="perf value">0.683</td>
+        
+                    <td class="perf value">97.108</td>
+                    <td class="perf value">97.520</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">8.855</td>
+                    <td class="perf value">0.293</td>
+        
+                    <td class="perf value">99.509</td>
+                    <td class="perf value">78.942</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">1.374</td>
+                    <td class="perf value">0.266</td>
+                    <td></td>
+                </tr>
+                <tr id="173">
+                    <td class="id value">173</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/result-256.txt">35.883</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/rx-copy/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">98.747</td>
+                    <td class="perf value">95.736</td>
+                    <td class="perf value">99.946</td>
+                    <td class="perf value">5.041</td>
+                    <td class="perf value">0.677</td>
+        
+                    <td class="perf value">95.313</td>
+                    <td class="perf value">97.369</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">10.977</td>
+                    <td class="perf value">0.300</td>
+        
+                    <td class="perf value">99.751</td>
+                    <td class="perf value">75.594</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">1.632</td>
+                    <td class="perf value">0.280</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (e)(II) => (Tx-side copy)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="174">
+                    <td class="id value">174</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-0.txt">135.220</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">99.843</td>
+                    <td class="perf value">71.228</td>
+                    <td class="perf value">99.910</td>
+                    <td class="perf value">1.235</td>
+                    <td class="perf value">0.613</td>
+        
+                    <td class="perf value">99.901</td>
+                    <td class="perf value">12.276</td>
+                    <td class="perf value">99.991</td>
+                    <td class="perf value">0.441</td>
+                    <td class="perf value">0.271</td>
+        
+                    <td class="perf value">93.625</td>
+                    <td class="perf value">94.270</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">4.168</td>
+                    <td class="perf value">0.238</td>
+                    <td></td>
+                </tr>
+                <tr id="175">
+                    <td class="id value">175</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-2.txt">112.178</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.866</td>
+                    <td class="perf value">68.804</td>
+                    <td class="perf value">99.912</td>
+                    <td class="perf value">1.224</td>
+                    <td class="perf value">0.604</td>
+        
+                    <td class="perf value">99.851</td>
+                    <td class="perf value">21.472</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">0.453</td>
+                    <td class="perf value">0.275</td>
+        
+                    <td class="perf value">96.703</td>
+                    <td class="perf value">90.410</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">4.218</td>
+                    <td class="perf value">0.228</td>
+                    <td></td>
+                </tr>
+                <tr id="176">
+                    <td class="id value">176</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-4.txt">112.393</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.855</td>
+                    <td class="perf value">75.377</td>
+                    <td class="perf value">99.945</td>
+                    <td class="perf value">1.263</td>
+                    <td class="perf value">0.635</td>
+        
+                    <td class="perf value">99.845</td>
+                    <td class="perf value">25.537</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">0.456</td>
+                    <td class="perf value">0.279</td>
+        
+                    <td class="perf value">96.758</td>
+                    <td class="perf value">90.687</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">4.268</td>
+                    <td class="perf value">0.229</td>
+                    <td></td>
+                </tr>
+                <tr id="177">
+                    <td class="id value">177</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-8.txt">110.863</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.864</td>
+                    <td class="perf value">72.690</td>
+                    <td class="perf value">99.913</td>
+                    <td class="perf value">1.243</td>
+                    <td class="perf value">0.624</td>
+        
+                    <td class="perf value">99.842</td>
+                    <td class="perf value">19.088</td>
+                    <td class="perf value">99.989</td>
+                    <td class="perf value">0.462</td>
+                    <td class="perf value">0.267</td>
+        
+                    <td class="perf value">96.466</td>
+                    <td class="perf value">90.528</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">4.482</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="178">
+                    <td class="id value">178</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-16.txt">111.445</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.864</td>
+                    <td class="perf value">78.285</td>
+                    <td class="perf value">99.939</td>
+                    <td class="perf value">1.252</td>
+                    <td class="perf value">0.633</td>
+        
+                    <td class="perf value">99.827</td>
+                    <td class="perf value">23.871</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">0.508</td>
+                    <td class="perf value">0.276</td>
+        
+                    <td class="perf value">96.289</td>
+                    <td class="perf value">91.398</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">4.746</td>
+                    <td class="perf value">0.230</td>
+                    <td></td>
+                </tr>
+                <tr id="179">
+                    <td class="id value">179</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-32.txt">109.121</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">99.790</td>
+                    <td class="perf value">89.782</td>
+                    <td class="perf value">99.917</td>
+                    <td class="perf value">1.487</td>
+                    <td class="perf value">0.615</td>
+        
+                    <td class="perf value">99.467</td>
+                    <td class="perf value">78.607</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">1.015</td>
+                    <td class="perf value">0.279</td>
+        
+                    <td class="perf value">95.837</td>
+                    <td class="perf value">93.631</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">5.338</td>
+                    <td class="perf value">0.237</td>
+                    <td></td>
+                </tr>
+                <tr id="180">
+                    <td class="id value">180</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-64.txt">92.033</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">97.839</td>
+                    <td class="perf value">99.195</td>
+                    <td class="perf value">99.860</td>
+                    <td class="perf value">3.822</td>
+                    <td class="perf value">0.631</td>
+        
+                    <td class="perf value">96.738</td>
+                    <td class="perf value">96.203</td>
+                    <td class="perf value">99.990</td>
+                    <td class="perf value">4.112</td>
+                    <td class="perf value">0.276</td>
+        
+                    <td class="perf value">95.288</td>
+                    <td class="perf value">96.410</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">5.990</td>
+                    <td class="perf value">0.227</td>
+                    <td></td>
+                </tr>
+                <tr id="181">
+                    <td class="id value">181</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-128.txt">78.026</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">97.811</td>
+                    <td class="perf value">99.235</td>
+                    <td class="perf value">99.902</td>
+                    <td class="perf value">5.109</td>
+                    <td class="perf value">0.626</td>
+        
+                    <td class="perf value">97.833</td>
+                    <td class="perf value">96.497</td>
+                    <td class="perf value">99.983</td>
+                    <td class="perf value">5.301</td>
+                    <td class="perf value">0.265</td>
+        
+                    <td class="perf value">96.293</td>
+                    <td class="perf value">95.594</td>
+                    <td class="perf value">99.995</td>
+                    <td class="perf value">6.026</td>
+                    <td class="perf value">0.231</td>
+                    <td></td>
+                </tr>
+                <tr id="182">
+                    <td class="id value">182</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/result-256.txt">38.342</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/tx-copy/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">98.379</td>
+                    <td class="perf value">97.673</td>
+                    <td class="perf value">99.872</td>
+                    <td class="perf value">5.484</td>
+                    <td class="perf value">0.645</td>
+        
+                    <td class="perf value">96.553</td>
+                    <td class="perf value">96.903</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">7.397</td>
+                    <td class="perf value">0.278</td>
+        
+                    <td class="perf value">98.415</td>
+                    <td class="perf value">94.991</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">5.806</td>
+                    <td class="perf value">0.226</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h3>Without Factor (e)(III) => (Full copy)</h3>
+        <table border="1" style="border-collapse: collapse" cellpadding="16" rules="rows">
+            <thread>
+                <tr>
+                    <th rowspan="2">ID</th>
+                    <th rowspan="2" class="value">Metadata (bytes)</th>
+                    <th rowspan="2" class="value">Throughput (Mpps)</th>
+                    <th rowspan="2">Cache Usage</th>
+                    <th colspan="5">NF process</th>
+                    <th colspan="5">RX process</th>
+                    <th colspan="5">TX process</th>
+                    <th rowspan="2" class="str">Comment</th>
+                </tr>
+                <tr>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                    <th class="value">L1d hit ratio (%)</th>
+                    <th class="value">L2 hit ratio (%)</th>
+                    <th class="value">L3 hit ratio (%)</th>
+                    <th class="value">Replacement (times/packet)</th>
+                    <th class="value">Invalidation (times/packet)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="183">
+                    <td class="id value">183</td>
+                    <td class="meta value">0</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-0.txt">70.253</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-0.txt">perf-0.txt</a></td>
+                    <td class="perf value">99.854</td>
+                    <td class="perf value">56.990</td>
+                    <td class="perf value">99.862</td>
+                    <td class="perf value">1.253</td>
+                    <td class="perf value">0.661</td>
+        
+                    <td class="perf value">98.219</td>
+                    <td class="perf value">92.202</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">4.759</td>
+                    <td class="perf value">0.912</td>
+        
+                    <td class="perf value">97.169</td>
+                    <td class="perf value">86.890</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">3.651</td>
+                    <td class="perf value">0.228</td>
+                    <td></td>
+                </tr>
+                <tr id="184">
+                    <td class="id value">184</td>
+                    <td class="meta value">2</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-2.txt">70.375</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-2.txt">perf-2.txt</a></td>
+                    <td class="perf value">99.855</td>
+                    <td class="perf value">57.826</td>
+                    <td class="perf value">99.872</td>
+                    <td class="perf value">1.207</td>
+                    <td class="perf value">0.703</td>
+        
+                    <td class="perf value">97.669</td>
+                    <td class="perf value">93.514</td>
+                    <td class="perf value">99.989</td>
+                    <td class="perf value">5.139</td>
+                    <td class="perf value">0.834</td>
+        
+                    <td class="perf value">97.487</td>
+                    <td class="perf value">83.394</td>
+                    <td class="perf value">99.996</td>
+                    <td class="perf value">3.156</td>
+                    <td class="perf value">0.229</td>
+                    <td></td>
+                </tr>
+                <tr id="185">
+                    <td class="id value">185</td>
+                    <td class="meta value">4</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-4.txt">69.678</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-4.txt">perf-4.txt</a></td>
+                    <td class="perf value">99.857</td>
+                    <td class="perf value">57.502</td>
+                    <td class="perf value">99.973</td>
+                    <td class="perf value">1.208</td>
+                    <td class="perf value">0.706</td>
+        
+                    <td class="perf value">97.712</td>
+                    <td class="perf value">93.555</td>
+                    <td class="perf value">99.992</td>
+                    <td class="perf value">5.298</td>
+                    <td class="perf value">0.833</td>
+        
+                    <td class="perf value">97.495</td>
+                    <td class="perf value">83.780</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">3.228</td>
+                    <td class="perf value">0.231</td>
+                    <td></td>
+                </tr>
+                <tr id="186">
+                    <td class="id value">186</td>
+                    <td class="meta value">8</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-8.txt">67.284</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-8.txt">perf-8.txt</a></td>
+                    <td class="perf value">99.864</td>
+                    <td class="perf value">56.212</td>
+                    <td class="perf value">99.968</td>
+                    <td class="perf value">1.221</td>
+                    <td class="perf value">0.627</td>
+        
+                    <td class="perf value">97.530</td>
+                    <td class="perf value">93.948</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">5.386</td>
+                    <td class="perf value">0.833</td>
+        
+                    <td class="perf value">97.686</td>
+                    <td class="perf value">83.688</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">3.226</td>
+                    <td class="perf value">0.221</td>
+                    <td></td>
+                </tr>
+                <tr id="187">
+                    <td class="id value">187</td>
+                    <td class="meta value">16</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-16.txt">65.351</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-16.txt">perf-16.txt</a></td>
+                    <td class="perf value">99.866</td>
+                    <td class="perf value">57.091</td>
+                    <td class="perf value">99.981</td>
+                    <td class="perf value">1.217</td>
+                    <td class="perf value">0.696</td>
+        
+                    <td class="perf value">97.389</td>
+                    <td class="perf value">94.137</td>
+                    <td class="perf value">99.991</td>
+                    <td class="perf value">5.933</td>
+                    <td class="perf value">0.826</td>
+        
+                    <td class="perf value">97.648</td>
+                    <td class="perf value">84.658</td>
+                    <td class="perf value">100.000</td>
+                    <td class="perf value">3.395</td>
+                    <td class="perf value">0.219</td>
+                    <td></td>
+                </tr>
+                <tr id="188">
+                    <td class="id value">188</td>
+                    <td class="meta value">32</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-32.txt">61.621</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-32.txt">perf-32.txt</a></td>
+                    <td class="perf value">99.870</td>
+                    <td class="perf value">56.926</td>
+                    <td class="perf value">99.966</td>
+                    <td class="perf value">1.257</td>
+                    <td class="perf value">0.658</td>
+        
+                    <td class="perf value">96.782</td>
+                    <td class="perf value">95.275</td>
+                    <td class="perf value">99.952</td>
+                    <td class="perf value">6.487</td>
+                    <td class="perf value">0.823</td>
+        
+                    <td class="perf value">97.630</td>
+                    <td class="perf value">85.656</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">3.816</td>
+                    <td class="perf value">0.223</td>
+                    <td></td>
+                </tr>
+                <tr id="189">
+                    <td class="id value">189</td>
+                    <td class="meta value">64</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-64.txt">56.186</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-64.txt">perf-64.txt</a></td>
+                    <td class="perf value">99.866</td>
+                    <td class="perf value">58.454</td>
+                    <td class="perf value">99.879</td>
+                    <td class="perf value">1.286</td>
+                    <td class="perf value">0.661</td>
+        
+                    <td class="perf value">95.335</td>
+                    <td class="perf value">96.805</td>
+                    <td class="perf value">99.994</td>
+                    <td class="perf value">7.616</td>
+                    <td class="perf value">0.833</td>
+        
+                    <td class="perf value">97.282</td>
+                    <td class="perf value">88.831</td>
+                    <td class="perf value">99.997</td>
+                    <td class="perf value">4.764</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="190">
+                    <td class="id value">190</td>
+                    <td class="meta value">128</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-128.txt">51.108</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-128.txt">perf-128.txt</a></td>
+                    <td class="perf value">99.624</td>
+                    <td class="perf value">85.039</td>
+                    <td class="perf value">99.965</td>
+                    <td class="perf value">1.948</td>
+                    <td class="perf value">0.668</td>
+        
+                    <td class="perf value">97.073</td>
+                    <td class="perf value">97.586</td>
+                    <td class="perf value">99.990</td>
+                    <td class="perf value">8.728</td>
+                    <td class="perf value">0.836</td>
+        
+                    <td class="perf value">97.452</td>
+                    <td class="perf value">89.516</td>
+                    <td class="perf value">99.998</td>
+                    <td class="perf value">5.025</td>
+                    <td class="perf value">0.234</td>
+                    <td></td>
+                </tr>
+                <tr id="191">
+                    <td class="id value">191</td>
+                    <td class="meta value">256</td>
+                    <td class="thru value"><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/result-256.txt">31.345</a></td>
+                    <td><a href="./fast/decoupled/batch-512/aggr-512/factors/e/full-copy/perf-256.txt">perf-256.txt</a></td>
+                    <td class="perf value">98.815</td>
+                    <td class="perf value">94.982</td>
+                    <td class="perf value">99.971</td>
+                    <td class="perf value">4.815</td>
+                    <td class="perf value">0.666</td>
+        
+                    <td class="perf value">95.456</td>
+                    <td class="perf value">97.246</td>
+                    <td class="perf value">99.993</td>
+                    <td class="perf value">10.881</td>
+                    <td class="perf value">0.845</td>
+        
+                    <td class="perf value">98.750</td>
+                    <td class="perf value">88.050</td>
+                    <td class="perf value">99.999</td>
+                    <td class="perf value">4.644</td>
+                    <td class="perf value">0.263</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
