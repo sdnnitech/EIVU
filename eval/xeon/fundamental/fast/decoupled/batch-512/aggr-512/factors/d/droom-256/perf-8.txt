@@ -1,0 +1,69 @@
+NF Thread
+Time taken by program is : 1.167421 seconds (85.659 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/factors/d/droom-256/8/nf --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     5,196,354,233      L1-dcache-loads                                                         (54.50%)
+         4,075,403      L1-dcache-load-misses            #    0.08% of all L1-dcache accesses   (54.53%)
+     3,389,933,793      L1-dcache-stores                                                        (54.56%)
+     5,219,855,110      dTLB-loads                                                              (54.60%)
+               266      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.42%)
+     3,418,357,045      dTLB-stores                                                             (36.39%)
+            11,653      dTLB-store-misses                                                       (36.36%)
+         3,610,470      LLC-loads                                                               (36.33%)
+        46,686,714      LLC-stores                                                              (36.32%)
+        66,806,212      cache-misses                     #   69.35% of all cache refs           (45.40%)
+        96,331,869      cache-references                                                        (54.48%)
+
+       3.238000925 seconds time elapsed
+
+       2.844219000 seconds user
+       0.379578000 seconds sys
+
+
+RX Thread
+Time taken by program is : 1.026499 seconds (97.418 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/factors/d/droom-256/8/rx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     4,742,314,033      L1-dcache-loads                                                         (54.48%)
+         5,751,704      L1-dcache-load-misses            #    0.12% of all L1-dcache accesses   (54.53%)
+     2,113,867,082      L1-dcache-stores                                                        (54.57%)
+     4,754,740,664      dTLB-loads                                                              (54.62%)
+               208      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.45%)
+     2,109,123,863      dTLB-stores                                                             (36.40%)
+             8,035      dTLB-store-misses                                                       (36.35%)
+        10,022,302      LLC-loads                                                               (36.30%)
+        11,238,284      LLC-stores                                                              (36.29%)
+        16,973,129      cache-misses                     #   53.89% of all cache refs           (45.37%)
+        31,494,010      cache-references                                                        (54.44%)
+
+       2.094240742 seconds time elapsed
+
+       1.987973000 seconds user
+       0.096414000 seconds sys
+
+
+TX Thread
+Time taken by program is : 1.017022 seconds (98.326 Mpps)
+
+ Performance counter stats for 'output/bin/fast/decoupled/aggr-512/factors/d/droom-256/8/tx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     2,825,457,708      L1-dcache-loads                                                         (54.49%)
+         2,455,836      L1-dcache-load-misses            #    0.09% of all L1-dcache accesses   (54.58%)
+     2,039,281,005      L1-dcache-stores                                                        (54.65%)
+     2,836,808,258      dTLB-loads                                                              (54.65%)
+             3,934      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.45%)
+     2,029,200,808      dTLB-stores                                                             (36.36%)
+             4,079      dTLB-store-misses                                                       (36.28%)
+         7,689,991      LLC-loads                                                               (36.28%)
+        11,095,819      LLC-stores                                                              (36.28%)
+        16,672,005      cache-misses                     #   52.94% of all cache refs           (45.35%)
+        31,491,990      cache-references                                                        (54.42%)
+
+       1.113818154 seconds time elapsed
+
+       1.013561000 seconds user
+       0.095457000 seconds sys
+
+

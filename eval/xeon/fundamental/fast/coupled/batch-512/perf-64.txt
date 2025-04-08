@@ -1,0 +1,69 @@
+NF Thread
+Time taken by program is : 1.347302 seconds (74.222 Mpps)
+
+ Performance counter stats for 'output/bin/fast/coupled/64/nf --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     4,922,249,059      L1-dcache-loads                                                         (54.50%)
+       122,990,636      L1-dcache-load-misses            #    2.50% of all L1-dcache accesses   (54.53%)
+     3,557,528,094      L1-dcache-stores                                                        (54.56%)
+     4,915,280,268      dTLB-loads                                                              (54.59%)
+               307      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.42%)
+     3,554,403,789      dTLB-stores                                                             (36.39%)
+            12,198      dTLB-store-misses                                                       (36.36%)
+         2,567,302      LLC-loads                                                               (36.34%)
+        46,187,894      LLC-stores                                                              (36.32%)
+        66,801,170      cache-misses                     #   69.42% of all cache refs           (45.40%)
+        96,230,260      cache-references                                                        (54.48%)
+
+       3.425517305 seconds time elapsed
+
+       3.032088000 seconds user
+       0.378813000 seconds sys
+
+
+RX Thread
+Time taken by program is : 1.272422 seconds (78.590 Mpps)
+
+ Performance counter stats for 'output/bin/fast/coupled/64/rx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     4,464,688,207      L1-dcache-loads                                                         (54.50%)
+       169,747,882      L1-dcache-load-misses            #    3.80% of all L1-dcache accesses   (54.50%)
+     2,830,469,147      L1-dcache-stores                                                        (54.50%)
+     4,450,440,845      dTLB-loads                                                              (54.49%)
+               337      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.40%)
+     2,820,502,488      dTLB-stores                                                             (36.40%)
+             9,670      dTLB-store-misses                                                       (36.40%)
+        11,849,545      LLC-loads                                                               (36.40%)
+        11,277,787      LLC-stores                                                              (36.41%)
+        16,885,132      cache-misses                     #   53.49% of all cache refs           (45.48%)
+        31,567,984      cache-references                                                        (54.54%)
+
+       2.362466367 seconds time elapsed
+
+       2.256083000 seconds user
+       0.095355000 seconds sys
+
+
+TX Thread
+Time taken by program is : 1.270369 seconds (78.717 Mpps)
+
+ Performance counter stats for 'output/bin/fast/coupled/64/tx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
+
+     2,998,890,360      L1-dcache-loads                                                         (54.54%)
+        14,502,650      L1-dcache-load-misses            #    0.48% of all L1-dcache accesses   (54.62%)
+     1,903,154,960      L1-dcache-stores                                                        (54.66%)
+     3,002,597,936      dTLB-loads                                                              (54.58%)
+               442      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.39%)
+     1,902,666,963      dTLB-stores                                                             (36.32%)
+             5,094      dTLB-store-misses                                                       (36.28%)
+         7,664,464      LLC-loads                                                               (36.28%)
+        10,985,824      LLC-stores                                                              (36.35%)
+        16,690,220      cache-misses                     #   52.57% of all cache refs           (45.42%)
+        31,749,820      cache-references                                                        (54.49%)
+
+       1.367485247 seconds time elapsed
+
+       1.266166000 seconds user
+       0.095524000 seconds sys
+
+
