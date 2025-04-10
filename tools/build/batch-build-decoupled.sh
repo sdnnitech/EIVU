@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "$(dirname $0)/.."
+cd "$(dirname $0)/../.."
 
 
 MESON_OPT_BASE=""
@@ -27,7 +27,7 @@ function setup_and_build() {
 
 
 METADATA_SIZES=(2 4 8 16 32 64 128 256)
-NUM_OF_AGGREGATIONS=(1 256 512 1024)
+NUM_OF_AGGREGATIONS=(1 32 256 512 1024)
 TYPES=('base' 'fast')
 
 for tp in ${TYPES[@]}; do

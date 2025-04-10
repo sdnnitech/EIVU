@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "$(dirname $0)/.."
+cd "$(dirname $0)/../.."
 
 
 function make_dir() {

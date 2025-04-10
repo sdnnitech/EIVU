@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "$(dirname $0)/.."
+cd "$(dirname $0)/../.."
 
 
 function make_dir() {
@@ -21,7 +21,7 @@ function perfrun() {
 
 
 TYPES=('fast')
-NUM_OF_AGGREGATIONS=(1 256 512 1024)
+NUM_OF_AGGREGATIONS=(1 32 256 512 1024)
 METADATA_SIZES=(2 4 8 16 32 64 128 256)
 BATCH_SIZES=(32 256 512 1024)
 VQ_SIZES=(256 512 1024 2048)
@@ -35,6 +35,11 @@ for tp in ${TYPES[@]}; do
 
 			for i in ${!BATCH_SIZES[@]}; do
 				batch=${BATCH_SIZES[$i]}
+
+				if [ $batch -lt $aggr ]; then
+					continue
+				fi
+
 				vq=${VQ_SIZES[$i]}
 
 				batch=$((batch))

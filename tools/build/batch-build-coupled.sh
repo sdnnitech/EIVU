@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "$(dirname $0)/.."
+cd "$(dirname $0)/../.."
 
 
 MESON_OPT_BASE=""
@@ -22,8 +22,8 @@ function build() {
 }
 
 function setup_and_build() {
-	setup $1 $2 $3
-	build $1 $2 
+	setup $1 $2
+	build $1 $2
 }
 
 
