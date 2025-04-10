@@ -1,6 +1,7 @@
 # EIVU v2 (Essential Implementation of Vhost-User ver. 2)
 (EIVU v1: https://github.com/sdnnitech/EIVUv1)
 
+***
 ## Introduction
 
 EIVU is an easy-to-customize evaluation platform for deeply analyzing high-performance interprocess communications. 
@@ -16,7 +17,7 @@ The Tx process copies the packets from the NF process, and consumes them (do not
 
 Note that the EIVU platform does not require any NIC, and therfore, the users can analyze vhost-user/DPDK on a standalone machine.
 
-
+***
 ## How to use
 
 ### Requirements
@@ -28,66 +29,90 @@ Note that the EIVU platform does not require any NIC, and therfore, the users ca
 - Ninja
 - perf (optional)
 
-
+---
 ### Build
 
-We can use Meson & Ninja to build EIVU.
+You can use Meson & Ninja to build EIVU.
 Execute the following commands, and then,
 three binaries are generated: "rx.out", "nf.out", and "tx.out".
 
+`meson setup <builddir> [options]`
+
+`ninja -C <builddir>`
+
+Example:
 ```
-$ meson setup <builddir> [options]
-$ ninja -C <builddir>
+$ meson setup output/bin/base/coupled/128
+$ ninja -C output/bin/base/coupled/128
 ```
 
-### Run (without profiling)
+
+#### Options
+- Fast type†
+
+†D. Takeya et al., ”Understanding Roadblocks in Virtual Network I/O: A Comprehensive Analysis of CPU Cache Usage”, Proc. IEEE NetSoft 2023.
+
+Example:
+```
+$ meson setup output/bin/fast/coupled/0 -Dmetadata_size=0 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=64 -Dzero_copy=rx,tx
+```
+</br></br>
+
+- Resizing of the metadata area (STEP-I)
+
+`meson setup <builddir> -Dmetadata_size=<val: 2-256> ...`
+
+Example:
+````
+$ meson setup output/bin/fast/coupled/16 -Dmetadata_size=16 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=64 -Dzero_copy=rx,tx
+````
+</br></br>
+
+- Decoupling and Aggregating of the metadata area (STEP-II)
+
+`meson setup <builddir>  -Daggregated_md=true  -Dhost_aggregated_md=true -Daggregation_num=<val:1 - batch length>`
+
+Example:
+```
+$ meson setup output/bin/fast/decoupled/aggr-512/16 -Dmetadata_size=16 -Dvio_header=false -Dtiny_descs=true -Dheadroom_size=0 -Ddataroom_size=64 -Dzero_copy=rx,tx -Daggregated_md=true -Dhost_aggregated_md=true -Daggregation_num=512
+```
+</br></br>
+
+---
+### Run
+#### Measuring throughput
 
 The "run.sh" script file internally launches the aforementioned three programs ("rx.out", "nf.out", and "tx.out"), and 
-automatically starts the evaluation (packet generation, transferring, and throughput measurement).
+automatically starts a measurement of packet forwarding efficiency (throughput).
 
-```
-$ ./run.sh <builddir> <batchsz> <vqsz>
-```
+`./run.sh <builddir> <batchsz> <vqsz>`
 
-### Run (with profiling)
+Example:
+```
+$ ./run.sh output/bin/base/coupled/128 32 256 | tee output/eval/base/coupled/batch-32/result-128.txt
+```
+  
+  
+#### Measuring cache usage
 
 The "perfrun.sh" script file outputs the profiling results for each program.
-Profiling items (perf items) can be specified to the "opt_perf" variable in the file.
 
-```
-$ ./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>
-```
+<ins>The "opt_perf" variable in the script file must be set before the execution.</ins>
 
-=======
-### Options
-#### Fast
+`./perfrun.sh <builddir> <batchsz> <vqsz> <output_file>`
+
+Example: 
 ```
-meson setup <builddir> \
--Dtiny_descs=true \
--Dheadroom_size=0 \
--Ddataroom_size=64 \
--Dvio_header=false \
--Dzero_copy=rx,tx
+$ ./perfrun.sh output/bin/fast/decoupled/aggr-512/16 512 1024 output/eval/fast/decoupled/batch-512/aggr-512/perf-16.txt
 ```
 
-#### Step 1
-Shrinking metadata areas
-````
-meson setup <builddir> -Dmetadata_size=<val>
-````
 
-#### Step 2
-Decoupling & Aggregating metadata areas
-```
-meson setup <builddir> \
--Daggregated_md=true \
--Dhost_aggregated_md=true \
--Daggregation_num=<val>
-```
-
+***
 ## Evaluation
-https://sdnnitech.github.io/EIVU/eval/index.html
+Result: https://sdnnitech.github.io/EIVU/eval/index.html
 
+
+***
 ## Academic Results
 ### Papers
 - A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Rethinking Message Buffer Structures for 100 Mpps Cloud-native Network Functions", Proc. 2024 IEEE Future Networks World Forum (FNWF), 2024.
