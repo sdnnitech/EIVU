@@ -1,4 +1,4 @@
 batchsz=512
 vqsz=1024
 mobjcache=2048
-Time taken by program is : 2.672985 seconds (37.411 Mpps)
+Time taken by program is : 2.507356 seconds (39.883 Mpps)

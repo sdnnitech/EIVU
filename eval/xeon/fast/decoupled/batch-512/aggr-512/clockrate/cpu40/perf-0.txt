@@ -1,0 +1,12 @@
+NF Thread
+Workload failed: No such file or directory
+sudo: output/bin/fast/decoupled/aggr-512/0/rx: command not found
+sudo: output/bin/fast/decoupled/aggr-512/0/tx: command not found
+RX Thread
+sudo: output/bin/fast/decoupled/aggr-512/0/nf: command not found
+Workload failed: No such file or directory
+sudo: output/bin/fast/decoupled/aggr-512/0/tx: command not found
+TX Thread
+sudo: output/bin/fast/decoupled/aggr-512/0/nf: command not found
+sudo: output/bin/fast/decoupled/aggr-512/0/rx: command not found
+Workload failed: No such file or directory

@@ -1,0 +1,3 @@
+batchsz=512
+vqsz=1024
+mobjcache=2048
