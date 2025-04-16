@@ -1,69 +1,12 @@
 NF Thread
-Time taken by program is : 1.000544 seconds (99.946 Mpps)
-
- Performance counter stats for 'output/bin/fast/decoupled/aggr-512/0/nf --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
-
-     4,873,340,179      L1-dcache-loads                                                         (54.47%)
-         3,899,342      L1-dcache-load-misses            #    0.08% of all L1-dcache accesses   (54.49%)
-     3,114,833,148      L1-dcache-stores                                                        (54.52%)
-     4,863,044,533      dTLB-loads                                                              (54.56%)
-            74,437      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (36.42%)
-     3,121,432,786      dTLB-stores                                                             (36.42%)
-            12,518      dTLB-store-misses                                                       (36.40%)
-         3,669,258      LLC-loads                                                               (36.37%)
-        44,426,605      LLC-stores                                                              (36.34%)
-        66,563,455      cache-misses                     #   69.57% of all cache refs           (45.41%)
-        95,680,041      cache-references                                                        (54.48%)
-
-       3.042345549 seconds time elapsed
-
-       2.654412000 seconds user
-       0.374688000 seconds sys
-
-
+Workload failed: No such file or directory
+sudo: output/bin/fast/decoupled/aggr-512/0/rx: command not found
+sudo: output/bin/fast/decoupled/aggr-512/0/tx: command not found
 RX Thread
-Time taken by program is : 0.981991 seconds (101.834 Mpps)
-
- Performance counter stats for 'output/bin/fast/decoupled/aggr-512/0/rx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
-
-     4,323,983,842      L1-dcache-loads                                                         (54.48%)
-         4,078,161      L1-dcache-load-misses            #    0.09% of all L1-dcache accesses   (54.53%)
-     1,644,088,513      L1-dcache-stores                                                        (54.58%)
-     4,319,948,193      dTLB-loads                                                              (54.61%)
-           481,572      dTLB-load-misses                 #    0.01% of all dTLB cache accesses  (36.44%)
-     1,652,168,628      dTLB-stores                                                             (36.39%)
-            11,060      dTLB-store-misses                                                       (36.35%)
-         9,459,216      LLC-loads                                                               (36.31%)
-        11,062,460      LLC-stores                                                              (36.31%)
-        16,443,859      cache-misses                     #   52.62% of all cache refs           (45.39%)
-        31,249,403      cache-references                                                        (54.47%)
-
-       2.071333694 seconds time elapsed
-
-       1.968233000 seconds user
-       0.093401000 seconds sys
-
-
+sudo: output/bin/fast/decoupled/aggr-512/0/nf: command not found
+Workload failed: No such file or directory
+sudo: output/bin/fast/decoupled/aggr-512/0/tx: command not found
 TX Thread
-Time taken by program is : 0.981249 seconds (101.911 Mpps)
-
- Performance counter stats for 'output/bin/fast/decoupled/aggr-512/0/tx --pktnum=100000000 -H --batchsz=512 --vqsz=1024 --mobjcache=2048':
-
-     2,822,972,518      L1-dcache-loads                                                         (54.47%)
-         5,881,737      L1-dcache-load-misses            #    0.21% of all L1-dcache accesses   (54.47%)
-     2,056,346,727      L1-dcache-stores                                                        (54.47%)
-     2,799,082,477      dTLB-loads                                                              (54.47%)
-           790,176      dTLB-load-misses                 #    0.03% of all dTLB cache accesses  (36.42%)
-     2,046,300,443      dTLB-stores                                                             (36.42%)
-             6,992      dTLB-store-misses                                                       (36.42%)
-        10,227,149      LLC-loads                                                               (36.42%)
-        10,573,148      LLC-stores                                                              (36.42%)
-        16,318,124      cache-misses                     #   53.08% of all cache refs           (45.48%)
-        30,740,024      cache-references                                                        (54.49%)
-
-       1.076391328 seconds time elapsed
-
-       0.978357000 seconds user
-       0.093436000 seconds sys
-
-
+sudo: output/bin/fast/decoupled/aggr-512/0/nf: command not found
+sudo: output/bin/fast/decoupled/aggr-512/0/rx: command not found
+Workload failed: No such file or directory
