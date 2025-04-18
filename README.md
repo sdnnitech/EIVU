@@ -115,6 +115,7 @@ Result: https://sdnnitech.github.io/EIVU/eval/index.html
 ***
 ## Academic Results
 ### Papers
+- A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Evaluation of L1 Cache-Optimized Message Buffers towards 100+ Mpps Cloud-native Network Functions", TechRxiv, 10.36227/techrxiv.174494544.42187307/v1, 2025.
 - A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Rethinking Message Buffer Structures for 100 Mpps Cloud-native Network Functions", Proc. 2024 IEEE Future Networks World Forum (FNWF), 2024.
 - A. Yamada, R. Kawashima, H. Nakayama, T. Hayashi, and H. Matsuo, "Cache Optimization for Real CNF through Message Buffer Redesign", IEICE Technical Report, vol. 124, no. 179, NS2024-76, pp. 6-11, 2024. (in Japanese)
 ### Awards
